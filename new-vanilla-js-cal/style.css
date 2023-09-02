@@ -1,0 +1,82 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+    font-weight: normal;
+}
+
+body{
+    background-color: rgb(91, 91, 91);
+    margin: 0;
+    padding: 0;
+}
+
+div {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+button {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgba(100,100,100);
+    color: white;
+    cursor: pointer;
+    font-size: 1.5rem;
+    width: 60px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+}
+
+button:hover{
+    box-shadow: 0 0 5px white;
+}
+
+button:active {
+    box-shadow: 0 0 2px white;
+    text-shadow: 0 0 3px white;
+    font-size: 1.3rem;
+}
+
+table {
+    margin: auto;
+    width: 300px;
+    height: 350px;
+    border-radius: 5px;
+    background-color: rgba(36,36,36,1);
+}
+
+td {
+    /* margin: 10px; */
+    /* border: 1px solid rgba(200,200,200,.5); */
+    text-align: center;
+    padding: 2px;
+}
+
+#equal{
+    width: 150px;
+}
+
+#result {
+    width: 280px;
+    height: 60px;
+    margin: 0;
+    background-color: rgba(150,150,150,.5);
+    color: white;
+    border: none;
+    border-radius: 5px 5px 0 0 ; /* 右上 -> 左上 -> 左下 -> 右下 */
+}
+
+[data-operation] {
+    background-color: orange;
+}
+
+[data-clear],[data-clearEntries]{
+    background-color: orangered;
+}
+
+ul{
+    color: white;
+}
+
