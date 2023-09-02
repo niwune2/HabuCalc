@@ -1,9 +1,11 @@
-*, *::after, *::before {
+*,
+*::after,
+*::before {
     box-sizing: border-box;
     font-weight: normal;
 }
 
-body{
+body {
     background-color: rgb(91, 91, 91);
     margin: 0;
     padding: 0;
@@ -19,7 +21,7 @@ div {
 
 button {
     font-family: 'Courier New', Courier, monospace;
-    background-color: rgba(100,100,100);
+    background-color: rgb(160, 160, 160);
     color: white;
     cursor: pointer;
     font-size: 1.5rem;
@@ -29,7 +31,7 @@ button {
     border-radius: 10px;
 }
 
-button:hover{
+button:hover {
     box-shadow: 0 0 5px white;
 }
 
@@ -44,7 +46,7 @@ table {
     width: 300px;
     height: 350px;
     border-radius: 5px;
-    background-color: rgba(36,36,36,1);
+    background-color: rgba(36, 36, 36, 1);
 }
 
 td {
@@ -54,7 +56,7 @@ td {
     padding: 2px;
 }
 
-#equal{
+#equal {
     width: 150px;
 }
 
@@ -62,21 +64,26 @@ td {
     width: 280px;
     height: 60px;
     margin: 0;
-    background-color: rgba(150,150,150,.5);
+    background-color: rgba(150, 150, 150, .5);
     color: white;
     border: none;
-    border-radius: 5px 5px 0 0 ; /* 右上 -> 左上 -> 左下 -> 右下 */
+    border-radius: 5px 5px 0 0;
+    /* 右上 -> 左上 -> 左下 -> 右下 */
+
+    font-family: 'Courier New', Courier, monospace;
+    text-align: right;
+    font-size: 2rem;
 }
 
 [data-operation] {
     background-color: orange;
 }
 
-[data-clear],[data-clearEntries]{
+[data-clear],
+[data-clearEntries] {
     background-color: orangered;
 }
 
-ul{
+ul {
     color: white;
 }
-
