@@ -6,9 +6,13 @@
 }
 
 body {
-    background-color: rgb(91, 91, 91);
+    background-color: rgb(50, 50, 50);
     margin: 0;
     padding: 0;
+}
+
+code {
+    font-family: 'Courier New', Courier, monospace;
 }
 
 div {
@@ -17,6 +21,15 @@ div {
     align-items: center;
     margin: 0 auto;
     margin-top: 20px;
+}
+
+ul,
+li {
+    font-size: 0.8rem;
+}
+
+ul {
+    background-color: rgba(0, 255, 51, 0.098);
 }
 
 button {
@@ -47,6 +60,8 @@ table {
     height: 350px;
     border-radius: 5px;
     background-color: rgba(36, 36, 36, 1);
+    border:  2px solid rgba(255, 255, 255, 0.236);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.192);
 }
 
 td {
