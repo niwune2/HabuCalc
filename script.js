@@ -52,7 +52,7 @@ const clearEntries = document.querySelector('button[data-clearEntries]');
 const operations = document.querySelectorAll('button[data-operation]');
 const equal = document.querySelector('button[data-equal]');
 
-let result = document.getElementById('result');
+const result = document.getElementById('result');
 // const buttonStyles = buttons.dataset.numbers;
 
 //* C,CE,%,±,+,-,×,÷,=は表示する必要がない
@@ -85,12 +85,21 @@ numbers.forEach(number => {
     number.addEventListener('click', () => {
         const numberText = number.getAttribute('data-numbers');//押された数字
         console.log(`Number:${numberText}`);
-        if (numberText === '00' && result.value === '0'){
+        if (numberText === '00' && result.value === '0') {
             return; // すでに '0' が表示されている場合は何もしない
         } else if (result.value === '0' &&
-            (numberText !== '00' || numberText !== '0')) {
+            (numberText !== '00' || numberText !== '0')) {  //!
             // 最初の '0' を数字に置き換え
             result.value = numberText;
+        } else if (result.value === '0' && numberText === '.') {
+            //0が表示されており、かつ'.'を入力したとき
+            result.value = '0.';
+        } else if (result.value === '0' && numberText !== '.') {    //!
+            // '0'が表示されており、かつ数字以外の入力がある場合は最初の '0' を数字に置き換え
+            result.value = numberText;
+        } else if (result.value.indexOf('.') !== -1 && numberText === '.') {
+            // 小数点が含まれている場合でも、さらに小数点を入力しようとしたときは何もしない
+            return;
         } else {
             // 数字を連続して入力する
             result.value += numberText;
