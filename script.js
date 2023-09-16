@@ -51,7 +51,6 @@ const clear = document.querySelector('button[data-clear]');
 const clearEntries = document.querySelector('button[data-clearEntries]');
 const operations = document.querySelectorAll('button[data-operation]');
 const equal = document.querySelector('button[data-equal]');
-
 const result = document.getElementById('result');
 // const buttonStyles = buttons.dataset.numbers;
 
@@ -79,7 +78,6 @@ const result = document.getElementById('result');
     });
 });*/
 
-//! 以下の数値を、文字列ではなく数値として記述する
 let calcHistory = [];
 result.value = '0';
 numbers.forEach(number => {
@@ -104,7 +102,7 @@ numbers.forEach(number => {
             // 末尾に'.'を追加する
             console.log(result.value, numberText);
             // result.value.replace('0','0.');
-            result.value = '0' + '.';
+            result.value = '0a.';
         } else if (result.value.indexOf('.') !== -1 && numberText === '.') {
             // 既に小数点が含まれている場合、'.'を追加しない
             console.log(result.value, numberText);

@@ -165,6 +165,7 @@ endif
 stop
 ```
 
+
 ```plantuml
 !theme crt-green
 !pragma useVerticalIf on
@@ -185,10 +186,30 @@ endif
 stop
 ```
 ```plantuml
-!thime crt-green
+!theme crt-green
 !pragma useVerticalIf on
+:'.' 入力済みで'3'を入力;
 start
+if (入力が'00'\nかつ\n表示が'0'のとき) then
+    :通過;
+else if (表示が'0'かつ\n(入力が'00'ではない\nまたは\n入力が'0'ではないとき)) then
+    :通過;
+else if (表示が'0'のとき\nかつ\n入力が'.'のとき) then
+    :表示が'0'ではない;
+    :通過;
+else if (表示が'0'\nかつ\n入力が'.'でないとき) then
+    :表示が'0'ではない;
+    :通過;
+else if (表示に'.'を含み\nかつ\n入力が'.'のとき) then
+    :'.'は含んでいる;
+    :入力は'.'ではない;
+    :それまでの値'0.3'に\n'.'を除いた上で\n`result.value`に返す;
+else
+    :表示値の後に入力値を追加;
+endif
+stop
 ```
+
 ```js
 if (numberText === '00' && result.value === '0') {
    // すでに '0' が表示されている場合は'00'を入力しても何もしない
