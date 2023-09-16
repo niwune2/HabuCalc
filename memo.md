@@ -210,6 +210,8 @@ endif
 stop
 ```
 
+![if文のメモ](/images/if-plantUML-0.png)
+
 ```js
 if (numberText === '00' && result.value === '0') {
    // すでに '0' が表示されている場合は'00'を入力しても何もしない
