@@ -4,6 +4,7 @@ memo.md
   - [どんな設計にするかメモ](#どんな設計にするかメモ)
   - [参考書のメモ(JavaScript本格入門)](#参考書のメモjavascript本格入門)
   - [引用メモ](#引用メモ)
+  - [script.js - 88(条件文)](#scriptjs---88条件文)
 
 
 |     | A:Onetime      | B:Manytimes      | C:C / CE    | D:% / ±          |
@@ -111,3 +112,138 @@ memo.md
 > 例えば「7×3」という計算式があれば、「7」と「3」がオペランドとなる。  
 >「7×3」の演算における「×」はオペレータとして、計算の内容を規定する。  
 
+## script.js - 88(条件文)
+```js
+if (numberText === '00' && result.value === '0') {
+   // '00'を押したときは何もしない
+   // すでに '0' が表示されている場合は何もしない
+   return;
+} else if (result.value === '0' &&
+   (numberText !== '00' || numberText !== '0')) {
+   // 表示が'0'かつ入力が'00'か'0'ではないとき、
+   // 最初の '0' を数字に置き換え
+   result.value = numberText;
+} else if (result.value === '0' && numberText === '.') {
+   // 0が表示されており、かつ'.'を入力したとき
+   // '0'を'0.'に置き換える
+   result.value = '0.';
+}
+// else if (result.value === '0' && numberText !== '.') {//!
+//    // '0'が表示されており、かつ数字以外の入力がある場合は
+//    // 最初の '0' を数字に置き換え
+//    result.value = numberText;
+// }
+else if (result.value.indexOf('.') !== -1 && numberText === '.') {
+   // 小数点が含まれている場合でも、
+   // さらに小数点を入力しようとしたときは何もしない.
+   // 小数点が表示されており、かつ小数点を入力したとき
+   // 何もしない
+   return;
+} else {
+   // 数字を連続して入力する
+   result.value += numberText;
+}
+```
+
+```plantuml
+!theme crt-green
+!pragma useVerticalIf on
+start
+if (numberText is '00' \nand\n result.value is '0') then
+    :return;
+else if (result.value is '0' \nand\n (numberText is not '00' \nor\n numberText is not '0')) then
+    :result.value = numberText;
+else if (result.value is '0' \nand\n numberText is '.') then
+    :result.value = '0.';
+else if (result.value is '0' \nand\n numberText is not '.') then
+    :result.value = numberText;
+else if (result.value contains '.' \nand\n numberText is '.') then
+    :return;
+else
+    :result.value += numberText;
+endif
+stop
+```
+
+```plantuml
+!theme crt-green
+!pragma useVerticalIf on
+start
+if (入力が'00'\nかつ\n表示が'0'のとき) then
+    :何もしない;
+else if (表示が'0'かつ\n(入力が'00'ではない\nまたは\n入力が'0'ではないとき)) then
+    :表示の'0'を入力値に置換;
+else if (表示が'0'のとき\nかつ\n入力が'.'のとき) then
+    :'0'を'0.'に置換;
+else if (表示が'0'\nかつ\n入力が'.'でないとき) then
+    :表示の'0'を入力値に置換;
+else if (表示に'.'を含み\nかつ\n入力が'.'のとき) then
+    :何もしない;
+else
+    :表示値の後に入力値を追加;
+endif
+stop
+```
+```plantuml
+!thime crt-green
+!pragma useVerticalIf on
+start
+```
+```js
+if (numberText === '00' && result.value === '0') {
+   // すでに '0' が表示されている場合は'00'を入力しても何もしない
+   //// console.log(result.value, numberText);
+   return;
+} else if (result.value === '0' &&
+   (numberText !== '00' || numberText !== '0')) {
+   // 表示が'0'かつ入力が'00'か'0'ではないとき、最初の'0'を数字に置き換え
+   //// console.log(result.value, numberText);
+   result.value = numberText; // result.value を更新
+} else if (result.value === '0' && numberText === '.') {
+   // 0が表示されており、かつ'.'を入力したとき末尾に'.'を追加する
+   //// console.log(result.value, numberText);
+   result.value = '0.';
+} else if (result.value.indexOf('.') !== -1 && numberText === '.') {
+   // 既に小数点が含まれている場合、'.'を追加しない
+   //// console.log(result.value, numberText);
+   return;
+} else {
+   // 数字を連続して入力する
+   //// console.log(result.value, numberText);
+   result.value += numberText; // result.value を更新
+}
+```
+
+```js
+const buttons = document.querySelectorAll('button');
+const numbers = document.querySelectorAll('button[data-numbers');
+const clear = document.querySelector('button[data-clear]');
+const clearEntries = document.querySelector('button[data-clearEntries]');
+const operations = document.querySelectorAll('button[data-operation]');
+const equal = document.querySelector('button[data-equal]');
+const result = document.getElementById('result');
+let calcHistory = [];
+result.value = '0';
+numbers.forEach(number => {
+    number.addEventListener('click', () => {
+        const numberText = number.getAttribute('data-numbers');
+        if (numberText === '00' && result.value === '0') {
+            console.log(result.value, numberText);
+            return;
+        } else if (result.value === '0' &&
+            (numberText !== '00' || numberText !== '0')) {
+            console.log(result.value, numberText);
+            result.value = numberText;
+        } else if (result.value === '0' && numberText === '.') {
+            console.log(result.value, numberText);
+            result.value = '0' + '.';
+        } else if (result.value.indexOf('.') !== -1 && numberText === '.') {
+            console.log(result.value, numberText);
+            return;
+        } else {
+            console.log(result.value, numberText);
+            result.value += numberText;
+        }
+    });
+});
+```
