@@ -5,6 +5,7 @@ memo.md
   - [参考書のメモ(JavaScript本格入門)](#参考書のメモjavascript本格入門)
   - [引用メモ](#引用メモ)
   - [script.js - 88(条件文)](#scriptjs---88条件文)
+    - [解決 - '0.'を表示する方法](#解決---0を表示する方法)
 
 
 |     | A:Onetime      | B:Manytimes      | C:C / CE    | D:% / ±          |
@@ -271,3 +272,67 @@ numbers.forEach(number => {
     });
 });
 ```
+
+### 解決 - '0.'を表示する方法
+`if`を入れ子にすることで、数値を画面に表示する`result.value`に<br>
+`0.`を表示することができた。
+
+それまでは、'.'ボタンを押しても期待する表示'0.'ではなく'.'のみが<br>
+表示されてしまっていた。<br>
+
+問題があったのは
+```js
+} else if (result.value === '0' &&
+   (numberText !== '00' || numberText !== '0')) {
+   console.log(result.value, numberText);
+   result.value = numberText;
+```
+この部分で、'.'を押した際にこの条件分岐に引っかかり、<br>
+`result.value = '.'`が実行されていた。<br>
+そのためにその下の分岐の`result.value = '0' + '.';`<br>
+が実行されることなく、結果として'0.'が表示されなかった。
+
+```js
+if (result.value === '0' && numberText === '00') {
+   console.log(result.value, numberText, 'A');
+   result.value = '0';
+} else if (
+   (result.value === '0' && numberText !== '00') ||
+   (result.value === '0' && numberText !== '0')
+) {
+   if (numberText === '.') {
+         result.value = '0.';
+         console.log(result.value, numberText, 'Ba');
+   } else {
+         result.value = numberText;
+         console.log(result.value, numberText, 'Bb');
+   }
+} else if (result.value.indexOf('.') !== -1 && numberText === '.') {
+   console.log(result.value, numberText, 'C');
+   return;
+} else {
+   console.log(result.value, numberText, 'D');
+   result.value += numberText;
+}
+```
+
+```plantuml
+!theme crt-green
+!pragma useVerticalIf on
+start
+if (表示が'0'\nかつ\n入力が'00'のとき) then (Yes)
+    : '0'を表示に設定;
+else if ((表示が'0'\nかつ\n入力が'00'ではない)\nまたは\n(表示が'0'\nかつ\n入力が'0'ではない)のとき) then (Yes)
+    if (入力が'.'のとき) then (Yes)
+        : '0.'を表示に設定;
+    else (No)
+        : 入力を表示に設定;
+    endif
+else if (表示に'.'を含み\nかつ\n入力が'.'のとき) then (Yes)
+    : 何もしない;
+else (No)
+    : 入力を表示に追加;
+endif
+stop
+```
+![if文のメモ](images/if-plantUML-1.png)

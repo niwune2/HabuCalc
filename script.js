@@ -93,9 +93,8 @@ result.value = '0';
 numbers.forEach(number => {
     number.addEventListener('click', () => {
         const numberText = number.getAttribute('data-numbers'); // 押された数字
-        console.log(`Number:${numberText}`);
-
-        if (result.value === '0' && numberText === '00' ) {
+        // console.log(`Number:${numberText}`);
+        if (result.value === '0' && numberText === '00') {
             // すでに '0' が表示されている場合は
             // '00'を入力しても'0'を表示する
             console.log(result.value, numberText, 'A');
@@ -103,29 +102,23 @@ numbers.forEach(number => {
         } else if (
             (result.value === '0' && numberText !== '00') ||
             (result.value === '0' && numberText !== '0')
-        ) {//!
+        ) {
             // 表示が'0'かつ入力が'00'または
             // 表示が'0'かつ入力が'0'のとき
             // 表示の'0'を'.'か'0~9'までの数字に置換
-            //? '.'を入力したとき、ここで引っかかる
-            //? ここにifの入れ子を仕込むか??
-            console.log(result.value, numberText, 'B');
-            result.value = numberText;
+            if (numberText === '.') {
+                result.value = '0.';
+                console.log(result.value, numberText, 'Ba');
+            } else {
+                result.value = numberText;
+                console.log(result.value, numberText, 'Bb');
+            }
             // result.value を更新
-        } else if (result.value === '0' && numberText === '.') {
-            // 0が表示されており、かつ'.'を入力したとき
-            // 末尾に'.'を追加する
+        } else if (result.value.indexOf('.') !== -1 && numberText === '.') { // 既に小数点が含まれている場合、'.'を追加しない
             console.log(result.value, numberText, 'C');
-            // result.value.replace('0','0.');
-            result.value = '0a.';
-        } else if (result.value.indexOf('.') !== -1 && numberText === '.') {
-            // 既に小数点が含まれている場合、'.'を追加しない
-            console.log(result.value, numberText, 'D');
             return;
-            //? index(0,2)以降の'.'を調べてそれらを除く?
-        } else {
-            // 数字を連続して入力する
-            console.log(result.value, numberText, 'E');
+        } else { // 数字を連続して入力する
+            console.log(result.value, numberText, 'D');
             result.value += numberText; // result.value を更新
         }
         console.log('--------------------');
