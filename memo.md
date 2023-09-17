@@ -144,7 +144,7 @@ else if (result.value.indexOf('.') !== -1 && numberText === '.') {
    result.value += numberText;
 }
 ```
-
+-----------------------------------------
 ```plantuml
 !theme crt-green
 !pragma useVerticalIf on
@@ -164,8 +164,7 @@ else
 endif
 stop
 ```
-
-
+-----------------------------------------
 ```plantuml
 !theme crt-green
 !pragma useVerticalIf on
@@ -185,6 +184,7 @@ else
 endif
 stop
 ```
+-----------------------------------------
 ```plantuml
 !theme crt-green
 !pragma useVerticalIf on
@@ -212,6 +212,7 @@ stop
 
 ![if文のメモ](/images/if-plantUML-0.png)
 
+-----------------------------------------
 ```js
 if (numberText === '00' && result.value === '0') {
    // すでに '0' が表示されている場合は'00'を入力しても何もしない
@@ -236,7 +237,7 @@ if (numberText === '00' && result.value === '0') {
    result.value += numberText; // result.value を更新
 }
 ```
-
+-----------------------------------------
 ```js
 const buttons = document.querySelectorAll('button');
 const numbers = document.querySelectorAll('button[data-numbers');
