@@ -1,48 +1,61 @@
 class Calculator {
-    constructor(result) {
-        //コンストラクタ(インスタンスで利用するプロパティを初期化する)
+    constructor(pre, next, result) {
+        // コンストラクタでプロパティを初期化
+        this.pre = pre;
+        this.next = next;
         this.result = result;
     }
 
-    //加算
-    add(number) {
-        this.result += number;
+    add() {
+        // `pre`はコンストラクタで設定された前オペランド
+        // `next`はコンストラクタで設定された次のオペランド
+        // 加算した数値を返す
+        this.result = this.pre + this.next;
+        return this.result;
     }
 
-    //減算
-    subtract(number) {
-        this.result -= number;
+    subtract() { //減算
+        this.result = this.pre - this.next;
+        return this.result;
     }
 
-    //乗算
-    multiply(number) {
-        this.result *= number;
+    multiply() { //乗算
+        this.result =  this.pre * this.next;
+        return this.result;
     }
 
-    //除算
-    divide(number) {
-        if (number === 0) {
+    divide() { //除算
+        if (this.next === 0) {
             throw new Error("0で除算はできません");
         }
-        this.result /= number;
+        this.result = this.pre / this.next;
+        return this.result;
     }
 
-    //％
-    percent(number) {
-        this.result = number * 0.01;
+    percent() { //％
+        this.result = this.pre * 0.01;
+        return this.result;
     }
 
-    //±
-    plusOrMinus(number) {
-        this.result = number * (-1);
+    plusOrMinus() { //±
+        this.result = -this.pre;
+        return this.result;
     }
-    //
-    getResult() {
+
+    getResult() { // result
         return this.result;
     }
 }
 
-const calculator = new Calculator();
+const calculator = new Calculator(20, 10);
+console.log(`addition: ${calculator.add()}`);
+console.log(`subtraction: ${calculator.subtract()}`);
+console.log(`multiplication: ${calculator.multiply()}`);
+console.log(`division: ${calculator.divide()}`);
+console.log(`percent: ${calculator.percent()}`);
+console.log(`plusMinus: ${calculator.plusOrMinus()}`);
+console.log('--------------------');
+
 
 // ボタン要素を取得
 const buttons = document.querySelectorAll('button');
@@ -57,7 +70,6 @@ const result = document.getElementById('result');
 //* C,CE,%,±,+,-,×,÷,=は表示する必要がない
 //* 初期の表示は`0`
 //TODO メソッド呼び出し -> オペランド(B)で表示`result.value`をリセットする
-//// クリア状態では`00`と`0`は押せないようにする
 //? numbers,operationsなどの処理は分けたほうがいい？
 
 // ボタンがクリックされたときの処理を設定
@@ -78,17 +90,6 @@ const result = document.getElementById('result');
     });
 });*/
 
-//TODO 小数点のあつかい
-//TODO 1. 小数点を押した時、自動的に'0.'と表示する
-//TODO 2. 2個以上の小数点を入力できないようにする
-//TODO 3. 小数点以下の桁数の制限
-//TODO 4. エラーハンドリングの実装
-// デフォルト状態(0が表示された状態)では、
-// 小数点を最初に入力したとき、
-// 画面上の数値を"0."にしたい
-//! なにをしても”0.”と表示しないのはスコープのせい???
-
-let calcHistory = [];
 result.value = '0';
 numbers.forEach(number => {
     number.addEventListener('click', () => {
@@ -125,11 +126,11 @@ numbers.forEach(number => {
     });
 });
 
-
-
+let calcHistory = null;
 operations.forEach(operator => {
     operator.addEventListener('click', () => {
         console.log(`Operator:(${operator.innerHTML})`);
+        calcHistory = result.value;//前オペランドを格納
     });
 });
 

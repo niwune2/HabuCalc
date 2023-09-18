@@ -9,6 +9,8 @@ GPTに質問したことをメモします。
   - [`class`について](#classについて)
   - [配列を使うアイディア](#配列を使うアイディア)
     - [変数は生成できない](#変数は生成できない)
+  - [正しい`class`の書き方](#正しいclassの書き方)
+    - [他のオペレータのメソッド](#他のオペレータのメソッド)
 
 ## 計算機を作るのに役に立つオブジェクトは？
 計算機を作成する際に役立つさまざまなオブジェクトがあります。以下は、計算機アプリケーションの開発において一般的に使用されるオブジェクトのいくつかです：
@@ -321,3 +323,263 @@ if (clearButtonIsPressed) {
 
 このように、データを格納するためのデータ構造を使用して、<br>
 必要なデータを管理することが一般的です。
+
+## 正しい`class`の書き方
+提供されたコードの一部を見る限り、クラス `Calculator` のコンストラクタと `add` メソッドの基本的な構造は合っていますが、いくつかの点で修正が必要です。以下の修正が必要です：
+
+1. クラスの閉じかっこ `}` が不足しています。クラスの中身を適切に閉じる必要があります。
+
+2. コンストラクタの引数とプロパティの代入には `this` を使用しますが、提供されたコードでは `this` の参照が不足しています。コンストラクタ内で `this` を使用するには、`super()` を呼び出す必要があります。
+
+3. `add` メソッド内で、`this.pre` と `this.next` の値が適切に設定されていることを確認する必要があります。現在のコードでは、これらの値がコンストラクタに渡されているようには見えません。
+
+修正したコードの例を以下に示します：
+
+```javascript
+class Calculator {
+    constructor(pre, next) {
+        // コンストラクタでプロパティを初期化
+        this.pre = pre;
+        this.next = next;
+    }
+
+    add() {
+        // `pre`はコンストラクタで設定された前オペランド
+        // `next`はコンストラクタで設定された次のオペランド
+        // 加算した数値を返す
+        const addition = this.pre + this.next;
+        return addition;
+    }
+}
+
+// クラスのインスタンスを生成
+const calculator = new Calculator(10, 5);
+
+// 加算メソッドを呼び出して結果を表示
+console.log(calculator.add()); // 出力: 15
+```
+
+上記の修正により、`Calculator` クラスが正しく機能し、加算メソッドが `pre` と `next` の値を使用して計算を行うようになります。また、クラスのインスタンスを作成してメソッドを呼び出す方法も示しています。
+
+### 他のオペレータのメソッド
+わかりました。他のオペレータのメソッドも書いてみました。正しくかけていますか？
+```js
+class Calculator {
+    constructor(pre, next) {
+        // コンストラクタでプロパティを初期化
+        this.pre = pre;
+        this.next = next;
+    }
+
+    add() {
+        // `pre`はコンストラクタで設定された前オペランド
+        // `next`はコンストラクタで設定された次のオペランド
+        // 加算した数値を返す
+        const addition = this.pre + this.next;
+        return addition;
+    }
+
+    subtract() { //減算
+        const subtraction = this.pre - this.next;
+        return subtraction;
+    }
+
+    multiply() { //乗算
+        const multiplications =  this.pre * this.next;
+        return multiplications;
+    }
+
+    divide() { //除算
+        if (this.next === 0) {
+            throw new Error("0で除算はできません");
+        }
+        const division = this.pre / this.next;
+        return division;
+    }
+
+    percent() { //％
+        const presenting = this.pre * 0.01;
+        return presenting;
+    }
+
+    plusOrMinus() { //±
+        const plusMinus = this.pre * (-1);
+        return plusMinus;
+    }
+
+    getResult() { // result
+        return this.result;
+    }
+}
+```
+---
+
+提供されたコードの各メソッドの基本的な構造は合っています。<br>各オペレータに対して計算を行うメソッドが適切に定義されており、<br>エラー処理も考慮されています。
+
+ただし、いくつかのポイントを指摘させていただきます：
+
+1. `getResult` メソッドの中で `this.result` を返そうとしていますが、<br>現在のコードではコンストラクタで `this.result` が<br>初期化されていないため、`undefined` を返すことになります。<br>もし `result` プロパティを使用するつもりであれば、<br>コンストラクタ内で適切に初期化する必要があります。
+
+2. `percent` メソッドと `plusOrMinus` メソッドでは、<br>計算結果を `this.pre` に影響を与えずに返しています。<br>通常、これらのメソッドは `this.pre` の値を変更するものとして<br>想定されるでしょう。<br>したがって、これらのメソッドは `this.pre` の値を変更し、<br>変更後の値を返すようにするべきです。
+
+3. 各メソッドはインスタンス変数 `this.pre` と `this.next` を<br>使用して計算を行っていますが、<br>コンストラクタでこれらの値を初期化する箇所がないため、<br>インスタンス生成時にこれらの値を指定しなければならないでしょう。<br>通常、コンストラクタ内で初期化することが一般的です。
+
+修正されたコードの一部を以下に示します：
+
+```javascript
+class Calculator {
+    constructor(pre, next) {
+        // コンストラクタでプロパティを初期化
+        this.pre = pre;
+        this.next = next;
+        this.result = 0; // result プロパティを初期化
+    }
+
+    add() {
+        // 加算した数値を計算結果として設定し、返す
+        this.result = this.pre + this.next;
+        return this.result;
+    }
+
+    // 他のメソッドも同様に修正
+}
+```
+
+上記の修正により、コンストラクタで `pre` と `next` の初期値を設定し、<br>各メソッドが `this.pre` と `this.next` を使用して計算し、<br>計算結果を `this.result` に設定することができるようになります。
+
+---
+---
+これは合っていますか？
+
+```js
+  percent() { //％
+      this.pre *= 0.01;
+      return this.pre;
+  }
+
+  plusOrMinus() { //±
+      this.pre *= (-1);
+      return this.pre;
+  }
+```
+---
+提供されたコードは、`percent` メソッドが値をパーセントに変換し、<br>`plusOrMinus` メソッドが値の符号を反転させることを意味しています。<br>ただし、これらのメソッドは計算結果を返すのではなく、<br>`this.pre` の値を変更してしまいます。
+
+このコードの動作が意図通りであるかどうかは、コンテキストに依存します。<br>つまり、`percent` メソッドや `plusOrMinus` メソッドを呼び出す側が、<br>これらのメソッドをどのように使用するかによります。
+
+もし `percent` メソッドや `plusOrMinus` メソッドを呼び出した後に<br>元の値 (`this.pre`) を使用しない場合、この実装は問題ありません。<br>ただし、計算結果として変更された `this.pre` の値が後続の計算に<br>影響を与える可能性がある場合、注意が必要です。
+
+計算結果を変更しないようにするために、<br>これらのメソッドが新しい値を返すように変更できます。例えば：
+
+```javascript
+percent() { //％
+    return this.pre * 0.01;
+}
+
+plusOrMinus() { //±
+    return this.pre * (-1);
+}
+```
+
+このように変更することで、`percent` メソッドや <br>`plusOrMinus` メソッドを呼び出した後にも、<br>元の値 (`this.pre`) が変更されずに利用できるようになります。
+
+---
+---
+参考にしてこのようにしました。
+```js
+class Calculator {
+    constructor(pre, next) {
+        // コンストラクタでプロパティを初期化
+        this.pre = pre;
+        this.next = next;
+        this.result = 0;
+    }
+    add() {
+        this.result = this.pre + this.next;
+        return this.result;
+    }
+    subtract() { //減算
+        this.result = this.pre - this.next;
+        return this.result;
+    }
+    multiply() { //乗算
+        this.result =  this.pre * this.next;
+        return this.result;
+    }
+    divide() { //除算
+        if (this.next === 0) {
+            throw new Error("0で除算はできません");
+        }
+        this.result = this.pre / this.next;
+        return this.result;
+    }
+    percent() { //％
+        this.result = this.pre *= 0.01;
+        return this.result;
+    }
+    plusOrMinus() { //±
+        this.result = this.pre *= (-1);
+        return this.result;
+    }
+    getResult() { // result
+        return this.result;
+    }
+}
+```
+---
+提供されたコードは、計算機クラス (`Calculator`) を定義し、<br>各種計算操作を行うためのメソッドを持つクラスとして見えます。<br>メソッド内で `this.result` プロパティを計算の結果にセットし、<br>結果を返すように変更されました。
+
+このように変更されたコードは、計算の結果を `this.result` プロパティに<br>格納して返すため、計算機クラスを使って計算を行う際に便利です。<br>コードが見直され、問題なく動作するようになっています。
+
+ただし、注意点として、計算機クラスのインスタンスを作成する際に、<br>初期値として `pre` と `next` を渡していますが、<br>初期値が `0` になっているため、<br>これらの値を変更してから計算を行う必要があります。<br>計算機クラスのインスタンスを作成する際に、<br>初期値を指定できるようにすることも考慮しておくと良いでしょう。
+
+それ以外は、クラスが計算機能を持つ形になっており、<br>計算結果を `getResult` メソッドで取得できるなど、<br>使いやすい設計になっているように見えます。
+
+---
+---
+ためしに以下のコードを書いてコンソールで確認しました。
+```js
+const calculator = new Calculator(10,20);
+console.log(`addition: ${calculator.add()}`);
+console.log(`subtraction: ${calculator.subtract()}`);
+console.log(`multiplications: ${calculator.multiply()}`);
+console.log(`division: ${calculator.divide()}`);
+console.log(`percent: ${calculator.percent(10)}`);
+console.log(`plusMinus: ${calculator.plusOrMinus(10)}`);
+```
+この中の`console.log(`plusMinus: ${calculator.plusOrMinus(10)}`);`ですが、`plusMinus: -0.1`となっています。なぜ`-10`とならないのでしょうか？
+
+---
+`plusOrMinus` メソッド内での計算処理に問題があるようです。<br>正しく数値を反転させるには、引数を受け取る必要はありません。<br>また、`plusOrMinus` メソッド内で `this.pre` の値を変更するのではなく、<br>計算結果を反映させるべきです。以下のように修正できます：
+
+```js
+plusOrMinus() {
+    this.result = -this.result;
+    return this.result;
+}
+```
+
+この修正により、`plusOrMinus` メソッドは<br>現在の結果 (`this.result`) の符号を反転させ、正しく動作するはずです。
+
+修正後のコード：
+
+```js
+const calculator = new Calculator(10, 20);
+console.log(`addition: ${calculator.add()}`);
+console.log(`subtraction: ${calculator.subtract()}`);
+console.log(`multiplication: ${calculator.multiply()}`);
+console.log(`division: ${calculator.divide()}`);
+console.log(`percent: ${calculator.percent()}`);
+console.log(`plusMinus: ${calculator.plusOrMinus()}`);
+```
+
+上記のコードで `plusMinus` メソッドが正しく `-10` を返すはずです。
+
+---
+*結局正しかったコード*
+```js
+plusOrMinus() { //±
+    this.result = -this.pre;
+    return this.result;
+}
+```

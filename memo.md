@@ -4,8 +4,12 @@ memo.md
   - [どんな設計にするかメモ](#どんな設計にするかメモ)
   - [参考書のメモ(JavaScript本格入門)](#参考書のメモjavascript本格入門)
   - [引用メモ](#引用メモ)
-  - [script.js - 88(条件文)](#scriptjs---88条件文)
+  - [script.js - 88(条件文) - '0.'を表示するために](#scriptjs---88条件文---0を表示するために)
     - [解決 - '0.'を表示する方法](#解決---0を表示する方法)
+  - [オペレータを押したときの挙動](#オペレータを押したときの挙動)
+  - [コンストラクタを設計する](#コンストラクタを設計する)
+    - [コンストラクタの`this`](#コンストラクタのthis)
+  - [`eval`について](#evalについて)
 
 
 |     | A:Onetime      | B:Manytimes      | C:C / CE    | D:% / ±          |
@@ -113,7 +117,7 @@ memo.md
 > 例えば「7×3」という計算式があれば、「7」と「3」がオペランドとなる。  
 >「7×3」の演算における「×」はオペレータとして、計算の内容を規定する。  
 
-## script.js - 88(条件文)
+## script.js - 88(条件文) - '0.'を表示するために
 ```js
 if (numberText === '00' && result.value === '0') {
    // '00'を押したときは何もしない
@@ -210,7 +214,6 @@ else
 endif
 stop
 ```
-
 ![if文のメモ](/images/if-plantUML-0.png)
 
 -----------------------------------------
@@ -240,14 +243,6 @@ if (numberText === '00' && result.value === '0') {
 ```
 -----------------------------------------
 ```js
-const buttons = document.querySelectorAll('button');
-const numbers = document.querySelectorAll('button[data-numbers');
-const clear = document.querySelector('button[data-clear]');
-const clearEntries = document.querySelector('button[data-clearEntries]');
-const operations = document.querySelectorAll('button[data-operation]');
-const equal = document.querySelector('button[data-equal]');
-const result = document.getElementById('result');
-let calcHistory = [];
 result.value = '0';
 numbers.forEach(number => {
     number.addEventListener('click', () => {
@@ -336,3 +331,33 @@ endif
 stop
 ```
 ![if文のメモ](images/if-plantUML-1.png)
+
+## オペレータを押したときの挙動
+1. 配列にいれてしまえ -> `evel`を使わざるをえない
+2. 配列はやめる
+
+1. 入れた後はオペランドをどこかに保存して`result.value`をクリアする
+2. `operations.forEach(operator => {`以下に、
+   1. オペレータを押すと表示の数値を変数に格納し
+   2. <s>表示をクリアにする</s>
+      1. 消す必要なし。ただし押したオペレータを明示する。
+   3. 次オペランドを入力したときに前オペランドが消えないよう<br>いずれかのオペレータ押下後は加算代入で付け足していく
+   4. メソッドの利用方法を考える
+
+## コンストラクタを設計する
+1. 前オペランドと次オペランドをパラメータにする?
+
+### コンストラクタの`this`
+> thisキーワードは、`new演算子`によって生成されるインスタンス(つまり自分自身)を表すものです。
+
+## `eval`について
+- `eval`は文字列を引数として扱う。
+  - 引数が算術式に相当する場合、`eval`は算術式として扱う。
+- 悪意ある第三者が悪意あるコードを実行させることが可能であるため、<br>仕様は厳禁である。
+- 多くの場合、`eval`は他の方法よりも低速である。
+- [eval()](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/eval)
+>警告: 文字列から JavaScript を実行することは、<br>
+>非常に大きなセキュリティリスクを伴います。<br>
+>`eval()` を使用すると、悪意のある者が任意のコードを実行することが<br>
+あまりにも簡単になります。<br>
+>下記の `eval()` を使わないでください!を参照してください。<br>
