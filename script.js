@@ -65,30 +65,10 @@ const clearEntries = document.querySelector('button[data-clearEntries]');
 const operations = document.querySelectorAll('button[data-operation]');
 const equal = document.querySelector('button[data-equal]');
 const result = document.getElementById('result');
-// const buttonStyles = buttons.dataset.numbers;
 
 //* C,CE,%,±,+,-,×,÷,=は表示する必要がない
 //* 初期の表示は`0`
 //TODO メソッド呼び出し -> オペランド(B)で表示`result.value`をリセットする
-//? numbers,operationsなどの処理は分けたほうがいい？
-
-// ボタンがクリックされたときの処理を設定
-/*buttons.forEach(button => {
-    const buttonText = button.innerText; // ボタンのテキストを取得
-    button.addEventListener('click', () => {
-        // ここで buttonText を使用して処理を行う
-        // result.value += buttonText; //`result`に数字を表示する
-
-        // もしオペレータを押したら、`result.value`を変数に格納しディスプレイをクリアし、
-        // 各種メソッドを呼び出す
-        // ----------
-        if (buttonText !== isNaN) { //buttonがNumberであるとき
-            console.log(buttonText);
-        } else if(buttonText === isNaN){ //buttonがNumberでないとき
-            result.value += buttonText;
-        }
-    });
-});*/
 
 result.value = '0';
 numbers.forEach(number => {
@@ -145,8 +125,3 @@ clearEntries.addEventListener('click', () => {
 equal.addEventListener('click', () => {
     console.log(`(${equal.innerHTML}):Equal`);
 });
-
-//? 計算式は配列にいれるか
-//? 配列に入れるのであれば`=`->`C`の操作で配列をリセットできるようにする必要がありそう
-//? あるいは計算式ごとに配列を作るか?
-//? 計算式が何もない状態を判定する必要がありそう(もし配列が空なら...)

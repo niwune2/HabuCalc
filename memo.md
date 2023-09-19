@@ -10,6 +10,7 @@ memo.md
   - [コンストラクタを設計する](#コンストラクタを設計する)
     - [コンストラクタの`this`](#コンストラクタのthis)
   - [`eval`について](#evalについて)
+  - [コード置き場](#コード置き場)
 
 
 |     | A:Onetime      | B:Manytimes      | C:C / CE    | D:% / ±          |
@@ -345,7 +346,52 @@ stop
    4. メソッドの利用方法を考える
 
 ## コンストラクタを設計する
-1. 前オペランドと次オペランドをパラメータにする?
+1. 前オペランドと次オペランドをパラメータにした
+2. 引数に数値を入れることでオペレータに応じた計算をさせることができた
+3. 入力した値を引数にする
+4. オペレータを通して処理されたオペランド(A)のResultが次のオペランド(A)になる(?)
+
+```plantuml
+!theme crt-green
+!pragma useVerticalIf on
+title オペランドの処理
+start
+repeat :オペランド(A)を入力;
+    :オペレータを選択;
+        ' note left:Note
+    :オペランド(B)を入力;
+    :Resultを出力;
+    backward :Resultを\nオペランド(A)に;
+repeat while (新たな数値) is (入力)
+stop
+```
+
+```plantuml
+!theme crt-green
+!pragma useVerticalIf on
+title オペランドの処理
+start
+while (新たな数値) is (入力)
+    :オペランド(A);
+    :オペレータを選択;
+    :オペランド(B)を入力;
+    :Resultを出力;
+    :Resultを\nオペランド(A)に;
+endwhile(入力しない)
+stop
+
+```
+
+```js
+const calculator = new Calculator(20, 10);
+console.log(`addition: ${calculator.add()}`);
+console.log(`subtraction: ${calculator.subtract()}`);
+console.log(`multiplication: ${calculator.multiply()}`);
+console.log(`division: ${calculator.divide()}`);
+console.log(`percent: ${calculator.percent()}`);
+console.log(`plusMinus: ${calculator.plusOrMinus()}`);
+console.log('--------------------');
+```
 
 ### コンストラクタの`this`
 > thisキーワードは、`new演算子`によって生成されるインスタンス(つまり自分自身)を表すものです。
@@ -361,3 +407,27 @@ stop
 >`eval()` を使用すると、悪意のある者が任意のコードを実行することが<br>
 あまりにも簡単になります。<br>
 >下記の `eval()` を使わないでください!を参照してください。<br>
+
+---
+---
+---
+## コード置き場
+```js
+// ボタンがクリックされたときの処理を設定
+buttons.forEach(button => {
+    const buttonText = button.innerText; // ボタンのテキストを取得
+    button.addEventListener('click', () => {
+        // ここで buttonText を使用して処理を行う
+        // result.value += buttonText; //`result`に数字を表示する
+
+        // もしオペレータを押したら、`result.value`を変数に格納しディスプレイをクリアし、
+        // 各種メソッドを呼び出す
+        // ----------
+        if (buttonText !== isNaN) { //buttonがNumberであるとき
+            console.log(buttonText);
+        } else if(buttonText === isNaN){ //buttonがNumberでないとき
+            result.value += buttonText;
+        }
+    });
+});
+```
