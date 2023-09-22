@@ -11,6 +11,8 @@ memo.md
     - [コンストラクタの`this`](#コンストラクタのthis)
   - [`eval`について](#evalについて)
   - [コード置き場](#コード置き場)
+    - [ボタンがクリックされたときの処理を設定](#ボタンがクリックされたときの処理を設定)
+    - ['0'と'.'を扱う条件分岐](#0とを扱う条件分岐)
 
 
 |     | A:Onetime      | B:Manytimes      | C:C / CE    | D:% / ±          |
@@ -412,6 +414,7 @@ console.log('--------------------');
 ---
 ---
 ## コード置き場
+### ボタンがクリックされたときの処理を設定
 ```js
 // ボタンがクリックされたときの処理を設定
 buttons.forEach(button => {
@@ -428,6 +431,44 @@ buttons.forEach(button => {
         } else if(buttonText === isNaN){ //buttonがNumberでないとき
             result.value += buttonText;
         }
+    });
+});
+```
+### '0'と'.'を扱う条件分岐
+```js
+result.value = '0'; //* 初期の表示は`0`
+numbers.forEach(number => {
+    number.addEventListener('click', () => {
+        const numberText = number.getAttribute('data-numbers'); // 押された数字
+        // console.log(`Number:${numberText}`);
+        if (result.value === '0' && numberText === '00') {
+            // すでに '0' が表示されている場合は
+            // '00'を入力しても'0'を表示する
+            // console.log(result.value, numberText, 'A');
+            result.value = '0';
+        } else if (
+            (result.value === '0' && numberText !== '00') ||
+            (result.value === '0' && numberText !== '0')
+        ) {
+            // 表示が'0'かつ入力が'00'または
+            // 表示が'0'かつ入力が'0'のとき
+            // 表示の'0'を'.'か'0~9'までの数字に置換
+            if (numberText === '.') {
+                result.value = '0.';
+                // console.log(result.value, numberText, 'Ba');
+            } else {
+                result.value = numberText;
+                // console.log(result.value, numberText, 'Bb');
+            }
+            // result.value を更新
+        } else if (result.value.indexOf('.') !== -1 && numberText === '.') { // 既に小数点が含まれている場合、'.'を追加しない
+            // console.log(result.value, numberText, 'C');
+            return;
+        } else { // 数字を連続して入力する
+            // console.log(result.value, numberText, 'D');
+            result.value += numberText; // result.value を更新
+        }
+        // console.log('--------------------');
     });
 });
 ```
