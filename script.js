@@ -47,16 +47,6 @@ class Calculator {
     }
 }
 
-const calculator = new Calculator(20, 10);
-console.log(`addition: ${calculator.add()}`);
-console.log(`subtraction: ${calculator.subtract()}`);
-console.log(`multiplication: ${calculator.multiply()}`);
-console.log(`division: ${calculator.divide()}`);
-console.log(`percent: ${calculator.percent()}`);
-console.log(`plusMinus: ${calculator.plusOrMinus()}`);
-console.log('--------------------');
-
-
 // ボタン要素を取得
 const buttons = document.querySelectorAll('button');
 const numbers = document.querySelectorAll('button[data-numbers');
@@ -67,17 +57,67 @@ const equal = document.querySelector('button[data-equal]');
 const result = document.getElementById('result');
 
 let nextStage = 'operator';
-console.log(`nextStage:${nextStage}`);
+let firstOperand = null;
+let secondOperand = null;
+let temporaryResult = null;
+
+// console.log(`nextStage:${nextStage}`);
     //* オペレータボタンを押したときに'number'になる
     //* 数字ボタンを押したときに'number'になる
 
 //* C,CE,%,±,+,-,×,÷,=は表示する必要がない
 //TODO メソッド呼び出し -> オペランド(B)で表示`result.value`をリセットする
 
+// -----ボタンの有効化,無効化を切り替える条件分を書く------
+
+// const filteredOperations = [];
+// operations.forEach(operator => {
+//     filteredOperations.push(operator.innerHTML);
+//     //? 条件に適合するときだけ都度pushする?
+// });
+// const filteredNumbers = [];
+// numbers.forEach(number => {
+//     filteredNumbers.push(number.innerHTML);
+// });
+
+// console.log(`Ope:${filteredOperations}, Num:${filteredNumbers}`);
+
+// if (nextStage === 'number') {
+//     filteredOperations.disabled = true;
+//     operations.forEach(operator => {
+//         // operator.disabled = true; // ボタンを無効にする
+//         operator.style.backgroundColor = 'black'; // スタイルを設定する
+//     });
+// } else if (nextStage = 'operator'){
+//     filteredNumbers.disabled = true;
+//     numbers.forEach(number => {
+//         number.style.backgroundColor = 'black';
+//     });
+// }
+
+
+// アクティビティ図の流れに従い、押せるボタン/押せないボタンを
+// `nextStage`の値に従ってスイッチできるようにする
+//? スクリプトでHTMLを弄って無効化/有効化は可能か？
+    //! `disabled`属性が使える -> 使えない.イベントリスナーを消す必要がある
+    // 無効化: `button.disabled = true;`,有効化: button.disabled = false;
+//* 要は、`operator`のときには数字だけ、`number`のときにはオペレータだけ入力できるようにしたい
+//// 2023/09/24: とりあえずは、オペレータを押した後のオペランドAの扱いを設定する
+
+// -------------------------------------------------
+
 result.value = '0';
 numbers.forEach(number => {
     number.addEventListener('click', () => {
         const numberText = number.getAttribute('data-numbers');
+
+        if (firstOperand !== null && nextStage === 'number') {
+            result.value = '';
+            console.log(`F:${firstOperand}, S:${secondOperand}`);
+        } else if (secondOperand !== null) {
+            result.value = '';
+        }
+
         if (result.value === '0' && numberText === '00') {
             result.value = '0';
         } else if (
@@ -97,20 +137,30 @@ numbers.forEach(number => {
         } else {
             result.value += numberText;
         }
+
+        nextStage = 'operator';
+        console.log(`nextStage:${nextStage}`);
     });
 });
 
-let calcHistory = null;
+let calcHistory = null; //?
 operations.forEach(operator => {
     operator.addEventListener('click', () => {
         const opeText = operator.innerHTML;
         // console.log(`Operator:(${opeText})`);
         calcHistory = result.value;//前オペランドを格納
-        console.log(`Operand:${result.value}`);
+        if (firstOperand === null) {
+            firstOperand = result.value;//
+        } else if (secondOperand === null) {
+            secondOperand = result.value;
+            console.log(`FirstOperand:${firstOperand}, SecondOperand:${secondOperand}`);
+        }
+
+        // console.log(`Operand:${result.value}`);
         switch (opeText) {
             case '+':
                 console.log(`Pushed "+"`);
-                console.log(`History:${calcHistory}`);
+                // console.log(`History:${calcHistory}`);
                 break;
             case '-':
                 console.log(`Pushed "-"`);
@@ -135,28 +185,7 @@ operations.forEach(operator => {
         console.log(`nextStage:${nextStage}`);
     });
 });
-//? 1. 数字(オペランド(A))を押した
-//? 2. オペレーターを押した
-//?     1. オペランド(A)を変数`firstOperand`に格納する
-//? 3. 数字を押すと、その数字をオペランド(B)の入力を受け付ける
-//?     1. オペランド(B)を変数`secondOperand`に格納する
-//? 4. オペレータかイコールか
-//?     1. `nextStage`変数で、次のアクションを示す
-//?     2. オペレータが押された時`nextState = 'number';`
-//?        数字が押されたとき`nextState = 'operator';`
-//?     3. `number`ならオペレータを入力させる.
-//?        `operator`なら数字を入力させる
-//! 分岐点(operator or equal)
-//? 5. オペレータを押すことで...
-//?     1. `nextStage`を`number`に変更
-//?     ?. 一時的な結果を`temporaryResult`として表示
-//?     3. オペランド(B)を変数`secondOperand`に格納
-//?     4. `firstOperand`をメソッドの第一引数にする <- ??
-//?     ?. 一時的な結果を`firstOperand`に代入
-//! 分岐点(number or operand)
-//? 6. イコールを押すことで...
-//?     1. `nextStage`を変更
-//?     2. メソッドの計算結果を表示する
+
 
 clear.addEventListener('click', () => {
     console.log(`(${clear.innerHTML}):Clear`);

@@ -6,7 +6,9 @@ memo.md
   - [引用メモ](#引用メモ)
   - [script.js - 88(条件文) - '0.'を表示するために](#scriptjs---88条件文---0を表示するために)
     - [解決 - '0.'を表示する方法](#解決---0を表示する方法)
+    - [アクティビティ図(0の表示)](#アクティビティ図0の表示)
   - [オペレータを押したときの挙動](#オペレータを押したときの挙動)
+    - [アクティビティ図(オペレータ)](#アクティビティ図オペレータ)
   - [コンストラクタを設計する](#コンストラクタを設計する)
     - [コンストラクタの`this`](#コンストラクタのthis)
   - [`eval`について](#evalについて)
@@ -313,7 +315,7 @@ if (result.value === '0' && numberText === '00') {
    result.value += numberText;
 }
 ```
-
+### アクティビティ図(0の表示)
 ```plantuml
 !theme crt-green
 !pragma useVerticalIf on
@@ -347,12 +349,31 @@ stop
    3. 次オペランドを入力したときに前オペランドが消えないよう<br>いずれかのオペレータ押下後は加算代入で付け足していく
    4. メソッドの利用方法を考える
 
-## コンストラクタを設計する
-1. 前オペランドと次オペランドをパラメータにした
-2. 引数に数値を入れることでオペレータに応じた計算をさせることができた
-3. 入力した値を引数にする
-4. オペレータを通して処理されたオペランド(A)のResultが次のオペランド(A)になる(?)
-
+```js
+//? 1. 数字(オペランド(A))を押した
+//? 2. オペレーターを押した
+//?     1. オペランド(A)を変数`firstOperand`に格納する
+//? 3. 数字を押すと、その数字をオペランド(B)の入力を受け付ける
+//?     1. オペランド(B)を変数`secondOperand`に格納する
+//? 4. オペレータかイコールか
+//?     1. `nextStage`変数で、次のアクションを示す
+//?     2. オペレータが押された時`nextState = 'number';`
+//?        数字が押されたとき`nextState = 'operator';`
+//?     3. `number`ならオペレータを入力させる.
+//?        `operator`なら数字を入力させる
+//! 分岐点(operator or equal)
+//? 5. オペレータを押すことで...
+//?     1. `nextStage`を`number`に変更
+//?     ?. 一時的な結果を`temporaryResult`として表示
+//?     3. オペランド(B)を変数`secondOperand`に格納
+//?     4. `firstOperand`をメソッドの第一引数にする <- ??
+//?     ?. 一時的な結果を`firstOperand`に代入
+//! 分岐点(number or operand)
+//? 6. イコールを押すことで...
+//?     1. `nextStage`を変更
+//?     2. メソッドの計算結果を表示する
+```
+### アクティビティ図(オペレータ)
 ```plantuml
 !theme crt-green
 !pragma useVerticalIf on
@@ -371,7 +392,8 @@ stop
 ```plantuml
 !theme crt-green
 !pragma useVerticalIf on
-title オペランドの処理
+@startuml
+title オペランドの処理2
 start
 while (新たな数値) is (入力)
     :オペランド(A);
@@ -381,8 +403,68 @@ while (新たな数値) is (入力)
     :Resultを\nオペランド(A)に;
 endwhile(入力しない)
 stop
-
 ```
+---
+```plantuml
+!theme crt-green
+@startuml
+title Operand Calculation
+footer 2023/09/23
+start
+:Operand(A)を入力;
+repeat
+:いずれかのオペレータを押す;
+:Operand(A)を\n`firstOperand`に格納;
+:変数`firstOperand`を\nメソッドの第一引数に代入;
+:数字を押して\nOperand(B)を入力;
+
+if (いずれかのボタンを押す) then (オペレータ)
+:Operand(B)を\n変数`secondOperand`に格納;
+:変数`secondOperand`の値を\nメソッドの第二引数に代入;
+:一時的な結果を表示;
+:変数`nextStage`の値を\n`operator`に変更;
+:一時的な結果を\n変数`temporaryResult`に格納;
+:変数`temporaryResult`の値を\n変数`firstOperand`に代入;
+else (イコール)
+:結果を表示;
+end
+endif
+@enduml
+```
+![OperandCalculation](images/OperandCalculation.png)
+
+```plantuml
+!theme crt-green
+@startuml
+title Operand Calculation\n(Fixed by ChatGPT)
+start
+
+:Operand(A)を入力;
+:Operatorを選択;
+:Operand(B)を入力;
+
+repeat
+    :一時的な計算結果;
+    if (Operatorが押されたか) then (Yes)
+        :一時的な結果を`firstOperand`に格納;
+        :`firstOperand`をメソッドの第一引数に代入;
+        :Operand(B)を入力;
+    else (No)
+        :結果を表示;
+    endif
+repeat while (次のアクションをOperatorに)
+
+stop
+@enduml
+```
+![OperandCaluculation(Fixed)](images/OperandCalculation(FixedByChatGPT).png)
+
+## コンストラクタを設計する
+1. 前オペランドと次オペランドをパラメータにした
+2. 引数に数値を入れることでオペレータに応じた計算をさせることができた
+3. 入力した値を引数にする
+4. オペレータを通して処理されたオペランド(A)のResultが次のオペランド(A)になる(?)
+
 
 ```js
 const calculator = new Calculator(20, 10);
