@@ -409,18 +409,18 @@ stop
 !theme crt-green
 @startuml
 title Operand Calculation
-footer 2023/09/23
+footer 2023/09/25
 start
 :Operand(A)を入力;
 repeat
 :いずれかのオペレータを押す;
 :Operand(A)を\n`firstOperand`に格納;
-:変数`firstOperand`を\nメソッドの第一引数に代入;
+:変数`firstOperand`を\nオペレータメソッドの\n第一引数に代入;
 :数字を押して\nOperand(B)を入力;
+:Operand(B)を\n変数`secondOperand`に格納;
+:変数`secondOperand`の値を\nオペレータメソッドの\nの第二引数に代入;
 
 if (いずれかのボタンを押す) then (オペレータ)
-:Operand(B)を\n変数`secondOperand`に格納;
-:変数`secondOperand`の値を\nメソッドの第二引数に代入;
 :一時的な結果を表示;
 :変数`nextStage`の値を\n`operator`に変更;
 :一時的な結果を\n変数`temporaryResult`に格納;
@@ -553,4 +553,155 @@ numbers.forEach(number => {
         // console.log('--------------------');
     });
 });
+```
+
+```js
+class Calculator {
+    constructor(pre, next, result) {
+        //
+        this.pre = pre;
+        this.next = next;
+        this.result = result;
+    }
+    add() {
+        this.result = this.pre + this.next;
+        return this.result;
+    }
+    subtract() {
+        this.result = this.pre - this.next;
+        return this.result;
+    }
+    multiply() {
+        this.result =  this.pre * this.next;
+        return this.result;
+    }
+    divide() {
+        if (this.next === 0) {
+            throw new Error("0で除算はできません");
+        }
+        this.result = this.pre / this.next;
+        return this.result;
+    }
+    percent() {
+        this.result = this.pre * 0.01;
+        return this.result;
+    }
+    plusOrMinus() {
+        this.result = -this.pre;
+        return this.result;
+    }
+    getResult() {
+        return this.result;
+    }
+}
+
+const buttons = document.querySelectorAll('button');
+const numbers = document.querySelectorAll('button[data-numbers');
+const clear = document.querySelector('button[data-clear]');
+const clearEntries = document.querySelector('button[data-clearEntries]');
+const operations = document.querySelectorAll('button[data-operation]');
+const equal = document.querySelector('button[data-equal]');
+const result = document.getElementById('result');
+
+let nextStage = 'operator';
+let firstOperand = null;
+let secondOperand = null;
+let temporaryResult = null;
+let selectedOperand = null;
+const calculator = new Calculator(firstOperand, secondOperand);
+
+result.value = '0';
+numbers.forEach(number => {
+    number.addEventListener('click', () => {
+        const numberText = number.getAttribute('data-numbers');
+        if (firstOperand !== null && nextStage === 'number') {
+            result.value = '';
+        } else if (secondOperand !== null) {
+            result.value = '';
+        }
+
+        if (result.value === '0' && numberText === '00') {
+            result.value = '0';
+        } else if (
+            (result.value === '0' && numberText !== '00') ||
+            (result.value === '0' && numberText !== '0')
+        ) {
+            if (numberText === '.') {
+                result.value = '0.';
+            } else {
+                result.value = numberText;
+            }
+        } else if (
+            (result.value.indexOf('.') !== -1) &&
+            (numberText === '.')
+        ) {
+            return;
+        } else {
+            result.value += numberText;
+        }
+
+        nextStage = 'operator';
+        console.log(`nextStage:${nextStage}`);
+    });
+});
+
+operations.forEach(operator => {
+    operator.addEventListener('click', () => {
+        const opeText = operator.innerHTML;
+        if (firstOperand === null) {
+            firstOperand = result.value;
+        } else if (secondOperand === null) {
+            secondOperand = result.value;
+        }
+
+        switch (opeText) {
+            case '+':
+                console.log(`Pushed '+'`);
+                selectedOperand = '+';
+                break;
+            case '-':
+                console.log(`Pushed '-'`);
+                break;
+            case '÷':
+                console.log(`Pushed '÷'`);
+                break;
+            case '×':
+                console.log(`Pushed '×'`);
+                break;
+            case '%':
+                console.log(`Pushed '%'`);
+                break;
+            case '±':
+                console.log(`Pushed '±'`);
+                break;
+            default:
+                console.log(`他のオペレータが押された...?`);
+        }
+
+        nextStage = 'number';
+        console.log(`nextStage:${nextStage}, selectedOperand:${selectedOperand}`);
+    });
+});
+
+clear.addEventListener('click', () => {
+    console.log(`(${clear.innerHTML}):Clear`);
+});
+
+clearEntries.addEventListener('click', () => {
+    console.log(`(${clearEntries.innerHTML}):ClearEntries`);
+});
+
+equal.addEventListener('click', () => {
+    console.log(`(${equal.innerHTML}):Equal`);
+    switch (selectedOperand) {
+        case '+':
+            const adds = calculator.add();
+            console.log(adds);
+    }
+    if (secondOperand === null) {
+        secondOperand = result.value;
+    }
+    console.log(`FirstOperand:${firstOperand}, SecondOperand:${secondOperand}`);
+});
+
 ```

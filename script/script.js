@@ -1,9 +1,18 @@
 class Calculator {
-    constructor(pre, next, result) {
+    constructor() {
         // コンストラクタでプロパティを初期化
-        this.pre = pre;
-        this.next = next;
-        this.result = result;
+        this.pre = 0;
+        this.next = null;
+        this.selectedOperand = null;
+        this.result = null;
+    }
+
+    setOperand(value) {
+        if (this.selectedOperand === null) {
+            this.pre = parseFloat(value);
+        } else {
+            this.next = parseFloat(value);
+        }
     }
 
     add() {
@@ -60,6 +69,10 @@ let nextStage = 'operator';
 let firstOperand = null;
 let secondOperand = null;
 let temporaryResult = null;
+let selectedOperand = null;
+
+// Calculatorクラスのインスタンスを作成
+const calculator = new Calculator();
 
 // console.log(`nextStage:${nextStage}`);
     //* オペレータボタンを押したときに'number'になる
@@ -67,34 +80,6 @@ let temporaryResult = null;
 
 //* C,CE,%,±,+,-,×,÷,=は表示する必要がない
 //TODO メソッド呼び出し -> オペランド(B)で表示`result.value`をリセットする
-
-// -----ボタンの有効化,無効化を切り替える条件分を書く------
-
-// const filteredOperations = [];
-// operations.forEach(operator => {
-//     filteredOperations.push(operator.innerHTML);
-//     //? 条件に適合するときだけ都度pushする?
-// });
-// const filteredNumbers = [];
-// numbers.forEach(number => {
-//     filteredNumbers.push(number.innerHTML);
-// });
-
-// console.log(`Ope:${filteredOperations}, Num:${filteredNumbers}`);
-
-// if (nextStage === 'number') {
-//     filteredOperations.disabled = true;
-//     operations.forEach(operator => {
-//         // operator.disabled = true; // ボタンを無効にする
-//         operator.style.backgroundColor = 'black'; // スタイルを設定する
-//     });
-// } else if (nextStage = 'operator'){
-//     filteredNumbers.disabled = true;
-//     numbers.forEach(number => {
-//         number.style.backgroundColor = 'black';
-//     });
-// }
-
 
 // アクティビティ図の流れに従い、押せるボタン/押せないボタンを
 // `nextStage`の値に従ってスイッチできるようにする
@@ -104,16 +89,27 @@ let temporaryResult = null;
 //* 要は、`operator`のときには数字だけ、`number`のときにはオペレータだけ入力できるようにしたい
 //// 2023/09/24: とりあえずは、オペレータを押した後のオペランドAの扱いを設定する
 
-// -------------------------------------------------
+// 数字ボタンのクリックイベント
+numbers.forEach(number => {
+    number.addEventListener('click', () => {
+        const numberText = number.getAttribute('data-numbers');
+        if (result.value === '0') {
+            result.value = numberText;
+        } else {
+            result.value += numberText;
+        }
+    });
+});
 
+/*
 result.value = '0';
 numbers.forEach(number => {
     number.addEventListener('click', () => {
         const numberText = number.getAttribute('data-numbers');
 
+        //* 条件に応じて各オペランドを変数に格納する
         if (firstOperand !== null && nextStage === 'number') {
             result.value = '';
-            console.log(`F:${firstOperand}, S:${secondOperand}`);
         } else if (secondOperand !== null) {
             result.value = '';
         }
@@ -142,64 +138,110 @@ numbers.forEach(number => {
         console.log(`nextStage:${nextStage}`);
     });
 });
+*/
 
-let calcHistory = null; //?
+// 演算子ボタンのクリックイベント
+operations.forEach(operator => {
+    operator.addEventListener('click', () => {
+        const operatorText = operator.innerHTML;
+        calculator.setOperand(result.value);
+        calculator.selectedOperand = operatorText;
+        console.log(operatorText);
+        result.value = '0';
+            //オペランドAはオペレータ押下時まで保持する
+    });
+});
+/*
 operations.forEach(operator => {
     operator.addEventListener('click', () => {
         const opeText = operator.innerHTML;
-        // console.log(`Operator:(${opeText})`);
-        calcHistory = result.value;//前オペランドを格納
         if (firstOperand === null) {
-            firstOperand = result.value;//
+            // fOperandがnullのとき、そこに表示値を格納する
+            firstOperand = result.value;
         } else if (secondOperand === null) {
+            // sOperandがnullのとき、そこに表示値を格納する
             secondOperand = result.value;
-            console.log(`FirstOperand:${firstOperand}, SecondOperand:${secondOperand}`);
         }
 
-        // console.log(`Operand:${result.value}`);
+        //? 2023-09-25: これらが押された時、firstOperandに格納する?
+            // 1. オペランドAを入力済み
+            // 2. オペレータを押下時に(1.)をfirstOperandに格納
+            // 3. 押下したオペレータのメソッドにfirstOperandを代入する
+            //! どうやってメソッドに代入すればいい？？？
         switch (opeText) {
             case '+':
-                console.log(`Pushed "+"`);
-                // console.log(`History:${calcHistory}`);
+                console.log(`Pushed '+'`);
+                selectedOperand = '+';//! 試し
                 break;
             case '-':
-                console.log(`Pushed "-"`);
+                console.log(`Pushed '-'`);
                 break;
             case '÷':
-                console.log(`Pushed "÷"`);
+                console.log(`Pushed '÷'`);
                 break;
             case '×':
-                console.log(`Pushed "×"`);
+                console.log(`Pushed '×'`);
                 break;
             case '%':
-                console.log(`Pushed "%"`);
+                console.log(`Pushed '%'`);
                 break;
             case '±':
-                console.log(`Pushed "±"`);
+                console.log(`Pushed '±'`);
                 break;
             default:
                 console.log(`他のオペレータが押された...?`);
         }
 
         nextStage = 'number';
-        console.log(`nextStage:${nextStage}`);
+        console.log(`nextStage:${nextStage}, selectedOperand:${selectedOperand}`);
     });
 });
-
+*/
 
 clear.addEventListener('click', () => {
     console.log(`(${clear.innerHTML}):Clear`);
-    //履歴も含めてすべて消去する
+    // 履歴も含めてすべて消去する
+    // firstOperandをnullにする
+    // secondOperandをnullにする
+    // メソッドの選択をリセットする
 
 });
 
 clearEntries.addEventListener('click', () => {
     console.log(`(${clearEntries.innerHTML}):ClearEntries`);
-    //現在表示されている数値のみを消去する
+    // 現在表示されている数値のみを消去する
+    // result.valueを0にする
+        //数字入力時にnumbersイベントと同じく置き換える
 
 });
 
+// イコールボタンのクリックイベント
+equal.addEventListener('click', () => {
+    calculator.setOperand(result.value);
+    calculator.add(); // 他の演算子に対する呼び出しも追加
+    result.value = calculator.getResult().toString();
+});
+/*
 equal.addEventListener('click', () => {
     console.log(`(${equal.innerHTML}):Equal`);
     // 条件に当てはまるときのみ押せるようにする
+        // オペランドA,Bがnullではない
+        // オペレータが選択済みである
+    //? 選択されたメソッドをどう呼び出す???
+    // どのオペレータ(メソッド)が選ばれたか
+        // 1. 変数に保存する
+        // 2. switchで値のオペレータに応じてオペランドの値をメソッドに代入する
+    switch (selectedOperand) {
+        case '+':
+            const adds = calculator.add();
+            console.log(adds);
+    }
+
+
+    if (secondOperand === null) {
+        // sOperandがnullのとき、そこに表示値を格納する
+        secondOperand = result.value;
+    }
+    console.log(`FirstOperand:${firstOperand}, SecondOperand:${secondOperand}`);
 });
+*/
