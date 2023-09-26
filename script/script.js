@@ -89,19 +89,6 @@ const calculator = new Calculator();
 //* 要は、`operator`のときには数字だけ、`number`のときにはオペレータだけ入力できるようにしたい
 //// 2023/09/24: とりあえずは、オペレータを押した後のオペランドAの扱いを設定する
 
-// 数字ボタンのクリックイベント
-numbers.forEach(number => {
-    number.addEventListener('click', () => {
-        const numberText = number.getAttribute('data-numbers');
-        if (result.value === '0') {
-            result.value = numberText;
-        } else {
-            result.value += numberText;
-        }
-    });
-});
-
-/*
 result.value = '0';
 numbers.forEach(number => {
     number.addEventListener('click', () => {
@@ -138,20 +125,7 @@ numbers.forEach(number => {
         console.log(`nextStage:${nextStage}`);
     });
 });
-*/
 
-// 演算子ボタンのクリックイベント
-operations.forEach(operator => {
-    operator.addEventListener('click', () => {
-        const operatorText = operator.innerHTML;
-        calculator.setOperand(result.value);
-        calculator.selectedOperand = operatorText;
-        console.log(operatorText);
-        result.value = '0';
-            //オペランドAはオペレータ押下時まで保持する
-    });
-});
-/*
 operations.forEach(operator => {
     operator.addEventListener('click', () => {
         const opeText = operator.innerHTML;
@@ -196,7 +170,6 @@ operations.forEach(operator => {
         console.log(`nextStage:${nextStage}, selectedOperand:${selectedOperand}`);
     });
 });
-*/
 
 clear.addEventListener('click', () => {
     console.log(`(${clear.innerHTML}):Clear`);
@@ -215,13 +188,6 @@ clearEntries.addEventListener('click', () => {
 
 });
 
-// イコールボタンのクリックイベント
-equal.addEventListener('click', () => {
-    calculator.setOperand(result.value);
-    calculator.add(); // 他の演算子に対する呼び出しも追加
-    result.value = calculator.getResult().toString();
-});
-/*
 equal.addEventListener('click', () => {
     console.log(`(${equal.innerHTML}):Equal`);
     // 条件に当てはまるときのみ押せるようにする
@@ -244,4 +210,3 @@ equal.addEventListener('click', () => {
     }
     console.log(`FirstOperand:${firstOperand}, SecondOperand:${secondOperand}`);
 });
-*/
