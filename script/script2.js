@@ -6,7 +6,7 @@ class Calculator {
         this.result = null;
     }
 
-    setOperand(value) {
+    setOperand(value) { //オペランドに代入する
         if (this.selectedOperator === null) {
             // 演算子が未選択のとき...
             this.pre = parseFloat(value);
@@ -44,6 +44,9 @@ class Calculator {
     percent() {
         this.result = this.pre * 0.01;
         return this.result;
+        // %を押下後...
+        // 即座に結果を表示し...
+        // その結果をオペランドとして扱う
     }
 
     plusOrMinus() {
@@ -57,6 +60,7 @@ class Calculator {
 }
 
 const numbers = document.querySelectorAll('button[data-numbers');
+const tForms = document.querySelectorAll('button[data-transformation]');
 const clear = document.querySelector('button[data-clear]');
 const clearEntries = document.querySelector('button[data-clearEntries]');
 const operations = document.querySelectorAll('button[data-operation]');
@@ -89,11 +93,28 @@ numbers.forEach(number => {
         } else { // 以上の条件に当てはまらないとき...
             result.value += numberText; //数字を後ろに追加する
         }
-        // if (result.value === '0') {// 表示値が0の時...
-        //     result.value = numberText;// 数値を表示し...
-        // } else {// 以降は数値を後ろに追加する.
-        //     result.value += numberText;
-        // }
+    });
+});
+
+let transformNumber = null;
+tForms.forEach(transfomer => {
+    transfomer.addEventListener('click', () => {
+        const tForm = transfomer.innerHTML;
+        calculator.setOperand(result.value); //?
+        console.log(`Transfomrer:(${tForm})`);
+        switch (transformNumber) {
+            //! 押下後、結果をオペランドにしなければいけない
+            case '%':
+                calculator.percent();
+                result.value = calculator.getResult().toString();
+                break;
+            case '±':
+                calculator.plusOrMinus();
+                result.value = calculator.getResult().toString();
+                break;
+            default:
+                console.error(`意図しないオペレータ:TransformEvent`);
+        }
     });
 });
 
@@ -132,7 +153,7 @@ equal.addEventListener('click', () => {
 
     switch (currentOperator) {
         case '+':
-            calculator.add(); // 他の演算子に対する呼び出しも追加
+            calculator.add();
             result.value = calculator.getResult().toString();
             break;
         case '-':
@@ -147,15 +168,7 @@ equal.addEventListener('click', () => {
             calculator.multiply();
             result.value = calculator.getResult().toString();
             break;
-        case '%': //TODO 押したらすぐにresultを表示させる
-            calculator.percent();
-            result.value = calculator.getResult().toString();
-            break;
-        case '±': //TODO 押したらすぐにresultを表示させる
-            calculator.plusOrMinus();
-            result.value = calculator.getResult().toString();
-            break;
         default:
-            console.log(`意図しないオペレータ`);
+            console.error(`意図しないオペレータ:EqualEvent`);
     }
 });
