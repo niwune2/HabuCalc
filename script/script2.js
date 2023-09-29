@@ -1,6 +1,6 @@
 class Calculator {
     constructor() {
-        this.pre = 0;
+        this.pre = null;
         this.next = null;
         this.selectedOperator = null;
         this.result = null;
@@ -42,7 +42,11 @@ class Calculator {
     }
 
     percent() {
-        this.result = this.pre * 0.01;
+        if (this.next !== null) {
+            this.result = this.next * 0.01;
+        } else {
+            this.result = this.pre * 0.01;
+        }
         return this.result;
         // %を押下後...
         // 即座に結果を表示し...
@@ -67,7 +71,10 @@ const operations = document.querySelectorAll('button[data-operation]');
 const equal = document.querySelector('button[data-equal]');
 const result = document.getElementById('result');
 
-// Calculatorクラスのインスタンスを作成
+let firstOperand = null;
+let secondOperand = null;
+let transformNumber = null;
+let currentOperator = null;
 const calculator = new Calculator();
 
 result.value = '0';
@@ -75,58 +82,64 @@ numbers.forEach(number => {
     number.addEventListener('click', () => {
         const numberText = number.getAttribute('data-numbers');
         if (result.value === '0' && numberText === '00') {
-            // 0の時,00を押しても...
-            result.value = '0';// 0のまま.
+            result.value = '0';
         } else if (
             (result.value === '0' && numberText !== '00') ||
             (result.value === '0' && numberText !== '0')) {
-            // 0の時,0か00以外を押した時に...
-            if (numberText === '.') {// '.'を押すと...
-                result.value = '0.';// '0.'を表示.
-            } else { // '.'を押さないときは...
-                result.value = numberText;// 数字を表示.
+            if (numberText === '.') {
+                result.value = '0.';
+            } else {
+                result.value = numberText;
             }
         } else if (
-            (result.value.indexOf('.') !== -1) && // 表示に'.'があり...
-            (numberText === '.')) { //かつ'.'が入力されたら...
-            return; //何もしない.
-        } else { // 以上の条件に当てはまらないとき...
-            result.value += numberText; //数字を後ろに追加する
+            (result.value.indexOf('.') !== -1) &&
+            (numberText === '.')) {
+            return;
+        } else {
+            result.value += numberText;
+        }
+
+        if (calculator.pre !== null ) { //TODO 上の条件文に組み込み
+            result.value = numberText;
+        } else if (calculator.pre !== null || result.value !== '0'){
+            result.value += numberText; //!
         }
     });
 });
 
-let transformNumber = null;
 tForms.forEach(transfomer => {
     transfomer.addEventListener('click', () => {
         const tForm = transfomer.innerHTML;
         calculator.setOperand(result.value); //?
         console.log(`Transfomrer:(${tForm})`);
-        switch (transformNumber) {
-            //! 押下後、結果をオペランドにしなければいけない
-            case '%':
-                calculator.percent();
-                result.value = calculator.getResult().toString();
-                break;
-            case '±':
-                calculator.plusOrMinus();
-                result.value = calculator.getResult().toString();
-                break;
-            default:
-                console.error(`意図しないオペレータ:TransformEvent`);
+        // (if)0か0以外か
+        if (result.value !== '0') {
+            switch (tForm) {
+                case '%':
+                    calculator.percent(); //?
+                    result.value = calculator.getResult().toString(); //?
+                    break;
+                case '±':
+                    calculator.plusOrMinus(); //?
+                    result.value = calculator.getResult().toString(); //?
+                    break;
+                default:
+                    console.error(`意図しないオペレータ:TransformEvent`);
+            }
         }
+        console.log(`OperandA: ${calculator.pre}`);
     });
 });
 
-let currentOperator = null;
 operations.forEach(operator => {
     operator.addEventListener('click', () => {
         const operatorText = operator.innerHTML;
         calculator.setOperand(result.value);
         calculator.selectedOperator = currentOperator = operatorText;
-        result.value = '0';
+        result.value = calculator.pre;
         //オペランドAはオペレータ押下時まで保持する
-        console.log(`currentOperator:${currentOperator}`);
+        console.log(`OperandA: ${calculator.pre}`);
+        console.log(`currentOperator: ${currentOperator}`);
     });
 });
 
@@ -171,4 +184,7 @@ equal.addEventListener('click', () => {
         default:
             console.error(`意図しないオペレータ:EqualEvent`);
     }
+    console.log(`OperandB: ${calculator.next}`);
+    console.log(`Result: ${result.value}`);
+    console.log(`Formula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
 });

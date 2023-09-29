@@ -15,6 +15,7 @@ memo.md
   - [コード置き場](#コード置き場)
     - [ボタンがクリックされたときの処理を設定](#ボタンがクリックされたときの処理を設定)
     - ['0'と'.'を扱う条件分岐](#0とを扱う条件分岐)
+    - [0判定(2023/09/29)](#0判定20230929)
 
 
 |     | A:Onetime      | B:Manytimes      | C:C / CE    | D:% / ±          |
@@ -704,4 +705,27 @@ equal.addEventListener('click', () => {
     console.log(`FirstOperand:${firstOperand}, SecondOperand:${secondOperand}`);
 });
 
+```
+
+### 0判定(2023/09/29)
+```js
+        if (result.value === '0' && numberText === '00') {
+            // 0の時,00を押しても...
+            result.value = '0';// 0のまま.
+        } else if (
+            (result.value === '0' && numberText !== '00') ||
+            (result.value === '0' && numberText !== '0')) {
+            // 0の時,0か00以外を押した時に...
+            if (numberText === '.') {// '.'を押すと...
+                result.value = '0.';// '0.'を表示.
+            } else { // '.'を押さないときは...
+                result.value = numberText;// 数字を表示.
+            }
+        } else if (
+            (result.value.indexOf('.') !== -1) && // 表示に'.'があり...
+            (numberText === '.')) { //かつ'.'が入力されたら...
+            return; //何もしない.
+        } else { // 以上の条件に当てはまらないとき...
+            result.value += numberText; //数字を後ろに追加する
+        }
 ```
