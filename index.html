@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css">
     <script src="script/script2.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
     <title>計算機2</title>
 </head>
 
@@ -14,6 +17,7 @@
         <table>
             <tr>
                 <td colspan="4">
+                    <input type="text" name="screen" id="previousOperand" readonly>
                     <input type="text" name="screen" id="result" readonly>
                 </td>
             </tr>
@@ -55,6 +59,8 @@
             </tr>
         </table>
     </div>
+    <div class="result-log"></div>
+    <button id="clearLog">CLEAR</button>
     <!--
         <ul>どういう計算機にするか...
         <li>ボタンに属性やidはつけず、押されたボタンをjsで読み取り処理を実行する</li>

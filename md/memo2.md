@@ -1,9 +1,42 @@
 # memo2 2023/09/27~
 - [memo2 2023/09/27~](#memo2-20230927)
+  - [TODO](#todo)
+    - [2023/10/01](#20231001)
   - [`%`と`±`の扱い](#との扱い)
     - [a](#a)
       - [誤ったコード](#誤ったコード)
       - [正しいコード](#正しいコード)
+    - [numbers.](#numbers)
+
+## TODO
+### 2023/10/01
+- [x] イコールを押した後の表示値はオペランドAとして扱う
+    ```
+    OperandA: 8
+    currentOperator: +
+    nextStage: number
+
+    EQUAL
+    OperandA: 8
+    OperandB: 7
+    currentOperator: +
+    Result: 15　<- この数値をOperandAにする
+    nextStage: number
+    Formula: 8 + 7 = 15
+
+    OperandA: 8 <- ここは'15'となるべき
+    currentOperator: +
+    nextStage: number
+
+    EQUAL
+    OperandA: 8
+    OperandB: 5
+    currentOperator: +
+    Result: 13
+    nextStage: number
+    Formula: 8 + 5 = 13
+    ```
+    - [x] operationイベントに条件文を追加する
 
 ## `%`と`±`の扱い
 `%`と`±`は、オペレータとは区別して数値を処理するようにする。
@@ -64,3 +97,280 @@ percent() {
     return this.result;
 }
 ```
+
+### numbers.
+```plantuml
+!pragma useVerticalIf on
+!theme crt-green
+
+@startuml
+start
+if (result.value == '0' \n&&\n numberText == '00') then (条件1)
+  :result.value = '0';
+else if (result.value == '0' && numberText != '00') then (条件2)
+  if (numberText == '.') then (条件2-1)
+    :result.value = '0.';
+  else (条件2-2)
+    :result.value = numberText;
+  endif
+else if (result.value.indexOf('.') != -1 && numberText == '.') then (条件3)
+  :return;
+else if (calculator.next == null) then (条件4)
+  :result.value = numberText;
+else (条件5)
+  if (calculator.next != null || result.value != '0') then (条件5-1)
+    :result.value += numberText;
+  endif
+endif
+
+stop
+
+@enduml
+```
+
+1. オペレータを押したあと
+2. いずれかの数字を入力するまでは
+3. オペランドAの数値は保持し
+4. 数字ボタンを押した時に
+5. 表示がリセットされ
+6. 新しい数値を入力可能にする
+```js
+if (currentOperator !== null && numberText ===　number) {
+   result.value = numberText;
+} else if ()
+```
+
+```js
+
+class Calculator {
+    constructor() {
+        this.pre = null;
+        this.next = null;
+        this.selectedOperator = null;
+        this.result = null;
+    }
+
+    setOperand(value) {
+        if (this.selectedOperator === null) {
+            this.pre = parseFloat(value);
+        } else {
+            this.next = parseFloat(value);
+        }
+    }
+
+    add() {
+        this.result = this.pre + this.next;
+        return this.result;
+    }
+
+    subtract() {
+        this.result = this.pre - this.next;
+        return this.result;
+    }
+
+    multiply() {
+        this.result = this.pre * this.next;
+        return this.result;
+    }
+
+    divide() {
+        if (this.next === 0) {
+            throw new Error("0で除算はできません");
+        }
+        this.result = this.pre / this.next;
+        return this.result;
+    }
+
+    percent() {
+        if (this.next !== null) {
+            this.result = this.next * 0.01;
+        } else {
+            this.result = this.pre * 0.01;
+        }
+        return this.result;
+    }
+
+    plusOrMinus() {
+        this.result = -this.pre;
+        return this.result;
+    }
+
+    reset() {
+        this.pre = null;
+        this.next = null;
+        this.selectedOperator = null;
+        this.result = null;
+    }
+
+    getResult() {
+        return this.result;
+    }
+}
+
+const numbers = document.querySelectorAll('button[data-numbers');
+const tForms = document.querySelectorAll('button[data-transformation]');
+const clear = document.querySelector('button[data-clear]');
+const clearEntries = document.querySelector('button[data-clearEntries]');
+const operations = document.querySelectorAll('button[data-operation]');
+const equal = document.querySelector('button[data-equal]');
+const result = document.getElementById('result');
+
+let currentOperator = null;
+let nextStage = 'number';
+const calculator = new Calculator();
+
+function displayResult(result) {
+    const resultDisplay = document.querySelector('.result-display');
+    const resultPara = document.createElement('p');
+    resultPara.classList.add('resultPara');
+    resultDisplay.appendChild(resultPara);
+    resultPara.innerHTML = result;
+    resultDisplay.scrollTop = resultDisplay.scrollHeight;
+}
+
+const clearResult = document.getElementById('clearResult');
+clearResult.addEventListener('click', () => {
+    const removeParas = document.querySelectorAll('.resultPara');
+    removeParas.forEach(para => {
+        para.remove();
+    });
+});
+
+result.value = '0';
+numbers.forEach(number => {
+    number.addEventListener('click', () => {
+        const numberText = number.getAttribute('data-numbers');
+        if (calculator.pre === null) {
+            nextStage = 'operator'; //!
+        }
+
+        if (calculator.pre !== null &&
+            nextStage === 'operator'
+        ) {
+            result.value = '';
+            nextStage = 'number';
+        }
+
+        if (result.value === '0' && numberText === '00') {
+            result.value = '0';
+        } else if (
+            (result.value === '0' && numberText !== '00') ||
+            (result.value === '0' && numberText !== '0')) {
+            if (numberText === '.') {
+                result.value = '0.';
+            } else {
+                result.value = numberText;
+            }
+        } else if (
+            (result.value.indexOf('.') !== -1) &&
+            (numberText === '.')) {
+            return;
+        } else {
+            result.value += numberText;
+        }
+    });
+});
+
+tForms.forEach(transfomer => {
+    transfomer.addEventListener('click', () => {
+        const tForm = transfomer.innerHTML;
+        calculator.setOperand(result.value);
+        nextStage = 'operator';
+        if (result.value !== '0') {
+            switch (tForm) {
+                case '%':
+                    calculator.percent();
+                    result.value = calculator.getResult().toString();
+                    break;
+                case '±':
+                    calculator.plusOrMinus();
+                    result.value = calculator.getResult().toString();
+                    break;
+                default:
+                    console.error(`意図しないオペレータ:TransformEvent`);
+            }
+        }
+
+        console.log(`OperandA: ${calculator.pre}
+            \nnextStage: ${nextStage}`);
+        displayResult(`OperandA: ${calculator.pre}
+            <br>nextStage: ${nextStage}`);
+    });
+});
+
+operations.forEach(operator => {
+    operator.addEventListener('click', () => {
+        const operatorText = operator.innerHTML;
+        calculator.setOperand(result.value);
+        calculator.selectedOperator = currentOperator = operatorText;
+        result.value = calculator.pre;
+        nextStage = 'number';
+
+        console.log(`OperandA: ${calculator.pre} \ncurrentOperator: ${currentOperator} \nnextStage: ${nextStage}`);
+        displayResult(`OperandA: ${calculator.pre}
+            <br>currentOperator: ${currentOperator}
+            <br>nextStage: ${nextStage}`);
+    });
+});
+
+clear.addEventListener('click', () => {
+    calculator.reset();
+    result.value = '0';
+    nextStage = 'number';
+
+    console.log(`CLEARED \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage}`);
+    displayResult(`CLEARED
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}
+        <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}`);
+});
+
+clearEntries.addEventListener('click', () => {
+    result.value = '0';
+    nextStage = 'operator';
+
+    console.log(`CLEARED ENTRIES \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage}`);
+    displayResult(`CLEARED ENTRIES
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}    <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}`);
+});
+
+equal.addEventListener('click', () => {
+    calculator.setOperand(result.value);
+    switch (currentOperator) {
+        case '+':
+            calculator.add();
+            result.value = calculator.getResult().toString();
+            break;
+        case '-':
+            calculator.subtract();
+            result.value = calculator.getResult().toString();
+            break;
+        case '÷':
+            calculator.divide();
+            result.value = calculator.getResult().toString();
+            break;
+        case '×':
+            calculator.multiply();
+            result.value = calculator.getResult().toString();
+            break;
+        default:
+            console.error(`意図しないオペレータ:EqualEvent`);
+    }
+
+    console.log(`EQUAL \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage} \nFormula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+
+    displayResult(`EQUAL
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}
+        <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}
+        <br>Formula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+});
+```
+

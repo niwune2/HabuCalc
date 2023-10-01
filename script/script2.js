@@ -53,9 +53,20 @@ class Calculator {
         // その結果をオペランドとして扱う
     }
 
-    plusOrMinus() {
-        this.result = -this.pre;
+    plusOrMinus() { //TODO
+        if (this.next !== null) {
+            this.result = -this.next;
+        } else {
+            this.result = -this.pre;
+        }
         return this.result;
+    }
+
+    reset() {
+        this.pre = null;
+        this.next = null;
+        this.selectedOperator = null;
+        this.result = null;
     }
 
     getResult() {
@@ -70,22 +81,56 @@ const clearEntries = document.querySelector('button[data-clearEntries]');
 const operations = document.querySelectorAll('button[data-operation]');
 const equal = document.querySelector('button[data-equal]');
 const result = document.getElementById('result');
+const preOperand = document.getElementById('previousOperand');
 
-let firstOperand = null;
-let secondOperand = null;
-let transformNumber = null;
+// let firstOperand = null;
+// let secondOperand = null;
+// let transformNumber = null;
 let currentOperator = null;
+let nextStage = 'number';
 const calculator = new Calculator();
 
+function displayLog(result) {
+    const resultLog = document.querySelector('.result-log');
+    const resultPara = document.createElement('p');
+    resultPara.classList.add('resultPara');
+    resultLog.appendChild(resultPara);
+    resultPara.innerHTML = result;
+    resultLog.scrollTop = resultLog.scrollHeight;
+}
+
+const clearLog = document.getElementById('clearLog');
+clearLog.addEventListener('click', () => {
+    const removeParas = document.querySelectorAll('.resultPara');
+    removeParas.forEach(para => {
+        para.remove();
+        console.log('Log Cleared');
+    });
+});
+
 result.value = '0';
+preOperand.value = '0';
 numbers.forEach(number => {
     number.addEventListener('click', () => {
         const numberText = number.getAttribute('data-numbers');
+
+        // オペランドAが設定されていて、次にオペランドBを設定する段階の場合
+        if (calculator.pre !== null && nextStage === 'operator') {
+            // オペランドBの表示をリセット
+            result.value = '';
+            // オペランドBに数値を設定
+            calculator.next = numberText;
+            // オペランドBの設定が完了したので、次のステージへ移行
+            nextStage = 'number';
+        }
+
+        // 数値の表示を更新
         if (result.value === '0' && numberText === '00') {
             result.value = '0';
         } else if (
             (result.value === '0' && numberText !== '00') ||
-            (result.value === '0' && numberText !== '0')) {
+            (result.value === '0' && numberText !== '0')
+        ) {
             if (numberText === '.') {
                 result.value = '0.';
             } else {
@@ -93,16 +138,11 @@ numbers.forEach(number => {
             }
         } else if (
             (result.value.indexOf('.') !== -1) &&
-            (numberText === '.')) {
+            (numberText === '.')
+        ) {
             return;
         } else {
             result.value += numberText;
-        }
-
-        if (calculator.pre !== null ) { //TODO 上の条件文に組み込み
-            result.value = numberText;
-        } else if (calculator.pre !== null || result.value !== '0'){
-            result.value += numberText; //!
         }
     });
 });
@@ -110,24 +150,27 @@ numbers.forEach(number => {
 tForms.forEach(transfomer => {
     transfomer.addEventListener('click', () => {
         const tForm = transfomer.innerHTML;
-        calculator.setOperand(result.value); //?
-        console.log(`Transfomrer:(${tForm})`);
+        calculator.setOperand(result.value);
+        nextStage = 'operator';
         // (if)0か0以外か
         if (result.value !== '0') {
             switch (tForm) {
                 case '%':
-                    calculator.percent(); //?
-                    result.value = calculator.getResult().toString(); //?
+                    calculator.percent();
+                    result.value = calculator.getResult().toString();
                     break;
                 case '±':
-                    calculator.plusOrMinus(); //?
-                    result.value = calculator.getResult().toString(); //?
+                    calculator.plusOrMinus();
+                    result.value = calculator.getResult().toString();
                     break;
                 default:
                     console.error(`意図しないオペレータ:TransformEvent`);
             }
         }
-        console.log(`OperandA: ${calculator.pre}`);
+
+        console.log(`OperandA: ${calculator.pre} \nnextStage: ${nextStage}`);
+        displayLog(`OperandA: ${calculator.pre}
+            <br>nextStage: ${nextStage}`);
     });
 });
 
@@ -136,34 +179,54 @@ operations.forEach(operator => {
         const operatorText = operator.innerHTML;
         calculator.setOperand(result.value);
         calculator.selectedOperator = currentOperator = operatorText;
-        result.value = calculator.pre;
+        preOperand.value = calculator.pre;
+        result.value = '0';
+        nextStage = 'number';
+
+        if (calculator.result !== null) {
+            calculator.pre = calculator.result;
+            preOperand.value = calculator.pre;
+        }
+
         //オペランドAはオペレータ押下時まで保持する
-        console.log(`OperandA: ${calculator.pre}`);
-        console.log(`currentOperator: ${currentOperator}`);
+        console.log(`OperandA: ${calculator.pre} \ncurrentOperator: ${currentOperator} \nnextStage: ${nextStage}`);
+        displayLog(`OperandA: ${calculator.pre}
+            <br>currentOperator: ${currentOperator}
+            <br>nextStage: ${nextStage}`);
     });
 });
 
 clear.addEventListener('click', () => {
-    console.log(`(${clear.innerHTML}):Clear`);
-    // 履歴も含めてすべて消去する
-    // firstOperandをnullにする
-    // secondOperandをnullにする
-    // メソッドの選択をリセットする
+    calculator.reset();
+    result.value = '0';
+    preOperand.value = '0';
+    nextStage = 'number';
 
+    console.log(`CLEARED \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage}`);
+    displayLog(`CLEARED
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}
+        <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}`);
 });
 
 clearEntries.addEventListener('click', () => {
-    console.log(`(${clearEntries.innerHTML}):ClearEntries`);
-    // 現在表示されている数値のみを消去する
-    // result.valueを0にする
-    //数字入力時にnumbersイベントと同じく置き換える
+    result.value = '0';
+    nextStage = 'operator';
 
+    console.log(`CLEARED ENTRIES \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage}`);
+    displayLog(`CLEARED ENTRIES
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}
+        <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}`);
 });
 
-// イコールボタンのクリックイベント
 equal.addEventListener('click', () => {
     calculator.setOperand(result.value);
-
+    preOperand.value = '0';
     switch (currentOperator) {
         case '+':
             calculator.add();
@@ -184,7 +247,14 @@ equal.addEventListener('click', () => {
         default:
             console.error(`意図しないオペレータ:EqualEvent`);
     }
-    console.log(`OperandB: ${calculator.next}`);
-    console.log(`Result: ${result.value}`);
-    console.log(`Formula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+
+    console.log(`EQUAL \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage} \nFormula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+
+    displayLog(`EQUAL
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}
+        <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}
+        <br>Formula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
 });

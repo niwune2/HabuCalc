@@ -3,24 +3,13 @@
 *::before {
     box-sizing: border-box;
     font-weight: normal;
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
-    background-color: rgb(50, 50, 50);
+    background-color: rgb(15, 13, 34);
     /* margin: 0; */
     padding: 0;
-}
-
-code {
-    font-family: 'Courier New', Courier, monospace;
-}
-
-div {
-    /* display: grid;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    margin-top: 20px; */
 }
 
 ul,
@@ -33,7 +22,6 @@ ul {
 }
 
 button {
-    font-family: 'Courier New', Courier, monospace;
     background-color: rgb(160, 160, 160);
     color: white;
     cursor: pointer;
@@ -82,12 +70,49 @@ td {
     background-color: rgba(150, 150, 150, .5);
     color: white;
     border: none;
-    border-radius: 5px 5px 0 0;
+    /* border-radius: 5px 5px 0 0; */
     /* 右上 -> 左上 -> 左下 -> 右下 */
 
-    font-family: 'Courier New', Courier, monospace;
     text-align: right;
     font-size: 2rem;
+}
+
+#previousOperand {
+    width: 280px;
+    height: 30px;
+    margin: 0;
+    background-color: rgba(150, 150, 150, .5);
+    color: white;
+    border: none;
+    border-bottom:2px solid rgba(0, 0, 0, 0.36);
+    border-radius: 5px 5px 0 0;
+    text-align: right;
+    font-size: 1rem;
+}
+
+.result-log {
+    color: rgb(217, 217, 217);
+    border: 2px solid gray;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.192);
+    font-size: 0.9rem;
+    width: 300px;
+    height: 360px;
+    overflow-y: scroll;
+    margin: 20px;
+
+}
+
+.resultPara {
+    padding: 1px;
+    margin: 3px;
+    background-color: rgb(16, 14, 62);
+    box-shadow: 0 0 5px rgba(92, 233, 255, 0.381);
+}
+
+#clearLog {
+    font-size: 1rem;
+    margin: 20px;
+    margin-top: 1px;
 }
 
 [data-operation] {
