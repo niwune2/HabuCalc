@@ -53,7 +53,7 @@ class Calculator {
         // その結果をオペランドとして扱う
     }
 
-    plusOrMinus() { //TODO
+    plusOrMinus() {
         if (this.next !== null) {
             this.result = -this.next;
         } else {
@@ -74,6 +74,7 @@ class Calculator {
     }
 }
 
+const buttons = document.querySelectorAll('button');
 const numbers = document.querySelectorAll('button[data-numbers');
 const tForms = document.querySelectorAll('button[data-transformation]');
 const clear = document.querySelector('button[data-clear]');
@@ -99,104 +100,92 @@ function displayLog(result) {
     resultLog.scrollTop = resultLog.scrollHeight;
 }
 
-const clearLog = document.getElementById('clearLog');
-clearLog.addEventListener('click', () => {
-    const removeParas = document.querySelectorAll('.resultPara');
-    removeParas.forEach(para => {
-        para.remove();
-        console.log('Log Cleared');
-    });
-});
+function numberProcess(number) {
+    const numberText = number.getAttribute('data-numbers');
 
-result.value = '0';
-preOperand.value = '0';
-numbers.forEach(number => {
-    number.addEventListener('click', () => {
-        const numberText = number.getAttribute('data-numbers');
-
-        // オペランドAが設定されていて、次にオペランドBを設定する段階の場合
-        if (calculator.pre !== null && nextStage === 'operator') {
-            // オペランドBの表示をリセット
-            result.value = '';
-            // オペランドBに数値を設定
-            calculator.next = numberText;
-            // オペランドBの設定が完了したので、次のステージへ移行
-            nextStage = 'number';
-        }
-
-        // 数値の表示を更新
-        if (result.value === '0' && numberText === '00') {
-            result.value = '0';
-        } else if (
-            (result.value === '0' && numberText !== '00') ||
-            (result.value === '0' && numberText !== '0')
-        ) {
-            if (numberText === '.') {
-                result.value = '0.';
-            } else {
-                result.value = numberText;
-            }
-        } else if (
-            (result.value.indexOf('.') !== -1) &&
-            (numberText === '.')
-        ) {
-            return;
-        } else {
-            result.value += numberText;
-        }
-    });
-});
-
-tForms.forEach(transfomer => {
-    transfomer.addEventListener('click', () => {
-        const tForm = transfomer.innerHTML;
-        calculator.setOperand(result.value);
-        nextStage = 'operator';
-        // (if)0か0以外か
-        if (result.value !== '0') {
-            switch (tForm) {
-                case '%':
-                    calculator.percent();
-                    result.value = calculator.getResult().toString();
-                    break;
-                case '±':
-                    calculator.plusOrMinus();
-                    result.value = calculator.getResult().toString();
-                    break;
-                default:
-                    console.error(`意図しないオペレータ:TransformEvent`);
-            }
-        }
-
-        console.log(`OperandA: ${calculator.pre} \nnextStage: ${nextStage}`);
-        displayLog(`OperandA: ${calculator.pre}
-            <br>nextStage: ${nextStage}`);
-    });
-});
-
-operations.forEach(operator => {
-    operator.addEventListener('click', () => {
-        const operatorText = operator.innerHTML;
-        calculator.setOperand(result.value);
-        calculator.selectedOperator = currentOperator = operatorText;
-        preOperand.value = calculator.pre;
-        result.value = '0';
+    // オペランドAが設定されていて、次にオペランドBを設定する段階の場合
+    if (calculator.pre !== null && nextStage === 'operator') {
+        // オペランドBの表示をリセット
+        result.value = '';
+        // オペランドBに数値を設定
+        calculator.next = numberText;
+        // オペランドBの設定が完了したので、次のステージへ移行
         nextStage = 'number';
+    }
 
-        if (calculator.result !== null) {
-            calculator.pre = calculator.result;
-            preOperand.value = calculator.pre;
+    // 数値の表示を更新
+    if (result.value === '0' && numberText === '00') {
+        result.value = '0';
+    } else if (
+        (result.value === '0' && numberText !== '00') ||
+        (result.value === '0' && numberText !== '0')
+    ) {
+        if (numberText === '.') {
+            result.value = '0.';
+        } else {
+            result.value = numberText;
         }
+    } else if (
+        (result.value.indexOf('.') !== -1) &&
+        (numberText === '.')
+    ) {
+        return;
+    } else {
+        result.value += numberText;
+    }
+}
 
-        //オペランドAはオペレータ押下時まで保持する
-        console.log(`OperandA: ${calculator.pre} \ncurrentOperator: ${currentOperator} \nnextStage: ${nextStage}`);
-        displayLog(`OperandA: ${calculator.pre}
-            <br>currentOperator: ${currentOperator}
-            <br>nextStage: ${nextStage}`);
-    });
-});
+function transformProcess(transfomer) {
+    const tForm = transfomer.innerHTML;
+    calculator.setOperand(result.value);
+    nextStage = 'operator';
+    // (if)0か0以外か
+    if (result.value !== '0') {
+        switch (tForm) {
+            case '%':
+                calculator.percent();
+                result.value = calculator.getResult().toString();
+                break;
+            case '±':
+                calculator.plusOrMinus();
+                result.value = calculator.getResult().toString();
+                break;
+            default:
+                console.error(`意図しないオペレータ:TransformEvent`);
+        }
+    }
 
-clear.addEventListener('click', () => {
+    console.log(`OperandA: ${calculator.pre} \nnextStage: ${nextStage}`);
+    displayLog(`OperandA: ${calculator.pre}
+        <br>nextStage: ${nextStage}`);
+}
+
+function operationProcess(operator) {
+    calculator.setOperand(result.value);
+    calculator.selectedOperator = currentOperator = operator;
+    preOperand.value = calculator.pre;
+    result.value = '0';
+    nextStage = 'number';
+
+    if (calculator.result !== null) {
+        calculator.pre = calculator.result;
+        preOperand.value = calculator.pre;
+    }
+
+    if (calculator.result === result.value && currentOperator !== null) { //!
+        calculator.pre = result.value;
+    } //!
+
+    // console.log(operator);
+
+    //オペランドAはオペレータ押下時まで保持する
+    console.log(`OperandA: ${calculator.pre} \ncurrentOperator: ${currentOperator} \nnextStage: ${nextStage}`);
+    displayLog(`OperandA: ${calculator.pre}
+        <br>currentOperator: ${currentOperator}
+        <br>nextStage: ${nextStage}`);
+}
+
+function clearProcess() {
     calculator.reset();
     result.value = '0';
     preOperand.value = '0';
@@ -209,9 +198,9 @@ clear.addEventListener('click', () => {
         <br>currentOperator: ${calculator.selectedOperator}
         <br>Result: ${result.value}
         <br>nextStage: ${nextStage}`);
-});
+}
 
-clearEntries.addEventListener('click', () => {
+function ceProcess() {
     result.value = '0';
     nextStage = 'operator';
 
@@ -222,9 +211,9 @@ clearEntries.addEventListener('click', () => {
         <br>currentOperator: ${calculator.selectedOperator}
         <br>Result: ${result.value}
         <br>nextStage: ${nextStage}`);
-});
+}
 
-equal.addEventListener('click', () => {
+function equalProcess() {
     calculator.setOperand(result.value);
     preOperand.value = '0';
     switch (currentOperator) {
@@ -257,4 +246,170 @@ equal.addEventListener('click', () => {
         <br>Result: ${result.value}
         <br>nextStage: ${nextStage}
         <br>Formula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+}
+
+function numberHandler(e) {
+    switch (e) {
+        case '0':
+            if (result.value === '0') {
+                return;
+            } else {
+                result.value += '0';
+            } break;
+        case '1':
+            if (result.value === '0') {
+                result.value = '1';
+            } else {
+                result.value += '1';
+            } break;
+        case '2':
+            if (result.value === '0') {
+                result.value = '2';
+            } else {
+                result.value += '2';
+            } break;
+        case '3':
+            if (result.value === '0') {
+                result.value = '3';
+            } else {
+                result.value += '3';
+            } break;
+        case '4':
+            if (result.value === '0') {
+                result.value = '4';
+            } else {
+                result.value += '4';
+            } break;
+        case '5':
+            if (result.value === '0') {
+                result.value = '5';
+            } else {
+                result.value += '5';
+            } break;
+        case '6':
+            if (result.value === '0') {
+                result.value = '6';
+            } else {
+                result.value += '6';
+            } break;
+        case '7':
+            if (result.value === '0') {
+                result.value = '7';
+            } else {
+                result.value += '7';
+            } break;
+        case '8':
+            if (result.value === '0') {
+                result.value = '8';
+            } else {
+                result.value += '8';
+            } break;
+        case '9':
+            if (result.value === '0') {
+                result.value = '9';
+            } else {
+                result.value += '9';
+            } break;
+    }
+}
+
+
+const clearLog = document.getElementById('clearLog');
+clearLog.addEventListener('click', () => {
+    const removeParas = document.querySelectorAll('.resultPara');
+    removeParas.forEach(para => {
+        para.remove();
+        console.log('Log Cleared');
+    });
 });
+
+result.value = '0';
+preOperand.value = '0';
+numbers.forEach(number => {
+    number.addEventListener('click', () => {
+        numberProcess(number);
+    });
+});
+
+tForms.forEach(transfomer => {
+    transfomer.addEventListener('click', () => {
+        transformProcess(transfomer);
+    });
+});
+
+operations.forEach(operator => {
+    operator.addEventListener('click', () => {
+        const operatorText = operator.innerHTML;
+        operationProcess(operatorText);
+    });
+});
+
+clear.addEventListener('click', () => {
+    clearProcess();
+});
+
+clearEntries.addEventListener('click', () => {
+    ceProcess();
+});
+
+equal.addEventListener('click', () => {
+    equalProcess();
+});
+
+document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    if (key >= '0' && key <= '9') {
+        numberHandler(key);
+    } else if (key === '+' || key === '-' || key === '*' || key === '/') { //!
+        operations.forEach(key => {
+            // console.log(key.innerHTML);
+            const operatorKey = key.innerHTML;
+            switch (operatorKey) {
+                case '+':
+                    operationProcess('+');
+                    break;
+                case '-':
+                    operationProcess('-');
+                    break;
+                case '*':
+                    operationProcess('*');
+                    break;
+                case '/':
+                    operationProcess('/');
+                    break;
+            }
+        })
+    }
+});
+
+// function operatorHandler(operator) {
+//     // const operatorText = key.innerHTML;
+//     // const plus = '<button data-operation="">+</button>';
+//     switch (operator) {
+//         case '+':
+//             operationProcess(plus);
+//             break;
+//         case '-':
+//             operationProcess('-');
+//             break;
+//         case '*':
+//             operationProcess('+');
+//             break;
+//         case '/':
+//             operationProcess('/');
+//             break;
+//     }
+//     // console.log(key);
+// }
+
+// operations.forEach(operator => {
+//     operator.addEventListener('keydown', (e) => {
+//         const key = e.key;
+//         switch (key) {
+//             case '+':
+//                 operationProcess('+');
+//                 break;
+//         }
+//         // console.log(key);
+//     });
+// });
