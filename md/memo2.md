@@ -7,6 +7,9 @@
       - [誤ったコード](#誤ったコード)
       - [正しいコード](#正しいコード)
     - [numbers.](#numbers)
+  - [数字'5'を入力したとき](#数字5を入力したとき)
+  - ['5 + 6 ='](#5--6-)
+  - [続けて計算](#続けて計算)
 
 ## TODO
 ### 2023/10/01
@@ -374,3 +377,309 @@ equal.addEventListener('click', () => {
 });
 ```
 
+## 数字'5'を入力したとき
+```js
+//104
+    const numberText = number.getAttribute('data-numbers');
+
+//107
+    if (calculator.pre !== null && nextStage === 'operator') {
+
+//117
+    if (result.value === '0' && numberText === '00') {
+
+//119
+    } else if (
+
+//123
+        if (numberText === '.') {
+
+//126
+            result.value = numberText;
+
+//136
+} // '5'を表示
+
+//331
+    });
+```
+
+## '5 + 6 ='
+
+```js
+//217
+    calculator.setOperand(result.value);
+
+//10
+        if (this.selectedOperator === null) {
+
+//16
+            this.next = parseFloat(value);
+
+//19
+    }
+
+//218
+    preOperand.value = '0';
+
+//219
+    switch (currentOperator) {
+
+//221
+            calculator.add();
+
+//22
+            calculator.add();
+
+//23
+        return this.result;
+
+//23
+        return this.result;
+
+//222
+            result.value = calculator.getResult().toString();
+
+//73
+        return this.result;
+
+//73
+        return this.result;
+
+//222
+            result.value = calculator.getResult().toString();
+
+//223
+            break;
+
+//240
+    console.log(`EQUAL \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage} \nFormula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+
+//242
+    displayLog(`EQUAL
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}
+        <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}
+        <br>Formula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+
+//95
+    const resultLog = document.querySelector('.result-log');
+//96
+    const resultPara = document.createElement('p');
+//97
+    resultPara.classList.add('resultPara');
+//98
+    resultLog.appendChild(resultPara);
+//99
+    resultPara.innerHTML = result;
+//100
+    resultLog.scrollTop = resultLog.scrollHeight;
+//101
+}
+
+//249
+}
+
+//357
+});
+
+```
+
+
+
+## 続けて計算
+```js
+//-----------'5'を押す-----------
+//104
+    const numberText = number.getAttribute('data-numbers');
+//107
+    if (calculator.pre !== null && nextStage === 'operator') {
+//117
+    if (result.value === '0' && numberText === '00') {
+//119
+    } else if (
+//123
+        if (numberText === '.') {
+//126
+            result.value = numberText;
+//136
+}
+//331
+    });
+
+//-----------'+'を押す-----------
+//341
+        const operatorText = operator.innerHTML;
+//342
+        operationProcess(operatorText);
+//164
+    calculator.setOperand(result.value);
+//10
+        if (this.selectedOperator === null) {
+//12
+            this.pre = parseFloat(value);
+//19
+    }
+//165 - 168
+    calculator.selectedOperator = currentOperator = operator;
+    preOperand.value = calculator.pre;
+    result.value = '0';
+    nextStage = 'number';
+
+//170
+    if (calculator.result !== null) {
+//175
+    if (calculator.result === result.value && currentOperator !== null) { //!
+
+//182
+    console.log(`OperandA: ${calculator.pre} \ncurrentOperator: ${currentOperator} \nnextStage: ${nextStage}`);
+    displayLog(`OperandA: ${calculator.pre}
+        <br>currentOperator: ${currentOperator}
+        <br>nextStage: ${nextStage}`);
+//95
+    const resultLog = document.querySelector('.result-log');
+    const resultPara = document.createElement('p');
+    resultPara.classList.add('resultPara');
+    resultLog.appendChild(resultPara);
+    resultPara.innerHTML = result;
+    resultLog.scrollTop = resultLog.scrollHeight;
+}
+
+//186
+}
+
+//344
+    });
+
+//-----------'2'を押す-----------
+//330
+        numberProcess(number);
+//104
+    const numberText = number.getAttribute('data-numbers');
+//107
+    if (calculator.pre !== null && nextStage === 'operator') {
+//117
+    if (result.value === '0' && numberText === '00') {
+//119
+    } else if (
+//123
+        if (numberText === '.') {
+//126
+            result.value = numberText;
+//136
+}
+//331
+    });
+
+//-----------'+'を押す-----------
+//342 - 343
+        const operatorText = operator.innerHTML;
+        operationProcess(operatorText);
+//164
+    calculator.setOperand(result.value);
+//10
+        if (this.selectedOperator === null) {
+//16
+            this.next = parseFloat(value);
+//19
+    }
+//165
+    calculator.selectedOperator = currentOperator = operator;
+//166 - 183
+    preOperand.value = calculator.pre;
+    result.value = '0';
+    nextStage = 'number';
+
+    if (calculator.result !== null) {
+
+    if (calculator.result === result.value && currentOperator !== null) { //!
+
+    console.log(`OperandA: ${calculator.pre} \ncurrentOperator: ${currentOperator} \nnextStage: ${nextStage}`);
+    console.log(`OperandA: ${calculator.pre} \ncurrentOperator: ${currentOperator} \nnextStage: ${nextStage}`);
+//95 - 101
+    const resultLog = document.querySelector('.result-log');
+    const resultPara = document.createElement('p');
+    resultPara.classList.add('resultPara');
+    resultLog.appendChild(resultPara);
+    resultPara.innerHTML = result;
+    resultLog.scrollTop = resultLog.scrollHeight;
+}
+
+// 186
+}
+//344
+    });
+
+//-----------'6'を押す-----------
+//330
+        numberProcess(number);
+//104
+    const numberText = number.getAttribute('data-numbers');
+//107
+    if (calculator.pre !== null && nextStage === 'operator') {
+//117
+    if (result.value === '0' && numberText === '00') {
+//119
+    } else if (
+//123
+        if (numberText === '.') {
+//126
+            result.value = numberText;
+//136
+}
+//331
+    });
+
+//-----------'='を押す-----------
+//356
+    equalProcess();
+//217
+    calculator.setOperand(result.value);
+//10
+        if (this.selectedOperator === null) {
+//16
+            this.next = parseFloat(value);
+//19
+    }
+//218
+    preOperand.value = '0';
+//219
+    switch (currentOperator) {
+//221
+            calculator.add();
+//22
+        this.result = this.pre + this.next;
+        return this.result;
+//73
+        return this.result;
+//222
+            result.value = calculator.getResult().toString();
+//223
+            break;
+//240 - 242
+    console.log(`EQUAL \nOperandA: ${calculator.pre} \nOperandB: ${calculator.next} \ncurrentOperator: ${calculator.selectedOperator} \nResult: ${result.value} \nnextStage: ${nextStage} \nFormula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+    displayLog(`EQUAL
+        <br>OperandA: ${calculator.pre}
+        <br>OperandB: ${calculator.next}
+        <br>currentOperator: ${calculator.selectedOperator}
+        <br>Result: ${result.value}
+        <br>nextStage: ${nextStage}
+        <br>Formula: ${calculator.pre} ${currentOperator} ${calculator.next} = ${result.value}`);
+//95
+    const resultLog = document.querySelector('.result-log');
+    const resultPara = document.createElement('p');
+    resultPara.classList.add('resultPara');
+    resultLog.appendChild(resultPara);
+    resultPara.innerHTML = result;
+    resultLog.scrollTop = resultLog.scrollHeight;
+    }
+//249
+}
+//357
+});
+
+//-----------表示結果'11'-----------
+
+```

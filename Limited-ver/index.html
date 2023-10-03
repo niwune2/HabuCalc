@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <title>計算機2</title>
+</head>
+
+<body>
+    <div class="calculator">
+        <table>
+            <tr>
+                <td colspan="4">
+                    <input type="text" name="screen" id="previousOperand" readonly>
+                    <input type="text" name="screen" id="result" readonly>
+                </td>
+            </tr>
+            <tr>
+                <!-- 一段目 -->
+                <td><button data-clear="clear">C</button></td>
+                <td><button data-clearEntries>CE</button></td>
+            </tr>
+            <tr>
+                <td><button data-numbers="1">1</button></td>
+                <td><button data-numbers="2">2</button></td>
+                <td><button data-numbers="3">3</button></td>
+                <td><button data-operation>&#043;</button></td><!-- + -->
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <button id="equal" data-equal>&#061;</button>
+                </td><!-- = -->
+            </tr>
+        </table>
+    </div>
+    <div class="result-log"></div>
+    <button id="clearLog">CLEAR</button>
+</body>
+
+</html>

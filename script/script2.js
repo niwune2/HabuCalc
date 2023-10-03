@@ -11,11 +11,18 @@ class Calculator {
             // 演算子が未選択のとき...
             this.pre = parseFloat(value);
             // オペランドAに表示値を代入
-        } else {
+        } else if (this.selectedOperator !== null) {
             // 演算子が選択済みのとき...
             this.next = parseFloat(value);
             // オペランドBに表示値を代入
+        } else if (this.result !== null) {
+            this.pre = this.next;
+            this.next = null;
         }
+        // 1. this.result !== null
+        // 2. this.selectedOperator !== null
+        // 3. this.pre = this.next
+        // 4. this.next = null
     }
 
     add() {
@@ -104,22 +111,21 @@ function numberProcess(number) {
     const numberText = number.getAttribute('data-numbers');
 
     // オペランドAが設定されていて、次にオペランドBを設定する段階の場合
-    if (calculator.pre !== null && nextStage === 'operator') {
-        // オペランドBの表示をリセット
-        result.value = '';
-        // オペランドBに数値を設定
-        calculator.next = numberText;
-        // オペランドBの設定が完了したので、次のステージへ移行
-        nextStage = 'number';
-    }
+    // if (calculator.pre !== null && nextStage === 'operator') {
+    //     // オペランドBの表示をリセット
+    //     result.value = '';
+    //     // オペランドBに数値を設定
+    //     calculator.next = numberText;
+    //     // オペランドBの設定が完了したので、次のステージへ移行
+    //     nextStage = 'number';
+    // }
 
     // 数値の表示を更新
     if (result.value === '0' && numberText === '00') {
         result.value = '0';
     } else if (
         (result.value === '0' && numberText !== '00') ||
-        (result.value === '0' && numberText !== '0')
-    ) {
+        (result.value === '0' && numberText !== '0')) {
         if (numberText === '.') {
             result.value = '0.';
         } else {
@@ -172,7 +178,8 @@ function operationProcess(operator) {
         preOperand.value = calculator.pre;
     }
 
-    if (calculator.result === result.value && currentOperator !== null) { //!
+    if ((calculator.result === result.value) &&
+        (currentOperator !== null)) { //!
         calculator.pre = result.value;
     } //!
 
