@@ -6,23 +6,34 @@ class Calculator {
         this.result = null;
     }
 
-    setOperand(value) { //オペランドに代入する
+    // setOperand(value) { //オペランドに代入する
+    //     if (this.selectedOperator === null) {
+    //         \// 演算子が未選択のとき...
+    //         this.pre = parseFloat(value);
+    //         \// オペランドAに表示値を代入
+    //     } else if (this.selectedOperator !== null) {
+    //         \// 演算子が選択済みのとき...
+    //         this.next = parseFloat(value);
+    //         \// オペランドBに表示値を代入
+    //     } else if (this.result !== null) {
+    //         this.pre = this.next;
+    //         this.next = null;
+    //     }
+    //     // 1. this.result !== null
+    //     // 2. this.selectedOperator !== null
+    //     // 3. this.pre = this.next
+    //     // 4. this.next = null
+    // }
+    setOperand(value) {
         if (this.selectedOperator === null) {
-            // 演算子が未選択のとき...
             this.pre = parseFloat(value);
-            // オペランドAに表示値を代入
         } else if (this.selectedOperator !== null) {
-            // 演算子が選択済みのとき...
             this.next = parseFloat(value);
-            // オペランドBに表示値を代入
-        } else if (this.result !== null) {
-            this.pre = this.next;
-            this.next = null;
+        } else if (this.pre !== null && this.result !== null) {
+            this.result = this.pre;
+        } else {
+            this.next = parseFloat(value);
         }
-        // 1. this.result !== null
-        // 2. this.selectedOperator !== null
-        // 3. this.pre = this.next
-        // 4. this.next = null
     }
 
     add() {
@@ -122,7 +133,8 @@ function numberProcess(number) {
 
     // 数値の表示を更新
     if (result.value === '0' && numberText === '00') {
-        result.value = '0';
+        console.error ('\'00\'の表示はできません.他の数字を押してください.');
+        return;
     } else if (
         (result.value === '0' && numberText !== '00') ||
         (result.value === '0' && numberText !== '0')) {
@@ -133,8 +145,7 @@ function numberProcess(number) {
         }
     } else if (
         (result.value.indexOf('.') !== -1) &&
-        (numberText === '.')
-    ) {
+        (numberText === '.')) {
         return;
     } else {
         result.value += numberText;

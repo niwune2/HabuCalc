@@ -710,8 +710,9 @@ equal.addEventListener('click', () => {
 ### 0判定(2023/09/29)
 ```js
         if (result.value === '0' && numberText === '00') {
-            // 0の時,00を押しても...
-            result.value = '0';// 0のまま.
+            // 0の時,00を押しても...0のまま.
+            // result.value = '0';
+            return;
         } else if (
             (result.value === '0' && numberText !== '00') ||
             (result.value === '0' && numberText !== '0')) {
@@ -728,4 +729,46 @@ equal.addEventListener('click', () => {
         } else { // 以上の条件に当てはまらないとき...
             result.value += numberText; //数字を後ろに追加する
         }
+```
+```js
+    if ((result.value === '0' && numberText !== '00') ||
+        (result.value === '0' && numberText !== '0')) {
+        if (numberText === '.') {
+            result.value = '0.';
+        } else {
+            result.value = numberText;
+        }
+    } else if (result.value === '0' && numberText === '00') {
+        return;
+    } else if (
+        (result.value.indexOf('.') !== -1) &&
+        (numberText === '.')) {
+        return;
+    } else {
+        result.value += numberText;
+    }
+
+```
+
+```plantuml
+!theme crt-amber
+@startuml
+title 表示値に応じて\n入力値"0"や"."の扱いを判定する
+
+start
+if (表示値 = 0 かつ 入力値 = 00)
+    :return;;
+else if (表示値 = 0 かつ　入力値 = 00\nまたは\n表示値 = 0 かつ　入力値 = 0)
+    if (入力値 = '.')
+        :表示値 = '0.';
+    else
+        :表示値 = 入力値;
+    endif
+else if (表示値に'.'を含み\nかつ\n入力値 = '.')
+    :return;;
+else
+    :表示値 += 入力値;
+endif
+stop
+@enduml
 ```
