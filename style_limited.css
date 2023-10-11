@@ -109,6 +109,13 @@ td {
     margin-top: 1px;
 }
 
+/* #copyLog {
+    font-size: 0.9rem;
+    margin: 20px;
+    margin-top: 1px;
+} */
+
+
 [data-operation] {
     background-color: rgb(230, 159, 28);
 }

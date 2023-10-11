@@ -6,15 +6,31 @@ class Calculator {
         this.result = null;
     }
 
+    // setOperand(value) {
+    //     if (this.selectedOperator === null) {
+    //         this.pre = parseFloat(value);
+    //     } else if (this.selectedOperator !== null) {
+    //         this.next = parseFloat(value); //! 3回目に入力された数値はここで'B'に割り振られる
+    //     } else if (this.pre !== null && this.result !== null) {
+    //         this.result = this.pre;
+    //     } else {
+    //         this.next = parseFloat(value);
+    //     }
+    // }
+
     setOperand(value) {
-        if (this.selectedOperator === null) {
+        if (currentStage === 'operandA') {
             this.pre = parseFloat(value);
-        } else if (this.selectedOperator !== null) {
-            this.next = parseFloat(value); //! 3回目に入力された数値はここで'B'に割り振られる
-        } else if (this.pre !== null && this.result !== null) {
-            this.result = this.pre;
-        } else {
+        } else if (currentStage === 'operandB') {
             this.next = parseFloat(value);
+        } else if (currentStage === 'equal') {
+            this.pre = this.result;
+            preOperand.value = result.value;
+        } else if (currentStage === 'operator' || this.next !== null) {
+            //処理を実行してOpeAに代入し、入力をthis.nextに代入
+            //? 処理を実行させるにはどうすればいい？
+            //? 処理した値をOpeAにするには？
+            //? -> operatorProcessで計算を実行し結果をthis.resultに入れる
         }
     }
 
@@ -41,8 +57,15 @@ class Calculator {
 const buttons = document.querySelectorAll('button');
 const result = document.getElementById('result');
 const preOperand = document.getElementById('previousOperand');
+const resultLog = document.querySelector('.result-log');
+const clearLog = document.getElementById('clearLog');
 
-let currentStage = 'number';
+let currentStage = 'operandA';
+// 1.'operandA'
+// 2.'operator'
+// 3.'operandB'
+// 4.'equal'
+
 const calculator = new Calculator();
 let currentOperator = null;
 let currentButton = null;
@@ -70,7 +93,6 @@ function logMessages(pre, next, operator, result, currentStage) {
 }
 
 function displayLog(result) {
-    const resultLog = document.querySelector('.result-log');
     const resultPara = document.createElement('p');
     resultPara.classList.add('resultPara');
     resultLog.appendChild(resultPara);
@@ -101,73 +123,98 @@ function numberProcess(number) {
     }
 }
 
-function operationProcess(operator) {
-    calculator.setOperand(result.value);
-    calculator.selectedOperator = currentOperator = operator;
-    preOperand.value = calculator.pre;//! 3回目の数値以前の計算結果は表示されない
-    result.value = '0';
-    currentStage = 'operator';
+//* operationProcessとequalProcessを統合する
+function handleResult(operator) {
+    const isOperator = operator === '+' || operator === '-' || operator === '×' || operator === '÷';
 
-    // if (calculator.result !== null) {
-    //     calculator.pre = calculator.result;
-    //     preOperand.value = calculator.pre;
-    // }
+    if (isOperator) {
+        calculator.setOperand(result.value);//OpeAへ
+        calculator.selectedOperator = currentOperator = operator;
+        preOperand.value = calculator.pre;
+        result.value = '0';
 
-
-    // if ((calculator.result === result.value) &&
-    //     (calculator.selectedOperator !== null)) { //!
-    //     calculator.pre = result.value;
-    // } //!
-
-    logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
-
+        logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
+    } else if (operator === '=') {
+        calculator.setOperand(result.value);//OpeBへ
+        switch (calculator.selectedOperator) {
+            case '+':
+                calculator.add();
+                result.value = calculator.getResult().toString();
+                break;
+            default:
+        }
+        logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
+    } else if (currentStage === 'operator' && this.next !== null) {
+        // 2回目のオペレータ押下後
+        switch (calculator.selectedOperator) {
+            case '+':
+                calculator.add();
+                preOperand.value = calculator.getResult().toString();
+                break;
+            default:
+        }
+        logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
+    }
 }
+
+
+// function operationProcess(operator) {
+//     calculator.setOperand(result.value);
+//     calculator.selectedOperator = currentOperator = operator;
+//     preOperand.value = calculator.pre;//! 3回目の数値以前の計算結果は表示されない
+//     result.value = '0';
+
+//     // 2回目以降のオペレータステージ
+//     // if (currentStage === 'operandB')
+
+//     // if (calculator.result !== null) {
+//     //     calculator.pre = calculator.result;
+//     //     preOperand.value = calculator.pre;
+//     // }
+
+
+//     // if ((calculator.result === result.value) &&
+//     //     (calculator.selectedOperator !== null)) { //!
+//     //     calculator.pre = result.value;
+//     // } //!
+
+//     logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
+
+// }
+
+// function equalProcess() { //! 意図しない連続 "33"
+//     calculator.setOperand(result.value);
+//     // if (preOperand.value !== null) {
+//     //     result.value = preOperand.value;
+//     //     preOperand.value = '0';
+//     // }
+
+//     switch (calculator.selectedOperator) {
+//         case '+':
+//             calculator.add();
+//             result.value = calculator.getResult().toString(); //! "33"になるポイント
+//             // calculator.selectedOperator = null;
+//             break;
+//         default:
+//         // console.error(`意図しないオペレータ:EqualEvent`);
+//     }
+
+//     logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
+// }
 
 function clearProcess() {
     calculator.reset();
     result.value = '0';
     preOperand.value = '0';
-    currentStage = 'number';
 
     logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
 }
 
 function ceProcess() {
     result.value = '0';
-    currentStage = 'number';
 
     logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
 }
-
-function equalProcess() { //! 意図しない連続 "33"
-    calculator.setOperand(result.value);
-    currentStage = 'result';
-    // if (preOperand.value !== null) {
-    //     result.value = preOperand.value;
-    //     preOperand.value = '0';
-    // }
-
-    switch (calculator.selectedOperator) {
-        case '+':
-            calculator.add();
-            result.value = calculator.getResult().toString(); //! "33"になるポイント
-            // calculator.selectedOperator = null;
-            break;
-        default:
-        // console.error(`意図しないオペレータ:EqualEvent`);
-    }
-
-    logMessages(calculator.pre, calculator.next, calculator.selectedOperator, calculator.result, currentStage);
-}
-
-const clearLog = document.getElementById('clearLog');
-clearLog.addEventListener('click', () => {
-    const removeParas = document.querySelectorAll('.resultPara');
-    removeParas.forEach(para => {
-        para.remove();
-        console.log('Log Cleared');
-    });
-});
 
 result.value = '0';
 preOperand.value = '0';
@@ -176,24 +223,40 @@ buttons.forEach(button => {
         const buttonText = button.innerHTML;
         currentButton = buttonText;
         const isNumber = /^[0-9]+$/.test(buttonText);
-        const isOperator = buttonText === '+' ||buttonText === '-' ||buttonText === '×' ||buttonText === '÷';
-
-        if (isNumber){
-            console.log('数字ボタンが押された');
+        const isOperator = buttonText === '+' || buttonText === '-' || buttonText === '×' || buttonText === '÷';
+        if (isNumber) {
             numberProcess(button);
-        } else if (isOperator){
-            console.log('オペレータが押された');
-            operationProcess(buttonText);
-        } else if (buttonText === '='){
-            console.log('\'=\'が押された');
-            equalProcess();
+            if (calculator.pre !== null) { //!
+                currentStage = 'operandB';
+            } else {
+                currentStage = 'operandA';
+            }
+        } else if (isOperator) {
+            // operationProcess(buttonText);
+            handleResult(buttonText);
+            currentStage = 'operator';
+        } else if (buttonText === '=') {
+            // equalProcess();
+            handleResult(buttonText);
+            currentStage = 'equal';
         } else if (buttonText === 'C') {
-            console.log('\'C\'が押された');
             clearProcess();
+            currentStage = 'operandA';
         } else if (buttonText === 'CE') {
-            console.log('\'CE\'が押された');
             ceProcess();
+            if (calculator.pre !== null) { //!
+                currentStage = 'operandB';
+            } else {
+                currentStage = 'operandA';
+            }
+        } else if (buttonText === 'CLEAR') {
+            const removeParas = document.querySelectorAll('.resultPara');
+            removeParas.forEach(para => {
+                para.remove();
+                console.log('Logs Cleared');
+            });
         }
-    })
+        console.log('currentStage:' + currentStage);
+    });
 });
 
