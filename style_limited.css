@@ -60,7 +60,7 @@ td {
     width: 150px;
 }
 
-#result {
+#currentOperand {
     width: 280px;
     height: 60px;
     margin: 0;
