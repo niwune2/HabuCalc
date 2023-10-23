@@ -11,6 +11,10 @@
     - [入力された数字をプロパティに代入する`appendNumber()`](#入力された数字をプロパティに代入するappendnumber)
     - [`number`を整形して表示可能な形式にする`getDisplayNumber()`](#numberを整形して表示可能な形式にするgetdisplaynumber)
     - [イベントリスナーから送られた数値を表示する`updateDisplay()`](#イベントリスナーから送られた数値を表示するupdatedisplay)
+  - [応用するには](#応用するには)
+  - [問題と解決](#問題と解決)
+    - [ディスプレイに数字が表示されない問題](#ディスプレイに数字が表示されない問題)
+  - [コード置き場](#コード置き場)
 
 ## 連続計算機能(Continuous calculation function)
 イコールが押されるまで連続して計算し続けられる計算機を作る。
@@ -512,3 +516,57 @@ appendNumber(number) {//数値の振り分け、追加
 5. 入力値は数値に変換した上で表示させる
    1. `numberProcess()`を省ける
 6. currentStageは廃止
+
+## 問題と解決
+### ディスプレイに数字が表示されない問題
+```js
+this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
+```
+このコードがメインディスプレイに文字列を表示させるはずだったが、
+なぜか表示されなかった。
+```html
+<input type="text" name="screen" id="currentOperand" readonly>
+```
+原因は`input`要素に`.innerText`で文字列を表示させようとしていたため。
+```js
+this.currentOperandTextElement.value = this.getDisplayNumber(this.currentOperand);
+```
+このようにすることで問題なく数字の文字列が表示できるようになった。
+
+## コード置き場
+```js
+// const numberButtons = document.querySelectorAll('[data-numbers]');
+// const operationButtons = document.querySelectorAll('[data-operation]');
+// const equalsButton = document.querySelector('[data-equal]');
+// const clearButton = document.querySelector('[data-clear]');
+// const clearEntriesButton = document.querySelector('[data-clearEntries]');
+
+// numberButtons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         calculator.appendNumber(button.innerText);
+//         calculator.updateDisplay();
+//     });
+// });
+
+// operationButtons.forEach(button => {
+//     button.addEventListener('click', () => {
+//         calculator.chooseOperation(button.innerText);
+//         calculator.updateDisplay();
+//     });
+// });
+
+// equalsButton.addEventListener('click', button => {
+//     calculator.compute();
+//     calculator.updateDisplay();
+// });
+
+// clearButton.addEventListener('click', button => {
+//     calculator.clear();
+//     calculator.updateDisplay();
+// });
+
+// clearEntriesButton.addEventListener('click', button => {
+//     calculator.clearEntries();
+//     calculator.updateDisplay();
+// });
+```
