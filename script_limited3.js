@@ -21,7 +21,7 @@ class Calculator {
         if (number === '.' && this.currentOperand.includes('.')) {
             return;
         }
-        this.currentOperand = this.currentOperand.toString() + number.toString(); //OK
+        this.currentOperand = this.currentOperand.toString() + number.toString();
     }
 
     chooseOperation(operator) {
@@ -49,17 +49,19 @@ class Calculator {
 
         switch (this.operator) {
             case '+':
-                //TODO `add()`に渡したい
-                this.result = previous + current;
+                this.result = this.addition(previous, current);
                 break;
             default:
                 return;
         }
 
-        // this.currentOperand = computation;//!連続計算
-        this.currentOperand = this.result;
+        this.currentOperand = this.result; // 連続計算
         this.operator = null;
         this.previousOperand = '';
+    }
+
+    addition(previous, current){
+        return previous + current;
     }
 
     getDisplayNumber(number) {
@@ -72,7 +74,7 @@ class Calculator {
             integerDisplay = '';
         } else {
             integerDisplay =
-                integerDigits.toLocaleString('en', { maximumFractionDigits: 0 }); //OK
+                integerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
         }
 
         if (decimalDigits != null) {
