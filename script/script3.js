@@ -39,7 +39,6 @@ class Calculator {
     }
 
     compute() {
-        // let computation = null;
         const previous = parseFloat(this.previousOperand);
         const current = parseFloat(this.currentOperand);
 
@@ -50,6 +49,15 @@ class Calculator {
         switch (this.operator) {
             case '+':
                 this.result = this.addition(previous, current);
+                break;
+            case '-':
+                this.result = this.subtract(previous, current);
+                break;
+            case '×':
+                this.result = this.multiply(previous, current);
+                break;
+            case '÷':
+                this.result = this.divide(previous, current);
                 break;
             default:
                 return;
@@ -64,34 +72,35 @@ class Calculator {
         return previous + current;
     }
 
-    getDisplayNumber(number) {
-        const stringNumber = number.toString();
-        const integerDigits = parseFloat(stringNumber.split('.')[0]);
-        const decimalDigits = stringNumber.split('.')[1];
-        let integerDisplay;//整数桁表示用
+    subtract(previous, current) {
+        return previous - current;
+    }
 
-        if (isNaN(integerDigits)) {
-            integerDisplay = '';
-        } else {
-            integerDisplay =
-                integerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
+    multiply(previous, current) {
+        return previous * current;
+    }
+
+    divide(previous, current) {
+        if (current === 0) {
+            throw new Error("0で除算はできません");
         }
 
-        if (decimalDigits != null) {
-            return `${integerDisplay}.${decimalDigits}`;
+        return previous / current;
+    }
+
+    percent(previous, current) { //TODO 要検証
+        if (current !== null) {
+            return current = current * 0.01;
         } else {
-            return integerDisplay;
+            return previous = previous * 0.01;
         }
     }
 
-    updateDisplay() {
-        this.currentOperandTextElement.value = this.getDisplayNumber(this.currentOperand);
-
-        if (this.operator != null) {
-            this.previousOperandTextElement.value =
-                `${this.getDisplayNumber(this.previousOperand)} ${this.operator}`;
+    plusMinus(previous, current) { //TODO 要検証
+        if (current !== null) {
+            return current = -current;
         } else {
-            this.previousOperandTextElement.value = '';
+            return previous = -previous;
         }
     }
 }
@@ -111,8 +120,7 @@ buttons.forEach(button => {
     });
 });
 
-function buttonProcess(button) {
-    // console.log(`Button Clicked: ${button.innerText}`);
+function buttonProcess(button) { //TODO ボタンの種類を追加する
     const buttonText = button.innerText;
     const isNumber = /^[0-9]+$/.test(buttonText);
     const operators = ['+', '-', '×', '÷'];
