@@ -63,7 +63,7 @@ td {
     width: 150px;
 }
 
-#result {
+#currentOperand {
     width: 280px;
     height: 60px;
     margin: 0;
@@ -124,7 +124,7 @@ td {
     background-color: rgb(255, 105, 50);
 }
 
-[data-transformation] {
+[data-symbols] {
     background-color: rgb(0, 194, 188);
 }
 

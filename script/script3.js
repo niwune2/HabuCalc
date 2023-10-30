@@ -8,13 +8,14 @@ class Calculator {
 
     clearEntries() {
         this.currentOperand = '';
-        this.previousOperand = '';
-        this.result = '';
-        this.operator = null;
+
     }
 
     clear() {
         this.currentOperand = '';
+        this.previousOperand = '';
+        this.result = '';
+        this.operator = null;
     }
 
     appendNumber(number) {
@@ -36,6 +37,37 @@ class Calculator {
         this.operator = operator;
         this.previousOperand = this.currentOperand;
         this.currentOperand = '';
+    }
+
+    updateDisplay() {
+        this.currentOperandTextElement.value = this.getDisplayNumber(this.currentOperand);
+
+        if (this.operator != null) {
+            this.previousOperandTextElement.value =
+                `${this.getDisplayNumber(this.previousOperand)} ${this.operator}`;
+        } else {
+            this.previousOperandTextElement.value = '';
+        }
+    }
+
+    getDisplayNumber(number) {
+        const stringNumber = number.toString();
+        const integerDigits = parseFloat(stringNumber.split('.')[0]);
+        const decimalDigits = stringNumber.split('.')[1];
+        let integerDisplay;//整数桁表示用
+
+        if (isNaN(integerDigits)) {
+            integerDisplay = '';
+        } else {
+            integerDisplay =
+                integerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
+        }
+
+        if (decimalDigits != null) {
+            return `${integerDisplay}.${decimalDigits}`;
+        } else {
+            return integerDisplay;
+        }
     }
 
     compute() {
@@ -68,7 +100,7 @@ class Calculator {
         this.previousOperand = '';
     }
 
-    addition(previous, current){
+    addition(previous, current) {
         return previous + current;
     }
 
@@ -88,20 +120,31 @@ class Calculator {
         return previous / current;
     }
 
-    percent(previous, current) { //TODO 要検証
-        if (current !== null) {
-            return current = current * 0.01;
-        } else {
-            return previous = previous * 0.01;
+    transform(symbol) {
+        // 手動で入力可能なものをボタン一つで行えるようにするものである
+        // 手動で行う手順を自動化する考えで、・・・
+        if (this.currentOperand === '') {
+            return;
+        }
+
+        switch (symbol) {
+            case '%':
+                this.currentOperand = this.percent(parseFloat(this.currentOperand));
+                break;
+            case '±':
+                this.currentOperand = this.plusOrMinus(parseFloat(this.currentOperand));
+                break;
+            default:
+                return;
         }
     }
 
-    plusMinus(previous, current) { //TODO 要検証
-        if (current !== null) {
-            return current = -current;
-        } else {
-            return previous = -previous;
-        }
+    percent(current) { //TODO 要検証
+        return 0.01 * current;
+    }
+
+    plusOrMinus(current) { //TODO 要検証
+        return -1 * current;
     }
 }
 
@@ -125,12 +168,17 @@ function buttonProcess(button) { //TODO ボタンの種類を追加する
     const isNumber = /^[0-9]+$/.test(buttonText);
     const operators = ['+', '-', '×', '÷'];
     const isOperator = operators.includes(buttonText);
+    const symbols = ['±', '%'];
+    const isSymbol = symbols.includes(buttonText);
 
-    if (isNumber) {
+    if (isNumber || buttonText === '.') {
         calculator.appendNumber(buttonText);
         calculator.updateDisplay();
     } else if (isOperator) {
         calculator.chooseOperation(buttonText);
+        calculator.updateDisplay();
+    } else if (isSymbol) {
+        calculator.transform(buttonText);
         calculator.updateDisplay();
     } else if (buttonText === '=') {
         calculator.compute();
