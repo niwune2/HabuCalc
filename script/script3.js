@@ -85,9 +85,11 @@ class Calculator {
             case '-':
                 this.result = this.subtract(previous, current);
                 break;
+            case '*':
             case '×':
                 this.result = this.multiply(previous, current);
                 break;
+            case '/':
             case '÷':
                 this.result = this.divide(previous, current);
                 break;
@@ -121,8 +123,6 @@ class Calculator {
     }
 
     transform(symbol) {
-        // 手動で入力可能なものをボタン一つで行えるようにするものである
-        // 手動で行う手順を自動化する考えで、・・・
         if (this.currentOperand === '') {
             return;
         }
@@ -131,6 +131,7 @@ class Calculator {
             case '%':
                 this.currentOperand = this.percent(parseFloat(this.currentOperand));
                 break;
+            case 'o':
             case '±':
                 this.currentOperand = this.plusOrMinus(parseFloat(this.currentOperand));
                 break;
@@ -139,11 +140,11 @@ class Calculator {
         }
     }
 
-    percent(current) { //TODO 要検証
+    percent(current) {
         return 0.01 * current;
     }
 
-    plusOrMinus(current) { //TODO 要検証
+    plusOrMinus(current) {
         return -1 * current;
     }
 }
@@ -197,6 +198,41 @@ function buttonProcess(button) { //TODO ボタンの種類を追加する
         });
     }
 }
+
+document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    const isNumber = /^[0-9]+$/.test(key);
+    const operators = ['+', '-', '*', '/'];
+    const isOperator = operators.includes(key);
+    const symbols = ['o', '%']; // 'o'='±'
+    const isSymbol = symbols.includes(key);
+
+    if (isNumber || key === '.') {
+        calculator.appendNumber(key);
+        calculator.updateDisplay();
+        logMessages(key);
+    } else if (isOperator) {
+        calculator.chooseOperation(key);
+        calculator.updateDisplay();
+        logMessages(key);
+    } else if (key === '=') { // Equal
+        calculator.compute();
+        calculator.updateDisplay();
+        logMessages(key);
+    } else if (isSymbol) {
+        calculator.transform(key);
+        calculator.updateDisplay();
+        logMessages(key);
+    } else if (key === 'c') { //Clear
+        calculator.clear();
+        calculator.updateDisplay();
+        logMessages(key);
+    } else if (key === 'a') { //Clear Entries
+        calculator.clearEntries();
+        calculator.updateDisplay();
+        logMessages(key);
+    }
+});
 
 function logMessages(button) {
     const buttonText = button.innerText;

@@ -23,9 +23,11 @@
     - [2023/10/27](#20231027)
     - [2023/10/28](#20231028)
     - [2023/10/30](#20231030)
+    - [2023/10/31](#20231031)
 
 ## 目標
 iOSの計算機app並の機能を備えた計算機をプログラムする
+![iOS_Calculator](images/IMG_0470.PNG)
 
 ## 進捗状況
 ### 2023/09/15
@@ -143,7 +145,54 @@ transfomerの扱いを検討中
   - `%`や`±`を使えるようにした
 
 - [ ] 初期の表示を0にする
-- [ ] キーボード入力に対応させる
+- [x] キーボード入力に対応させる
+  - 検証しやすくするためにこちらを優先したい
 - [ ] スマホ操作に対応させる
+- [ ] 新しいシンボルを追加する(スクリプトは後回し)
+
+| Symbol  | Name               | Func | JPN            |
+| ------- | ------------------ | ---- | -------------- |
+| $()$      | Parentheses        | -    | かっこ         |
+| mc      | Memory Clear       | -    | -              |
+| m+      | Memory Plus        | -    | -              |
+| m-      | Memory Minus       | -    | -              |
+| mr      | Memory Recall      | -    | -              |
+| $2ⁿᵈ$   | -                  | -    | 逆関数         |
+| $x²$    | Squared            | -    | 二乗           |
+| $x³$    | Cubed              | -    | 三乗           |
+| $xʸ$    | Exponentiation     | -    | y乗            |
+| $eˣ$    | Exponential        | -    | 指数関数       |
+| $10ˣ$   | Power of 10        | -    | 十のべき       |
+| $1/x$   | Reciprocal         | -    | 逆数           |
+| $²√x$   | Square root        | -    | 平方根         |
+| $³√x$   | Cube root          | -    | 三乗根         |
+| $ʸ√x$   | y-th root of x     | -    | xのy乗根       |
+| $In$    | Natural logarithm  | -    | 自然対数       |
+| $log₁₀$ | Common logarithm   | -    | 常用対数       |
+| $x!$    | Factorial          | -    | 階乗           |
+| $sin$   | Sine               | -    | サイン         |
+| $cos$   | Cosine             | -    | コサイン       |
+| $tan$   | Tangent            | -    | タンジェント   |
+| $e$     | Napier's constant  | -    | ネイピア数     |
+| EE      | Enter Exponent     | -    | 指数入力       |
+| $Rad$   | Radian             | -    | ラジアン       |
+| $sinh$  | Hyperbolic sine    | -    | 双曲線正弦関数 |
+| $cosh$  | Hyperbolic cosine  | -    | 双曲線余弦関数 |
+| $tanh$  | Hyperbolic tangent | -    | 双曲線正接関数 |
+| $π$     | pi                 | -    | 円周率         |
+| $Rand$  | Random             | -    | ランダム       |
+
+### 2023/10/31
+- キーボード入力に対応
+- キーボードでの操作方法をHTMLに記述,CSSも調整
+
+**TODO**
+- [ ] キーボード入力時のログ出力を調整する
+
+
+
+
+
+
 
 🐍 <ｼｬ-!
