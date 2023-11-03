@@ -17,44 +17,74 @@
     <div class="calculator">
         <table>
             <tr>
-                <td colspan="4">
+                <td colspan="10">
                     <input type="text" name="screen" id="previousOperand" readonly>
                     <input type="text" name="screen" id="currentOperand" readonly>
                 </td>
             </tr>
             <tr>
                 <!-- 一段目 -->
+                <td><button data-parentheses="left">(</button></td>
+                <td><button data-parentheses="right">)</button></td>
+                <td><button data-memory="clear">mc</button></td>
+                <td><button data-memory="plus">m+</button></td>
+                <td><button data-memory="minus">m-</button></td>
+                <td><button data-memory="recall">mr</button></td>
                 <td><button data-clear="clear">C</button></td>
                 <td><button data-clearEntries>CE</button></td>
                 <td><button data-symbols>&#037;</button></td><!-- % -->
                 <td><button data-symbols>&#177;</button></td><!-- ± -->
             </tr>
             <tr>
+                <td><button data-inverseFunction>2<sup>nd</sup></button></td>
+                <td><button data-squared>x^2</button></td>
+                <td><button data-cubed>x^3</button></td>
+                <td><button data-exponentiation>x^y</button></td>
+                <td><button data-exponential>e^x</button></td>
+                <td><button data-powerOfTen>10^x</button></td>
                 <td><button data-numbers="7">7</button></td>
                 <td><button data-numbers="8">8</button></td>
                 <td><button data-numbers="9">9</button></td>
                 <td><button data-operation>&#215;</button></td><!-- × -->
             </tr>
             <tr>
+                <td><button data-reciprocal>1/<sub>x</sub></button></td>
+                <td><button data-squareRoot><sup>2</sup>√x</button></td>
+                <td><button data-cubeRoot><sup>3</sup>√x</button></td>
+                <td><button data-ythRootOfx><sup>y</sup>√x</button></td>
+                <td><button data-naturalLogarithm>ln</button></td>
+                <td><button data-commonLogarithm>log<sub>10</sub></button></td>
                 <td><button data-numbers="4">4</button></td>
                 <td><button data-numbers="5">5</button></td>
                 <td><button data-numbers="6">6</button></td>
                 <td><button data-operation>&#247;</button></td><!-- ÷ -->
             </tr>
             <tr>
+                <td><button data-factorial>x!</button></td>
+                <td><button data-sine>sin</button></td>
+                <td><button data-cosine>cos</button></td>
+                <td><button data-tangent>tan</button></td>
+                <td><button data-napiersConstant>e</button></td>
+                <td><button data-enterExponent>EE</button></td>
                 <td><button data-numbers="1">1</button></td>
                 <td><button data-numbers="2">2</button></td>
                 <td><button data-numbers="3">3</button></td>
                 <td><button data-operation>&#045;</button></td><!-- - -->
             </tr>
             <tr>
+                <td><button data-radian>Rad</button></td>
+                <td><button data-hyperbolicSine>sinh</button></td>
+                <td><button data-hyperbolicCosine>cosh</button></td>
+                <td><button data-hyperbolicTangent>tanh</button></td>
+                <td><button data-pi>π</button></td>
+                <td><button data-random>Rand</button></td>
                 <td><button data-numbers="0">0</button></td>
                 <td><button data-numbers="00">00</button></td>
                 <td><button data-numbers=".">&#046;</button></td><!-- . -->
                 <td><button data-operation>&#043;</button></td><!-- + -->
             </tr>
             <tr>
-                <td colspan="4">
+                <td colspan="10">
                     <button id="equal" data-equal>&#061;</button>
                 </td><!-- = -->
             </tr>
@@ -63,16 +93,16 @@
     <div class="result-log"></div>
     <button id="clearLog">CLEAR</button>
     <ul class="keyboard">
-        <li><key>0</key>~<key>9</key>: Enter the number</li>
-        <li><key>+</key>: Addition</li>
-        <li><key>-</key>: Subtract</li>
-        <li><key>*</key>: Multiply</li>
-        <li><key>/</key>: Divide</li>
-        <li><key>=</key>: Equal</li>
-        <li><key>c</key>: Clear</li>
-        <li><key>a</key>: Clear Entries</li>
-        <li><key>o</key>: ±(Plus or Minus)</li>
-        <li><key>%</key>: Percent</li>
+        <li><key>0</key>~<key>9</key> : Enter the number</li>
+        <li><key>+</key> : Addition</li>
+        <li><key>-</key> : Subtract</li>
+        <li><key>*</key> : Multiply</li>
+        <li><key>/</key> : Divide</li>
+        <li><key>=</key> : Equal</li>
+        <li><key>c</key> : Clear</li>
+        <li><key>a</key> : Clear Entries</li>
+        <li><key>o</key> : ±(Plus or Minus)</li>
+        <li><key>%</key> : Percent</li>
     </ul>
     <!--
         <ul>どういう計算機にするか...

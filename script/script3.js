@@ -161,15 +161,24 @@ buttons.forEach(button => {
     button.addEventListener('click', (e) => {
         buttonProcess(button);
         logMessages(button);
+        // console.log(button.innerText);
     });
 });
+
+const operators = ['+', '-', '×', '*', '/', '÷'];
+const symbols = [
+    '±', 'o', '%',
+    'mc', 'm+', 'm-', 'mr',
+    '2nd', 'x^2', 'x^3', 'x^y', 'e^x', '10^x',
+    '1/x', '2√x', '3√x', 'y√x', 'ln', 'log10',
+    'x!', 'sin', 'cos', 'tan', 'e', 'EE',
+    'Rad', 'sinh', 'cosh', 'tanh', 'π', 'Rand'
+];
 
 function buttonProcess(button) { //TODO ボタンの種類を追加する
     const buttonText = button.innerText;
     const isNumber = /^[0-9]+$/.test(buttonText);
-    const operators = ['+', '-', '×', '÷'];
     const isOperator = operators.includes(buttonText);
-    const symbols = ['±', '%'];
     const isSymbol = symbols.includes(buttonText);
 
     if (isNumber || buttonText === '.') {
@@ -202,9 +211,9 @@ function buttonProcess(button) { //TODO ボタンの種類を追加する
 document.addEventListener('keydown', (e) => {
     const key = e.key;
     const isNumber = /^[0-9]+$/.test(key);
-    const operators = ['+', '-', '*', '/'];
+    // const operators = ['+', '-', '*', '/'];
     const isOperator = operators.includes(key);
-    const symbols = ['o', '%']; // 'o'='±'
+    // const symbols = ['o', '%']; // 'o'='±'
     const isSymbol = symbols.includes(key);
 
     if (isNumber || key === '.') {
@@ -215,7 +224,7 @@ document.addEventListener('keydown', (e) => {
         calculator.chooseOperation(key);
         calculator.updateDisplay();
         logMessages(key);
-    } else if (key === '=') { // Equal
+    } else if (key === '=') {
         calculator.compute();
         calculator.updateDisplay();
         logMessages(key);
@@ -223,11 +232,11 @@ document.addEventListener('keydown', (e) => {
         calculator.transform(key);
         calculator.updateDisplay();
         logMessages(key);
-    } else if (key === 'c') { //Clear
+    } else if (key === 'c') {
         calculator.clear();
         calculator.updateDisplay();
         logMessages(key);
-    } else if (key === 'a') { //Clear Entries
+    } else if (key === 'a') {
         calculator.clearEntries();
         calculator.updateDisplay();
         logMessages(key);

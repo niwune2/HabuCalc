@@ -25,7 +25,7 @@ button {
     background-color: rgb(160, 160, 160);
     color: white;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     width: 60px;
     height: 35px;
     border: none;
@@ -60,11 +60,11 @@ td {
 }
 
 #equal {
-    width: 150px;
+    width: 200px;
 }
 
 #currentOperand {
-    width: 280px;
+    /* width: 280px; */
     height: 60px;
     margin: 0;
     background-color: rgba(150, 150, 150, .5);
@@ -78,7 +78,7 @@ td {
 }
 
 #previousOperand {
-    width: 280px;
+    /* width: 280px; */
     height: 30px;
     margin: 0;
     background-color: rgba(150, 150, 150, .5);
@@ -88,6 +88,11 @@ td {
     border-radius: 5px 5px 0 0;
     text-align: right;
     font-size: 1rem;
+}
+
+input[type="text"] {
+    width: 600px;
+    margin: 0 auto;
 }
 
 .result-log {
