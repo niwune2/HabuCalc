@@ -90,6 +90,15 @@ td {
     font-size: 1rem;
 }
 
+#inputField {
+    height: 40px;
+    border: none;
+    font-size: 1.5rem;
+    text-align: right;
+    color: rgba(0,0,0,0.3);
+    background-color: rgb(200,200,200);
+}
+
 input[type="text"] {
     width: 600px;
     margin: 0 auto;
