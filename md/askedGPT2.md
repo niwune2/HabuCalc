@@ -6,6 +6,7 @@ askedGPT2.md
   - [フォーカスしていないときに文字列を表示するには](#フォーカスしていないときに文字列を表示するには)
   - [オブジェクトからランダムに要素を取り出す](#オブジェクトからランダムに要素を取り出す)
   - [エラーハンドリングを実装するには？](#エラーハンドリングを実装するには)
+  - [フォーカス中にテキストを表示する方法(ボツ)](#フォーカス中にテキストを表示する方法ボツ)
 
  ## 英単語で数値を入力する機能について
  英単語を数値に変換する機能を実装する場合、オブジェクトが非常に便利です。具体的には、英単語とそれに対応する数値を関連付けたオブジェクト（辞書）を使用できます。この辞書により、英単語がキーであり、対応する数値が値として格納されます。
@@ -218,3 +219,37 @@ function convertWordToNumber(word) {
 ```
 
 エラーハンドリングはアプリケーションの信頼性を高め、ユーザーエクスペリエンスを向上させる重要な側面です。適切なエラーハンドリングを実装して、ユーザーや開発者にとって理解しやすく安全なアプリケーションを作成できます。
+
+## フォーカス中にテキストを表示する方法(ボツ)
+フォーカス中に入力フィールドに薄字のテキストを表示するには、HTMLとCSSを使用して以下のように実現できます:
+
+HTML:
+```html
+<input type="text" name="screen" id="inputField" placeholder="Enter numbers with words">
+<span id="instructions">Press Enter to enter</span>
+```
+
+CSS:
+```css
+#instructions {
+  color: rgba(0, 0, 0, 0.3);
+  font-style: italic;
+  display: none;
+}
+```
+
+JavaScript:
+```javascript
+const inputFieldTextElement = document.getElementById('inputField');
+const instructionsElement = document.getElementById('instructions');
+
+inputFieldTextElement.addEventListener('focus', () => {
+  instructionsElement.style.display = 'inline';
+});
+
+inputFieldTextElement.addEventListener('blur', () => {
+  instructionsElement.style.display = 'none';
+});
+```
+
+このコードは、入力フィールドにフォーカスが当たると、指示テキスト "Press Enter to enter" が表示され、フォーカスが外れると非表示になります。また、指示テキストは薄字で表示され、ユーザーに入力方法を教えるのに役立ちます。必要に応じてスタイルを調整して、表示をカスタマイズできます。
