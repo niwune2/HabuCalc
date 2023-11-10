@@ -129,23 +129,66 @@ class Calculator {
 
         switch (symbol) {
             case '%':
-                this.currentOperand = this.percent(parseFloat(this.currentOperand));
+                this.currentOperand = this.percent();
                 break;
             case 'o':
             case '±':
-                this.currentOperand = this.plusOrMinus(parseFloat(this.currentOperand));
+                this.currentOperand = this.plusOrMinus();
+                break;
+            case 'x^2':
+                this.currentOperand = this.exponentiation(2);
+                break;
+            case 'x^3':
+                this.currentOperand = this.exponentiation(3);
+                break;
+            case 'x^y': //!
+                // this.currentOperand = this.exponentiation();
+                // 第三の数値の入力を受け付ける機能が必要
+                break;
+            case '10^x':
+                this.currentOperand = this.powerOf10();
+                break;
+            case 'e^x':
+                this.currentOperand = this.napier();
+                break;
+            case 'x!':
+                this.currentOperand = this.factorial();
                 break;
             default:
-                return;
+                throw new Error('Symbolが定義されていません');
         }
     }
 
-    percent(current) {
-        return 0.01 * current;
+    percent() {
+        return 0.01 * parseFloat(this.currentOperand);
     }
 
-    plusOrMinus(current) {
-        return -1 * current;
+    plusOrMinus() {
+        return -1 * parseFloat(this.currentOperand);
+    }
+
+    exponentiation(exponent) {
+        return Math.pow(parseFloat(this.currentOperand), exponent);
+    }
+
+    powerOf10() {
+        return Math.pow(10, parseFloat(this.currentOperand));
+    }
+
+    napier() {
+        return Math.E * parseFloat(this.currentOperand);
+    }
+
+    factorial() {
+        if (this.currentOperand === 0 || this.currentOperand === 1) {
+            return 1;
+        } else {
+            let result = 1;
+            for (let i = 2; i <= this.currentOperand; i++) {
+                result *= i;
+            }
+            return result;
+        }
     }
 }
 
@@ -162,7 +205,7 @@ buttons.forEach(button => {
     button.addEventListener('click', (e) => {
         buttonProcess(button);
         logMessages(button);
-        // console.log(button.innerText);
+        console.log(button.innerText);
     });
 });
 
@@ -318,7 +361,7 @@ function convertWordToNumber(word) {
 }
 
 function convertWordToOperator(word) {
-    if (word in wordToOperator){
+    if (word in wordToOperator) {
         return wordToOperator[word];
     } else {
         return null;
@@ -351,14 +394,14 @@ inputFieldTextElement.addEventListener('input', () => {
         const numericValue = convertWordToNumber(userInput);
         //! オペレータとシンボルに対応させる
         // 1. `inputFieldTextElement.value`が
-            // `number`のとき -> `convertWordToNumber(userInput)`
-            // `operator`のとき -> `convertWordToOperator(userInput)`
-            // `symbols`のとき -> `convertWordToSymbols(userInput)`
+        // `number`のとき -> `convertWordToNumber(userInput)`
+        // `operator`のとき -> `convertWordToOperator(userInput)`
+        // `symbols`のとき -> `convertWordToSymbols(userInput)`
         // 2. `switch`内
-            // 条件文: `userInput`が
-            // `number`のとき -> `calculator.appendNumber(numericValue)`
-            // `operator`のとき -> `calculator.chooseOperation(operatorValue)`
-            // `symbols`のとき -> `calculator.transform(symbolValue)`
+        // 条件文: `userInput`が
+        // `number`のとき -> `calculator.appendNumber(numericValue)`
+        // `operator`のとき -> `calculator.chooseOperation(operatorValue)`
+        // `symbols`のとき -> `calculator.transform(symbolValue)`
 
         const key = e.key;
         switch (key) {
