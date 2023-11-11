@@ -43,12 +43,13 @@ button:active {
 }
 
 table {
-    margin: 20px; /* 計算機の位置 */
+    margin: 20px;
+    /* 計算機の位置 */
     width: 300px;
     height: 350px;
     border-radius: 5px;
     background-color: rgba(36, 36, 36, 1);
-    border:  2px solid rgba(255, 255, 255, 0.236);
+    border: 2px solid rgba(255, 255, 255, 0.236);
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.192);
 }
 
@@ -84,7 +85,7 @@ td {
     background-color: rgba(150, 150, 150, .5);
     color: white;
     border: none;
-    border-bottom:2px solid rgba(0, 0, 0, 0.36);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.36);
     border-radius: 5px 5px 0 0;
     text-align: right;
     font-size: 1rem;
@@ -95,8 +96,8 @@ td {
     border: none;
     font-size: 1.5rem;
     text-align: right;
-    color: rgba(0,0,0,0.2);
-    background-color: rgb(200,200,200);
+    color: rgba(0, 0, 0, 0.2);
+    background-color: rgb(200, 200, 200);
 }
 
 input[type="text"] {
@@ -153,4 +154,16 @@ ul {
 
 key {
     color: aqua;
+}
+
+[data-sine],
+[data-cosine],
+[data-tangent] {
+    font-size: 0.85rem;
+}
+
+[data-sine]:active,
+[data-cosine]:active,
+[data-tangent]:active {
+    font-size: 0.85rem;
 }

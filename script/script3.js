@@ -148,11 +148,56 @@ class Calculator {
             case '10^x':
                 this.currentOperand = this.powerOf10();
                 break;
-            case 'e^x':
+            case 'e':
                 this.currentOperand = this.napier();
+                break;
+            case 'e^x':
+                this.currentOperand = this.napierExp();
                 break;
             case 'x!':
                 this.currentOperand = this.factorial();
+                break;
+            case '1/x':
+                this.currentOperand = this.reciprocal();
+                break;
+            case '2√x':
+                this.currentOperand = this.squareRoot();
+                break;
+            case '3√x':
+                this.currentOperand = this.cubedRoot();
+                break;
+            case 'ln':
+                this.currentOperand = this.log();
+                break;
+            case 'log10':
+                this.currentOperand = this.log10();
+                break;
+            case 'sin':
+                this.currentOperand = this.sin();
+                break;
+            case 'sinh':
+                this.currentOperand = this.sinh();
+                break;
+            case 'cos':
+                this.currentOperand = this.cos();
+                break;
+            case 'cosh':
+                this.currentOperand = this.cosh();
+                break;
+            case 'tan':
+                this.currentOperand = this.tan();
+                break;
+            case 'tanh':
+                this.currentOperand = this.tanh();
+                break;
+            case 'π':
+                this.currentOperand = this.pi();
+                break;
+            case 'Rand':
+                this.currentOperand = this.rand();
+                break;
+            case 'EE':
+                this.currentOperand = this.enterExponent();
                 break;
             default:
                 throw new Error('Symbolが定義されていません');
@@ -179,16 +224,92 @@ class Calculator {
         return Math.E * parseFloat(this.currentOperand);
     }
 
+    napierExp() {
+        return Math.exp(parseFloat(this.currentOperand));
+    }
+
+    reciprocal() {
+        return 1 / parseFloat(this.currentOperand);
+    }
+
+    squareRoot() {
+        return Math.sqrt(parseFloat(this.currentOperand));
+    }
+
+    cubedRoot() {
+        return Math.cbrt(parseFloat(this.currentOperand));
+    }
+
+    log() {
+        return Math.log(parseFloat(this.currentOperand));
+    }
+
+    log10() {
+        return Math.log10(parseFloat(this.currentOperand));
+    }
+
     factorial() {
-        if (this.currentOperand === 0 || this.currentOperand === 1) {
-            return 1;
-        } else {
-            let result = 1;
-            for (let i = 2; i <= this.currentOperand; i++) {
-                result *= i;
-            }
-            return result;
+        const input = parseFloat(this.currentOperand);
+
+        if (isNaN(input)) {
+            throw new Error('エラー: 無効な入力です');
         }
+
+        if (input < 0 || !Number.isInteger(input)) {
+            throw new Error('エラー： 入力は非負整数でなければなりません。')
+        }
+
+        if (input === 0 || input === 1) {
+            return 1;
+        }
+        let result = 1;
+        for (let i = 2; i <= this.currentOperand; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    pi() {
+        return Math.PI * parseFloat(this.currentOperand);
+    }
+
+    rand() {
+        return Math.random();
+    }
+
+    degreesToRadians(degrees) {
+        return (degrees * Math.PI) / 180;
+    }
+
+    sin() {
+        const radians = this.degreesToRadians(parseFloat(this.currentOperand));
+        return Math.sin(radians);
+    }
+
+    sinh() {
+        return Math.sinh(parseFloat(this.currentOperand));
+    }
+
+    cos() {
+        const radians = this.degreesToRadians(parseFloat(this.currentOperand));
+        return Math.cos(radians);
+    }
+
+    cosh() {
+        return Math.cosh(parseFloat(this.currentOperand));
+    }
+
+    tan() {
+        const radians = this.degreesToRadians(parseFloat(this.currentOperand));
+        return Math.tan(radians);
+    }
+
+    tanh() {
+        return Math.tanh(parseFloat(this.currentOperand));
+    }
+
+    enterExponent() {
+        return parseFloat(this.currentOperand).toExponential();
     }
 }
 
