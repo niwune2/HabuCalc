@@ -166,29 +166,64 @@ class Calculator {
             case '3√x':
                 this.currentOperand = this.cubedRoot();
                 break;
+            case 'y√x': //!
+                this.currentOperand = this.root();
             case 'ln':
                 this.currentOperand = this.log();
                 break;
             case 'log10':
                 this.currentOperand = this.log10();
                 break;
-            case 'sin':
-                this.currentOperand = this.sin();
+            case 'logy': //!
+                this.currentOperand = this.log();
+                break;
+            case 'log2': //!
+                this.currentOperand = this.log();
+                break;
+            case 'sin(Rad)':
+                this.currentOperand = this.sin('radian');
+                break;
+            case 'sin(Deg)':
+                this.currentOperand = this.sin('degree');
+                break;
+            case 'sin-1':
+                this.currentOperand = this.sin('arc');
                 break;
             case 'sinh':
-                this.currentOperand = this.sinh();
+                this.currentOperand = this.sin('sinh');
                 break;
-            case 'cos':
-                this.currentOperand = this.cos();
+            case 'sinh-1':
+                this.currentOperand = this.sin('sinhArc');
+                break;
+            case 'cos(Rad)':
+                this.currentOperand = this.cos('radian');
+                break;
+            case 'cos(Deg)':
+                this.currentOperand = this.cos('degree');
+                break;
+            case 'cos-1':
+                this.currentOperand = this.cos('arc');
                 break;
             case 'cosh':
-                this.currentOperand = this.cosh();
+                this.currentOperand = this.cos('cosh');
                 break;
-            case 'tan':
-                this.currentOperand = this.tan();
+            case 'cosh-1':
+                this.currentOperand = this.cos('coshArc');
+                break;
+            case 'tan(Rad)':
+                this.currentOperand = this.tan('radian');
+                break;
+            case 'tan(Deg)':
+                this.currentOperand = this.tan('degree');
+                break;
+            case 'tan-1':
+                this.currentOperand = this.tan('arc');
                 break;
             case 'tanh':
-                this.currentOperand = this.tanh();
+                this.currentOperand = this.tan('tanh');
+                break;
+            case 'tanh-1':
+                this.currentOperand = this.tanh('tanhArc');
                 break;
             case 'π':
                 this.currentOperand = this.pi();
@@ -278,34 +313,73 @@ class Calculator {
     }
 
     degreesToRadians(degrees) {
-        return (degrees * Math.PI) / 180;
+        return degrees * (Math.PI / 180);
     }
 
-    sin() {
-        const radians = this.degreesToRadians(parseFloat(this.currentOperand));
-        return Math.sin(radians);
+    sin(mode) {
+        let result;
+        switch (mode) {
+            case 'degree': //?
+                result = Math.sin(this.degreesToRadians(parseFloat(this.currentOperand)));
+                break;
+            case 'radian':
+                result = Math.sin(parseFloat(this.currentOperand));
+                break;
+            case 'arc':
+                result = Math.asin(parseFloat(this.currentOperand));
+                break;
+            case 'sinh':
+                result = Math.sinh(parseFloat(this.currentOperand));
+                break;
+            case 'sinhArc':
+                result = Math.asinh(parseFloat(this.currentOperand));
+                break;
+        }
+        return result;
     }
 
-    sinh() {
-        return Math.sinh(parseFloat(this.currentOperand));
+    cos(mode) {
+        let result;
+        switch(mode) {
+            case 'degree':
+                result = Math.cos(this.degreesToRadians(parseFloat(this.currentOperand)));
+                break;
+            case 'radian':
+                result = Math.cos(parseFloat(this.currentOperand));
+                break;
+            case 'arc':
+                result = Math.asin(parseFloat(this.currentOperand));
+                break;
+            case 'cosh':
+                result = Math.cosh(parseFloat(this.currentOperand));
+                break;
+            case 'coshArc':
+                result = Math.acosh(parseFloat(this.currentOperand));
+                break;
+        }
+        return result;
     }
 
-    cos() {
-        const radians = this.degreesToRadians(parseFloat(this.currentOperand));
-        return Math.cos(radians);
-    }
-
-    cosh() {
-        return Math.cosh(parseFloat(this.currentOperand));
-    }
-
-    tan() {
-        const radians = this.degreesToRadians(parseFloat(this.currentOperand));
-        return Math.tan(radians);
-    }
-
-    tanh() {
-        return Math.tanh(parseFloat(this.currentOperand));
+    tan(mode) {
+        let result;
+        switch(mode) {
+            case 'degree':
+                result = Math.tan(this.degreesToRadians(parseFloat(this.currentOperand)));
+                break;
+            case 'radian':
+                result = Math.tan(parseFloat(this.currentOperand));
+                break;
+            case 'arc':
+                result = Math.atan(parseFloat(this.currentOperand));
+                break;
+            case 'tanh':
+                result = Math.tanh(parseFloat(this.currentOperand));
+                break;
+            case 'tanhArc':
+                result = Math.atanh(parseFloat(this.currentOperand));
+                break;
+        }
+        return result;
     }
 
     enterExponent() {
@@ -332,12 +406,16 @@ buttons.forEach(button => {
 
 const operators = ['+', '-', '×', '*', '/', '÷'];
 const symbols = [
-    '±', 'o', '%',
-    'mc', 'm+', 'm-', 'mr',
-    '2nd', 'x^2', 'x^3', 'x^y', 'e^x', '10^x',
-    '1/x', '2√x', '3√x', 'y√x', 'ln', 'log10',
-    'x!', 'sin', 'cos', 'tan', 'e', 'EE',
-    'Rad', 'sinh', 'cosh', 'tanh', 'π', 'Rand'
+    '(', ')', 'mc', 'm+', 'm-', 'mr', '%', '±',
+    'y^x', 'x^2', 'x^3', 'x^y', 'x^2', '10^x',
+    'π', 'x!', '1/x', '2√x', '3√x', 'y√x',
+    'sin(Deg)', 'cos(Deg)', 'tan(Deg)',
+    'sin(Rad)', 'cos(Rad)', 'tan(Rad)',
+    'sinh', 'cosh', 'tanh',
+    'sin-1', 'cos-1', 'tan-1',
+    'sinh-1', 'cosh-1', 'tanh-1',
+    'e', 'e^x', 'EE', 'Rand',
+    'ln', 'log10', 'logy', 'log2'
 ];
 
 /**---------------button--------------- */

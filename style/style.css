@@ -22,7 +22,7 @@ ul {
 }
 
 button {
-    background-color: rgb(160, 160, 160);
+    background-color: rgb(97, 97, 97);
     color: white;
     cursor: pointer;
     font-size: 1.3rem;
@@ -61,7 +61,8 @@ td {
 }
 
 #equal {
-    width: 200px;
+    width: 190px;
+    background-color: rgb(050, 100, 250);
 }
 
 #currentOperand {
@@ -157,13 +158,31 @@ key {
 }
 
 [data-sine],
+[data-sineDeg],
 [data-cosine],
-[data-tangent] {
-    font-size: 0.85rem;
+[data-cosineDeg],
+[data-tangent],
+[data-tangentDeg] {
+    font-size: 0.84rem;
 }
 
 [data-sine]:active,
+[data-sineDeg]:active,
 [data-cosine]:active,
-[data-tangent]:active {
-    font-size: 0.85rem;
+[data-cosineDeg]:active,
+[data-tangent]:active,
+[data-tangentDeg]:active {
+    font-size: 0.84rem;
+}
+
+[data-arcSinh],
+[data-arcCosh],
+[data-arcTanh] {
+    font-size: 1rem;
+}
+
+[data-arcSinh]:active,
+[data-arcCosh]:active,
+[data-arcTanh]:active {
+    font-size: 1rem;
 }
