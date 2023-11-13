@@ -116,6 +116,7 @@ class Calculator {
 
     divide(previous, current) {
         if (current === 0) {
+            errorMessages('divideByZero');
             throw new Error("0で除算はできません");
         }
 
@@ -235,6 +236,7 @@ class Calculator {
                 this.currentOperand = this.enterExponent();
                 break;
             default:
+                errorMessages('symbol');
                 throw new Error('Symbolが定義されていません');
         }
     }
@@ -287,10 +289,12 @@ class Calculator {
         const input = parseFloat(this.currentOperand);
 
         if (isNaN(input)) {
+            displayError('input');
             throw new Error('エラー: 無効な入力です');
         }
 
         if (input < 0 || !Number.isInteger(input)) {
+            displayError('nonNegativeInteger');
             throw new Error('エラー： 入力は非負整数でなければなりません。')
         }
 
@@ -317,68 +321,143 @@ class Calculator {
     }
 
     sin(mode) {
+        if (isNaN(this.currentOperand)) {
+            displayError('input');
+            throw new Error('エラー: 無効な入力です');
+        }
+
         let result;
         switch (mode) {
-            case 'degree': //?
+            case 'degree':
+                if (this.currentOperand < -90 || this.currentOperand > 90) {
+                    displayError('cosDeg');
+                    throw new Error('エラー: 入力は -90 から 90 の範囲である必要があります');
+                }
                 result = Math.sin(this.degreesToRadians(parseFloat(this.currentOperand)));
                 break;
             case 'radian':
+                if (this.currentOperand < -Math.PI / 2 || this.currentOperand > Math.PI / 2) {
+                    displayError('sinRad');
+                    throw new Error('エラー: 入力は -π/2 から π/2 の範囲である必要があります');
+                }
                 result = Math.sin(parseFloat(this.currentOperand));
                 break;
             case 'arc':
+                if (this.currentOperand < -1 || this.currentOperand > 1) {
+                    displayError('sinArc');
+                    throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+                }
                 result = Math.asin(parseFloat(this.currentOperand));
                 break;
             case 'sinh':
                 result = Math.sinh(parseFloat(this.currentOperand));
                 break;
             case 'sinhArc':
+                if (this.currentOperand < 1) {
+                    displayError('sinhArc');
+                    throw new Error('エラー: 入力は 1 以上である必要があります');
+                }
                 result = Math.asinh(parseFloat(this.currentOperand));
                 break;
+            default:
+                displayError('notSupportMode');
+                throw new Error('エラー: サポートされていないモードです。');
         }
+
         return result;
     }
 
     cos(mode) {
+        if (isNaN(this.currentOperand)) {
+            displayError('input');
+            throw new Error('エラー: 無効な入力です');
+        }
+
         let result;
-        switch(mode) {
+        switch (mode) {
             case 'degree':
+                if (this.currentOperand < -90 || this.currentOperand > 90) {
+                    displayError('cosDeg');
+                    throw new Error('エラー: 入力は -90 から 90 の範囲である必要があります');
+                }
                 result = Math.cos(this.degreesToRadians(parseFloat(this.currentOperand)));
                 break;
             case 'radian':
+                if (this.currentOperand < -Math.PI / 2 || this.currentOperand > Math.PI / 2) {
+                    displayError('cosRad');
+                    throw new Error('エラー: 入力は -π/2 から π/2 の範囲である必要があります');
+                }
                 result = Math.cos(parseFloat(this.currentOperand));
                 break;
             case 'arc':
+                if (this.currentOperand < -1 || this.currentOperand > 1) {
+                    displayError('cosArc');
+                    throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+                }
                 result = Math.asin(parseFloat(this.currentOperand));
                 break;
             case 'cosh':
                 result = Math.cosh(parseFloat(this.currentOperand));
                 break;
             case 'coshArc':
+                if (this.currentOperand < 1) {
+                    displayError('coshArc');
+                    throw new Error('エラー: 入力は 1 以上である必要があります');
+                }
                 result = Math.acosh(parseFloat(this.currentOperand));
                 break;
+            default:
+                displayError('notSupportMode');
+                throw new Error('エラー: サポートされていないモードです');
         }
+
         return result;
     }
 
     tan(mode) {
+        if (isNaN(this.currentOperand)) {
+            displayError('input');
+            throw new Error('エラー: 無効な入力です');
+        }
+
         let result;
-        switch(mode) {
+        switch (mode) {
             case 'degree':
+                if (this.currentOperand % -90 === 45 || this.currentOperand % 90 === -45) {
+                    displayError('tanDeg');
+                    throw new Error('エラー: 入力は 90 の倍数の範囲でなければなりません');
+                }
                 result = Math.tan(this.degreesToRadians(parseFloat(this.currentOperand)));
                 break;
             case 'radian':
+                if (Math.abs(this.currentOperand) % (Math.PI / 2) === Math.PI / 4) {
+                    displayError('tanRad');
+                    throw new Error('エラー: 入力は π/2 の倍数でなければなりません');
+                }
                 result = Math.tan(parseFloat(this.currentOperand));
                 break;
             case 'arc':
+                if (this.currentOperand < -1 || this.currentOperand > 1) {
+                    displayError('tanArc');
+                    throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+                }
                 result = Math.atan(parseFloat(this.currentOperand));
                 break;
             case 'tanh':
                 result = Math.tanh(parseFloat(this.currentOperand));
                 break;
             case 'tanhArc':
+                if (this.currentOperand <= -1 || this.currentOperand >= 1) {
+                    displayError('tanhArc');
+                    throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+                }
                 result = Math.atanh(parseFloat(this.currentOperand));
                 break;
+            default:
+                displayError('notSupportMode');
+                throw new Error('エラー: サポートされていないモードです');
         }
+
         return result;
     }
 
@@ -417,6 +496,26 @@ const symbols = [
     'e', 'e^x', 'EE', 'Rand',
     'ln', 'log10', 'logy', 'log2'
 ];
+const errorMessages = {
+    'test': 'テストメッセージです',
+    'divideByZero': 'エラー: 0 で除算はできません',
+    'symbol': 'エラー: Symbolが定義されていません',
+    'input': 'エラー: 無効な入力です',
+    'nonNegativeInteger': 'エラー: 入力は非負整数でなければなりません',
+    'sinDeg': 'エラー: 入力は -90 から 90 の範囲である必要があります',
+    'sinRad': 'エラー: 入力は -π/2 から π/2 の範囲である必要があります',
+    'sinArc': 'エラー: 入力は -1 から 1 の範囲である必要があります',
+    'sinhArc': 'エラー: 入力は 1 以上である必要があります',
+    'cosDeg': 'エラー: 入力は -90 から 90 の範囲である必要があります',
+    'cosRad': 'エラー: 入力は -π/2 から π/2 の範囲である必要があります',
+    'cosArc':'エラー: 入力は -1 から 1 の範囲である必要があります',
+    'coshArc': 'エラー: 入力は 1 以上である必要があります',
+    'tanDeg': 'エラー: 入力は 90 の倍数の範囲でなければなりません',
+    'tanRad': 'エラー: 入力は π/2 の倍数でなければなりません',
+    'tanArc': 'エラー: 入力は -1 から 1 の範囲である必要があります',
+    'tanhArc': 'エラー: 入力は -1 から 1 の範囲である必要があります',
+    'notSupportMode': 'エラー: サポートされていないモードです',
+}
 
 /**---------------button--------------- */
 function buttonProcess(button) { //TODO ボタンの種類を追加する
@@ -445,6 +544,11 @@ function buttonProcess(button) { //TODO ボタンの種類を追加する
         calculator.updateDisplay();
     } else if (buttonText === 'CLEAR') {
         const removeParas = document.querySelectorAll('.resultPara');
+        const removeErrorParas = document.querySelectorAll('.errorPara');
+        removeErrorParas.forEach(para => {
+            para.remove();
+            console.log('Error Logs Cleared');
+        });
         removeParas.forEach(para => {
             para.remove();
             console.log('Logs Cleared');
@@ -516,6 +620,21 @@ function logMessages(button) {
     } else if (buttonText === 'CE') {
         console.log('ClearEntries' + forConsole);
         displayLog('ClearEntries' + forDisplay);
+    }
+}
+
+function displayError(target) {
+    const errorMessage = errorMessages[target];
+    if (errorMessage) {
+        const errorPara = document.createElement('p');
+        errorPara.classList.add('errorPara');
+        resultLog.appendChild(errorPara);
+        errorPara.innerHTML = errorMessage;
+        resultLog.scrollTop = resultLog.scrollHeight;
+
+        setTimeout(() => {
+            errorPara.style.backgroundColor = 'rgba(255,70,70,0.7)';
+        }, 500);
     }
 }
 

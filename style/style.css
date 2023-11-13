@@ -186,3 +186,11 @@ key {
 [data-arcTanh]:active {
     font-size: 1rem;
 }
+
+.errorPara {
+    color: rgb(255, 255, 255);
+    text-shadow:0 0 1px white;
+    font-size: 0.86rem;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}

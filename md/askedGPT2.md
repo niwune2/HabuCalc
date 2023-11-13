@@ -9,6 +9,10 @@ askedGPT2.md
   - [フォーカス中にテキストを表示する方法(ボツ)](#フォーカス中にテキストを表示する方法ボツ)
   - [計算機のメモリ機能について](#計算機のメモリ機能について)
     - [使用例](#使用例)
+    - [三角関数メソッドのエラーハンドリング](#三角関数メソッドのエラーハンドリング)
+      - [`sin(mode)`](#sinmode)
+      - [`cos(mode)`](#cosmode)
+      - [`tan(mode)`](#tanmode)
 
  ## 英単語で数値を入力する機能について
  英単語を数値に変換する機能を実装する場合、オブジェクトが非常に便利です。具体的には、英単語とそれに対応する数値を関連付けたオブジェクト（辞書）を使用できます。この辞書により、英単語がキーであり、対応する数値が値として格納されます。
@@ -290,3 +294,151 @@ inputFieldTextElement.addEventListener('blur', () => {
    - 計算の一部として以前の結果を再利用したい場合。
 
 これらの機能は、計算機で中間結果を保存しておき、長い計算を簡略化したり、計算の精度を向上させるのに役立ちます。特に再利用可能な数値を保存しておく必要がある場面で重宝します。
+
+### 三角関数メソッドのエラーハンドリング
+#### `sin(mode)`
+はい、エラーハンドリングは重要です。特に、`Math.asin`（逆正弦関数）は範囲外の値を引数として受け取った場合には `NaN` を返します。そのため、エラーハンドリングを追加して無効な値が渡された場合に適切に処理できるようにしておくと良いでしょう。
+
+例えば、次のようなエラーハンドリングが考えられます：
+
+```js
+sin(mode) {
+    if (isNaN(this.currentOperand)) {
+        throw new Error('エラー: 無効な入力です');
+    }
+
+    let result;
+    switch (mode) {
+        case 'degree':
+            if (this.currentOperand < -90 || this.currentOperand > 90) {
+                throw new Error('エラー: 入力は -90 から 90 の範囲である必要があります');
+            }
+            result = Math.sin(this.degreesToRadians(parseFloat(this.currentOperand)));
+            break;
+        case 'radian':
+            if (this.currentOperand < -Math.PI / 2 || this.currentOperand > Math.PI / 2) {
+                throw new Error('エラー: 入力は -π/2 から π/2 の範囲である必要があります');
+            }
+            result = Math.sin(parseFloat(this.currentOperand));
+            break;
+        case 'arc':
+            if (this.currentOperand < -1 || this.currentOperand > 1) {
+                throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+            }
+            result = Math.asin(parseFloat(this.currentOperand));
+            break;
+        case 'sinh':
+            result = Math.sinh(parseFloat(this.currentOperand));
+            break;
+        case 'sinhArc':
+            if (this.currentOperand < -1) {
+                throw new Error('エラー: 入力は -1 以上である必要があります');
+            }
+            result = Math.asinh(parseFloat(this.currentOperand));
+            break;
+    }
+    return result;
+}
+```
+
+上記の例では、各モードで無効な入力に対するエラーチェックを追加しています。エラーが発生した場合、エラーメッセージを含むエラーオブジェクトをスローします。このようにエラーハンドリングを行うことで、プログラムの品質と安全性が向上します。
+
+#### `cos(mode)`
+以下は`cos(mode)`メソッドにエラーハンドリングを追加した例です。
+
+```js
+cos(mode) {
+    let result;
+
+    switch (mode) {
+        case 'degree':
+            if (this.currentOperand < -90 || this.currentOperand > 90) {
+                throw new Error('エラー: 入力は -90 から 90 の範囲である必要があります');
+            }
+            result = Math.cos(this.degreesToRadians(parseFloat(this.currentOperand)));
+            break;
+
+        case 'radian':
+            if (this.currentOperand < -Math.PI / 2 || this.currentOperand > Math.PI / 2) {
+                throw new Error('エラー: 入力は -π/2 から π/2 の範囲である必要があります');
+            }
+            result = Math.cos(parseFloat(this.currentOperand));
+            break;
+
+        case 'arc':
+            if (this.currentOperand < -1 || this.currentOperand > 1) {
+                throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+            }
+            result = Math.acos(parseFloat(this.currentOperand));
+            break;
+
+        case 'cosh':
+            result = Math.cosh(parseFloat(this.currentOperand));
+            break;
+
+        case 'coshArc':
+            if (this.currentOperand < 1) {
+                throw new Error('エラー: 入力は 1 以上である必要があります');
+            }
+            result = Math.acosh(parseFloat(this.currentOperand));
+            break;
+
+        default:
+            throw new Error('エラー: サポートされていないモードです');
+    }
+
+    return result;
+}
+```
+
+このコードは、`mode`パラメータによって異なる三角関数のモードを処理し、各モードに対するエラーハンドリングを追加しています。エラーハンドリングでは、各モードの制約に違反する入力に対してエラーがスローされます。また、デフォルトのモード（サポートされていないモード）に対するエラーハンドリングも追加されています。
+
+#### `tan(mode)`
+以下は`tan(mode)`メソッドにエラーハンドリングを追加した例です。
+
+```js
+tan(mode) {
+    let result;
+
+    switch (mode) {
+        case 'degree':
+            if (this.currentOperand % 90 === 45 || this.currentOperand % 90 === -45) {
+                throw new Error('エラー: 入力は 90 の倍数でなければなりません');
+            }
+            result = Math.tan(this.degreesToRadians(parseFloat(this.currentOperand)));
+            break;
+
+        case 'radian':
+            if (Math.abs(this.currentOperand) % (Math.PI / 2) === Math.PI / 4) {
+                throw new Error('エラー: 入力は π/2 の倍数でなければなりません');
+            }
+            result = Math.tan(parseFloat(this.currentOperand));
+            break;
+
+        case 'arc':
+            if (this.currentOperand < -1 || this.currentOperand > 1) {
+                throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+            }
+            result = Math.atan(parseFloat(this.currentOperand));
+            break;
+
+        case 'tanh':
+            result = Math.tanh(parseFloat(this.currentOperand));
+            break;
+
+        case 'tanhArc':
+            if (this.currentOperand <= -1 || this.currentOperand >= 1) {
+                throw new Error('エラー: 入力は -1 から 1 の範囲である必要があります');
+            }
+            result = Math.atanh(parseFloat(this.currentOperand));
+            break;
+
+        default:
+            throw new Error('エラー: サポートされていないモードです');
+    }
+
+    return result;
+}
+```
+
+このコードは、`mode`パラメータによって異なる三角関数のモードを処理し、各モードに対するエラーハンドリングを追加しています。各モードに対するエラーハンドリングは、特定の制約に違反する入力に対してエラーをスローします。デフォルトのモードに対するエラーハンドリングも含まれています。
