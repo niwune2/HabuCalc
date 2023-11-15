@@ -576,7 +576,7 @@ document.addEventListener('keydown', (e) => {
         calculator.compute();
         calculator.updateDisplay();
         logMessages(key);
-    } else if (isSymbol) {
+    } else if (isSymbol && key !== 'e') {
         calculator.transform(key);
         calculator.updateDisplay();
         logMessages(key);
