@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&#x3069;&#x3093;&#x306a;&#x8a2d;&#x8a08;&#x306b;&#x3059;&#x308b;&#x304b;&#x30e1;&#x30e2;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension bierner.markdown-checkbox */
+.contains-task-list {
+    padding-left: 0;
+}
+
+.contains-task-list li {
+    margin-left: 24px;
+}
+
+.contains-task-list .task-list-item {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.contains-task-list .contains-task-list {
+    padding-left: 20px;
+} 
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    word-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+/* From extension tsutsu3.markdown-named-codeblocks */
+.named-fence-block {
+  position: relative;
+  padding-top: 2em !important;
+}
+
+.named-fence-filename {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 4px;
+  font-weight: bold;
+  color: #000000;
+  background: #c0c0c0;
+  opacity: 0.6;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-dark">
+        <h1 id="memomd"><a href="http://memo.html">memo.md</a></h1>
+<ul>
+<li><a href="#memomd">memo.md</a>
+<ul>
+<li><a href="#%E3%81%A9%E3%82%93%E3%81%AA%E8%A8%AD%E8%A8%88%E3%81%AB%E3%81%99%E3%82%8B%E3%81%8B%E3%83%A1%E3%83%A2">どんな設計にするかメモ</a></li>
+<li><a href="#%E5%8F%82%E8%80%83%E6%9B%B8%E3%81%AE%E3%83%A1%E3%83%A2javascript%E6%9C%AC%E6%A0%BC%E5%85%A5%E9%96%80">参考書のメモ(JavaScript本格入門)</a></li>
+<li><a href="#%E5%BC%95%E7%94%A8%E3%83%A1%E3%83%A2">引用メモ</a></li>
+<li><a href="#scriptjs---88%E6%9D%A1%E4%BB%B6%E6%96%87---0%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AB">script.js - 88(条件文) - '0.'を表示するために</a>
+<ul>
+<li><a href="#%E8%A7%A3%E6%B1%BA---0%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95">解決 - '0.'を表示する方法</a></li>
+<li><a href="#%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%93%E3%83%86%E3%82%A3%E5%9B%B30%E3%81%AE%E8%A1%A8%E7%A4%BA">アクティビティ図(0の表示)</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%AA%E3%83%9A%E3%83%AC%E3%83%BC%E3%82%BF%E3%82%92%E6%8A%BC%E3%81%97%E3%81%9F%E3%81%A8%E3%81%8D%E3%81%AE%E6%8C%99%E5%8B%95">オペレータを押したときの挙動</a>
+<ul>
+<li><a href="#%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%93%E3%83%86%E3%82%A3%E5%9B%B3%E3%82%AA%E3%83%9A%E3%83%AC%E3%83%BC%E3%82%BF">アクティビティ図(オペレータ)</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%B3%E3%83%B3%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF%E3%82%92%E8%A8%AD%E8%A8%88%E3%81%99%E3%82%8B">コンストラクタを設計する</a>
+<ul>
+<li><a href="#%E3%82%B3%E3%83%B3%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF%E3%81%AEthis">コンストラクタの<code>this</code></a></li>
+</ul>
+</li>
+<li><a href="#eval%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6"><code>eval</code>について</a></li>
+<li><a href="#%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a>
+<ul>
+<li><a href="#%E3%83%9C%E3%82%BF%E3%83%B3%E3%81%8C%E3%82%AF%E3%83%AA%E3%83%83%E3%82%AF%E3%81%95%E3%82%8C%E3%81%9F%E3%81%A8%E3%81%8D%E3%81%AE%E5%87%A6%E7%90%86%E3%82%92%E8%A8%AD%E5%AE%9A">ボタンがクリックされたときの処理を設定</a></li>
+<li><a href="#0%E3%81%A8%E3%82%92%E6%89%B1%E3%81%86%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B2%90">'0'と'.'を扱う条件分岐</a></li>
+<li><a href="#0%E5%88%A4%E5%AE%9A20230929">0判定(2023/09/29)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A:Onetime</th>
+<th>B:Manytimes</th>
+<th>C:C / CE</th>
+<th>D:% / ±</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Push Num</td>
+<td>Push Num</td>
+<td>Push Num</td>
+<td>Push Num</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Push Operation</td>
+<td>Push Operation</td>
+<td>Push C / CE</td>
+<td>Push '%' / '±'</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Push Num</td>
+<td>Push Num</td>
+<td>Clear</td>
+<td>Push Operation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Push <code>=</code></td>
+<td>Show Result</td>
+<td><code>END</code></td>
+<td>Push Num -&gt; <code>A2</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Show Result</td>
+<td>Push Operation</td>
+<td></td>
+<td>Push <code>=</code> -&gt; <code>A4</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>END</code></td>
+<td>Push <code>=</code> -&gt; <code>A4</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>押した時の挙動</p>
+<table>
+<thead>
+<tr>
+<th>Push</th>
+<th>Numbers</th>
+<th>Operations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Display</td>
+<td>none</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2nd digit</td>
+<td><code>END</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>3rd digit</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>.........</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>± と ÷ の挙動</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>±</th>
+<th>%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Push Number</td>
+<td>Push Number</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Push ±</td>
+<td>Push %</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Multiply -1 by Num</td>
+<td>Multiply 0.01 by Num</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="どんな設計にするかメモ">どんな設計にするかメモ</h2>
+<ul>
+<li>(A)最初に押されたボタンが
+<ol>
+<li>数字ボタンなら
+<ol>
+<li>記号ボタンの入力を受け付ける</li>
+<li>数字ボタンの入力を受け付ける</li>
+<li>%ボタンの入力を受け付ける</li>
+<li>±ボタンの入力を受け付ける</li>
+<li>C/CEボタンの入力を受け付ける</li>
+</ol>
+</li>
+<li>数字以外のボタンなら
+<ol>
+<li>入力は受け付けない</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>(B)２回目に押されたボタンが
+<ol>
+<li>数字ボタンなら
+<ol>
+<li>２桁目を表示する</li>
+</ol>
+</li>
+<li>記号ボタンなら
+<ol>
+<li>オペランド(A)を画面から消す</li>
+<li>次の数字ボタンの入力を受け付ける</li>
+</ol>
+</li>
+<li>%ボタンなら
+<ol>
+<li>オペランド(A)に<code>0.01</code>を掛ける</li>
+<li>(1)を画面に表示する</li>
+<li>記号ボタンの入力を受け付ける</li>
+</ol>
+</li>
+<li>±ボタンなら
+<ol>
+<li>オペランド(A)に<code>-1</code>を掛ける</li>
+<li>(1)を画面に表示する
+<ol>
+<li>記号ボタンの入力を受け付ける</li>
+<li>数字ボタンの入力を受け付ける</li>
+<li>%ボタンの入力を受け付ける</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>=ボタンなら
+<ol>
+<li>無反応</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>(C)3回目に押されたボタンが
+<ol>
+<li>数字ボタンなら
+<ol>
+<li>(A-1 -&gt; B-1)３桁目を表示する</li>
+</ol>
+</li>
+<li>記号ボタンなら
+<ol>
+<li>記号を変更する</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>それぞれの処理に応じた関数を作っておき、入力に応じて関数を呼び出す
+<ul>
+<li>パラメータを設定する?</li>
+<li>コンストラクタを使う??</li>
+<li>押した記号ボタンに応じて前オペランドの数値を関数に渡して処理させ、次のオペランドにする</li>
+</ul>
+</li>
+<li>履歴の残し方
+<ul>
+<li><code>p</code>要素でリスト化する(<code>=</code>を押したタイミング)</li>
+</ul>
+</li>
+<li>コンストラクタで
+<ol>
+<li>数値(A)を入力する</li>
+<li>表示された数値(A)をメソッドに渡す</li>
+<li>数値(B)を入力する</li>
+<li>いずれかの記号を押す
+<ol>
+<li>最終的な結果(<code>=</code>のとき)または途中の結果を表示する</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="参考書のメモjavascript本格入門">参考書のメモ(JavaScript本格入門)</h2>
+<ol>
+<li><code>null</code> &amp; <code>undefined</code>
+<ol>
+<li><code>null</code>: 空であることを明示する</li>
+<li><code>undefined</code>: 定義されていない、または参照することを想定していない</li>
+</ol>
+</li>
+<li>比較演算子
+<ol>
+<li>三項演算子</li>
+<li><code>==</code>,<code>===</code></li>
+</ol>
+</li>
+<li>論理演算子
+<ol>
+<li><code>&amp;&amp;</code>,<code>||</code>,<code>!</code></li>
+</ol>
+</li>
+<li>ループ処理
+<ol>
+<li><code>do...while</code>,<code>while</code>: 条件式の真偽に応じてループを制御する</li>
+<li><code>for</code>: 指定された回数だけループする</li>
+<li><code>for...in</code>: 連想配列の中身を順に処理する</li>
+<li><code>for...of</code>: 配列の要素を順に処理する</li>
+<li><code>forEach</code>: 配列の内容を順に取り出しながら、決められた処理を実行する</li>
+</ol>
+</li>
+<li>オブジェクト
+<ol>
+<li>コンストラクターとインスタンス</li>
+<li><s>RegExpオブジェクト</s></li>
+<li><code>isNaN</code></li>
+</ol>
+</li>
+<li>関数
+<ol>
+<li>可変長引数の関数 p.318</li>
+</ol>
+</li>
+</ol>
+<h2 id="引用メモ">引用メモ</h2>
+<blockquote>
+<p>オペランドとは オペランドとは、コンピュータの演算における値や変数のことである。<br>
+オぺランドは演算の種類や内容を表す演算子（オペレータ）によって演算対象となるもので、<br>
+例えば「7×3」という計算式があれば、「7」と「3」がオペランドとなる。<br>
+「7×3」の演算における「×」はオペレータとして、計算の内容を規定する。</p>
+</blockquote>
+<h2 id="scriptjs---88条件文---0を表示するために">script.js - 88(条件文) - '0.'を表示するために</h2>
+<pre><code class="language-js"><span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;00&#x27;</span> &amp;&amp; result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span>) {
+   <span class="hljs-comment">// &#x27;00&#x27;を押したときは何もしない</span>
+   <span class="hljs-comment">// すでに &#x27;0&#x27; が表示されている場合は何もしない</span>
+   <span class="hljs-keyword">return</span>;
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp;
+   (numberText !== <span class="hljs-string">&#x27;00&#x27;</span> || numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)) {
+   <span class="hljs-comment">// 表示が&#x27;0&#x27;かつ入力が&#x27;00&#x27;か&#x27;0&#x27;ではないとき、</span>
+   <span class="hljs-comment">// 最初の &#x27;0&#x27; を数字に置き換え</span>
+   result.<span class="hljs-property">value</span> = numberText;
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+   <span class="hljs-comment">// 0が表示されており、かつ&#x27;.&#x27;を入力したとき</span>
+   <span class="hljs-comment">// &#x27;0&#x27;を&#x27;0.&#x27;に置き換える</span>
+   result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;
+}
+<span class="hljs-comment">// else if (result.value === &#x27;0&#x27; &amp;&amp; numberText !== &#x27;.&#x27;) {//!</span>
+<span class="hljs-comment">//    // &#x27;0&#x27;が表示されており、かつ数字以外の入力がある場合は</span>
+<span class="hljs-comment">//    // 最初の &#x27;0&#x27; を数字に置き換え</span>
+<span class="hljs-comment">//    result.value = numberText;</span>
+<span class="hljs-comment">// }</span>
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+   <span class="hljs-comment">// 小数点が含まれている場合でも、</span>
+   <span class="hljs-comment">// さらに小数点を入力しようとしたときは何もしない.</span>
+   <span class="hljs-comment">// 小数点が表示されており、かつ小数点を入力したとき</span>
+   <span class="hljs-comment">// 何もしない</span>
+   <span class="hljs-keyword">return</span>;
+} <span class="hljs-keyword">else</span> {
+   <span class="hljs-comment">// 数字を連続して入力する</span>
+   result.<span class="hljs-property">value</span> += numberText;
+}
+</code></pre>
+<hr>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/dP913e8m44NtFSMmgiH8M6iyW7lZYas50Pl0b4odnkFRO5GaH8dT_ivxl-aaSi4EeMJPD8n8AkdPD9s1uF64BBOqxQ46HygBOL6sXXM5xenyn9k0zQ3pN4D1Xgg2WD67LhAhQGC-Gfr2L922UBQC4fXs2biVuuYQkVzYJJpavEbo7EEvLAUVjX5yFnfOM63opan_WUiyqtzXX-9VqRzxbux4M1ewBct__eWPwNfYfShMSG5Sh-u0"><hr>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/Kop9ICrDLKWkAj5DBqfDpUDIB2XAJCzDL2WjJWrBBIh9J4xCyKnJoC_ZAYv9B2hXoanJq7ZQklHfr-p7ZJtg1WRgCNcF6xiVDow9oNknSCNp9Rl0mkgF6zSzRbpnkB5NKm5eGHwN0X1OFTaxzN5Jq-F6wOyRLprkRB7cIiqfJbK0cOYg5M8SgZMF6vS_RbmFqGYoSj_Znlb0WPWy95KeYg3M8ziFisKTI6dJ98ZEfmrB7ZUkVhvttRF-sJXT1FKCmgy8M_Mm-nLYXRe1I1g_wRWCNOxY3mgziHfa953jXDMF6_UJu0siKORi3B2zwvxkwm7QWN19qwGN-_S-xLe0L9-Nafa6J3lv1Lm0"><hr>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/hL9DJi905DxFAORLwCAcYJiuWHTmrGKD3aXI1j8Mrxm64mDe3Bf1Oz2a1c8Js18IuJ3FAhs5hoq4ccWYYRFyvdlVpxp9kUUo9dd9TeygjfIAvHgsMQcPlEd8KscxrP9fdPHvNR6yq0GFBr_3pkFdx0fXYJ0InmAzVWeMcEEQjikgPNwG8WWzeUl2K0XT1DzGgvVnbpzFO84mGHWZN1zoYg0OfvEFMWyHt1IOj1p9Ow7iHAgILQSK25E4DuHsxBH0619Wg1rMXhHstSDs7NJROokj_TmZEx_rBlp1xpURKIR-FvW5iInjxpQWPUvHBi6dyPXtb_YrqUkkpJR3qqtaR1Q49_HwoPBeRXAsVA5hz8SWC5IQ9XhuISdXnwn394CLRUaqBLUxCAscB19pjRn76AHzTX-0n6B91Sa7QOmOyVghvNlOUIQ-EgkMwO_M6-mR"><p><img src="file:////images/if-plantUML-0.png" alt="if文のメモ"></p>
+<hr>
+<pre><code class="language-js"><span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;00&#x27;</span> &amp;&amp; result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span>) {
+   <span class="hljs-comment">// すでに &#x27;0&#x27; が表示されている場合は&#x27;00&#x27;を入力しても何もしない</span>
+   <span class="hljs-comment">//// console.log(result.value, numberText);</span>
+   <span class="hljs-keyword">return</span>;
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp;
+   (numberText !== <span class="hljs-string">&#x27;00&#x27;</span> || numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)) {
+   <span class="hljs-comment">// 表示が&#x27;0&#x27;かつ入力が&#x27;00&#x27;か&#x27;0&#x27;ではないとき、最初の&#x27;0&#x27;を数字に置き換え</span>
+   <span class="hljs-comment">//// console.log(result.value, numberText);</span>
+   result.<span class="hljs-property">value</span> = numberText; <span class="hljs-comment">// result.value を更新</span>
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+   <span class="hljs-comment">// 0が表示されており、かつ&#x27;.&#x27;を入力したとき末尾に&#x27;.&#x27;を追加する</span>
+   <span class="hljs-comment">//// console.log(result.value, numberText);</span>
+   result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+   <span class="hljs-comment">// 既に小数点が含まれている場合、&#x27;.&#x27;を追加しない</span>
+   <span class="hljs-comment">//// console.log(result.value, numberText);</span>
+   <span class="hljs-keyword">return</span>;
+} <span class="hljs-keyword">else</span> {
+   <span class="hljs-comment">// 数字を連続して入力する</span>
+   <span class="hljs-comment">//// console.log(result.value, numberText);</span>
+   result.<span class="hljs-property">value</span> += numberText; <span class="hljs-comment">// result.value を更新</span>
+}
+</code></pre>
+<hr>
+<pre><code class="language-js">result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+numbers.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span> {
+    number.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">const</span> numberText = number.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;data-numbers&#x27;</span>);
+        <span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;00&#x27;</span> &amp;&amp; result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText);
+            <span class="hljs-keyword">return</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp;
+            (numberText !== <span class="hljs-string">&#x27;00&#x27;</span> || numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText);
+            result.<span class="hljs-property">value</span> = numberText;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText);
+            result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span> + <span class="hljs-string">&#x27;.&#x27;</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText);
+            <span class="hljs-keyword">return</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText);
+            result.<span class="hljs-property">value</span> += numberText;
+        }
+    });
+});
+</code></pre>
+<h3 id="解決---0を表示する方法">解決 - '0.'を表示する方法</h3>
+<p><code>if</code>を入れ子にすることで、数値を画面に表示する<code>result.value</code>に<br>
+<code>0.</code>を表示することができた。</p>
+<p>それまでは、'.'ボタンを押しても期待する表示'0.'ではなく'.'のみが<br>
+表示されてしまっていた。<br></p>
+<p>問題があったのは</p>
+<pre><code class="language-js">} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp;
+   (numberText !== <span class="hljs-string">&#x27;00&#x27;</span> || numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)) {
+   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText);
+   result.<span class="hljs-property">value</span> = numberText;
+</code></pre>
+<p>この部分で、'.'を押した際にこの条件分岐に引っかかり、<br>
+<code>result.value = '.'</code>が実行されていた。<br>
+そのためにその下の分岐の<code>result.value = '0' + '.';</code><br>
+が実行されることなく、結果として'0.'が表示されなかった。</p>
+<pre><code class="language-js"><span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;00&#x27;</span>) {
+   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText, <span class="hljs-string">&#x27;A&#x27;</span>);
+   result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+   (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;00&#x27;</span>) ||
+   (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)
+) {
+   <span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+         result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;
+         <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText, <span class="hljs-string">&#x27;Ba&#x27;</span>);
+   } <span class="hljs-keyword">else</span> {
+         result.<span class="hljs-property">value</span> = numberText;
+         <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText, <span class="hljs-string">&#x27;Bb&#x27;</span>);
+   }
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText, <span class="hljs-string">&#x27;C&#x27;</span>);
+   <span class="hljs-keyword">return</span>;
+} <span class="hljs-keyword">else</span> {
+   <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result.<span class="hljs-property">value</span>, numberText, <span class="hljs-string">&#x27;D&#x27;</span>);
+   result.<span class="hljs-property">value</span> += numberText;
+}
+</code></pre>
+<h3 id="アクティビティ図0の表示">アクティビティ図(0の表示)</h3>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/Kop9ICrDLKWkAj5DBqfDpUDIB2XAJCzDL2WjJWrBBIh9J4xCyKnJoC_ZAYv9B2hXoanJq7YnSCNp9RiUD_Qe6wZ7v3rkx7xSk2GcxsdhqgTTiy6Y1kgF6zSzRbpnkB5NKm5eGPw2HcHgiIQN0X1OAG1rFMwQ13DazOiLQv-kcsNDbPfJdAe0CfuuyvS_Rbp_k77LuyOMJP2QVOyRvmD5Ol88wqRLZDkb8BSWjEdXyHFCNtfOFGQI1NjEmoyVMJtKR5mwyb8oqn210bUZ3hRawOJLZnltO_EU7jwmVx9twkEcfiUDqo6-XuOwt65O7RL_xzEk1K2LO0SLb-GNS040"><p><img src="file:////Users/sakimine/Desktop/JavaScript学習/my-vanilla-cal/md/images/if-plantUML-1.png" alt="if文のメモ"></p>
+<h2 id="オペレータを押したときの挙動">オペレータを押したときの挙動</h2>
+<ol>
+<li>
+<p>配列にいれてしまえ -&gt; <code>evel</code>を使わざるをえない</p>
+</li>
+<li>
+<p>配列はやめる</p>
+</li>
+<li>
+<p>入れた後はオペランドをどこかに保存して<code>result.value</code>をクリアする</p>
+</li>
+<li>
+<p><code>operations.forEach(operator =&gt; {</code>以下に、</p>
+<ol>
+<li>オペレータを押すと表示の数値を変数に格納し</li>
+<li><s>表示をクリアにする</s>
+<ol>
+<li>消す必要なし。ただし押したオペレータを明示する。</li>
+</ol>
+</li>
+<li>次オペランドを入力したときに前オペランドが消えないよう<br>いずれかのオペレータ押下後は加算代入で付け足していく</li>
+<li>メソッドの利用方法を考える</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-js"><span class="hljs-comment">//? 1. 数字(オペランド(A))を押した</span>
+<span class="hljs-comment">//? 2. オペレーターを押した</span>
+<span class="hljs-comment">//?     1. オペランド(A)を変数`firstOperand`に格納する</span>
+<span class="hljs-comment">//? 3. 数字を押すと、その数字をオペランド(B)の入力を受け付ける</span>
+<span class="hljs-comment">//?     1. オペランド(B)を変数`secondOperand`に格納する</span>
+<span class="hljs-comment">//? 4. オペレータかイコールか</span>
+<span class="hljs-comment">//?     1. `nextStage`変数で、次のアクションを示す</span>
+<span class="hljs-comment">//?     2. オペレータが押された時`nextState = &#x27;number&#x27;;`</span>
+<span class="hljs-comment">//?        数字が押されたとき`nextState = &#x27;operator&#x27;;`</span>
+<span class="hljs-comment">//?     3. `number`ならオペレータを入力させる.</span>
+<span class="hljs-comment">//?        `operator`なら数字を入力させる</span>
+<span class="hljs-comment">//! 分岐点(operator or equal)</span>
+<span class="hljs-comment">//? 5. オペレータを押すことで...</span>
+<span class="hljs-comment">//?     1. `nextStage`を`number`に変更</span>
+<span class="hljs-comment">//?     ?. 一時的な結果を`temporaryResult`として表示</span>
+<span class="hljs-comment">//?     3. オペランド(B)を変数`secondOperand`に格納</span>
+<span class="hljs-comment">//?     4. `firstOperand`をメソッドの第一引数にする &lt;- ??</span>
+<span class="hljs-comment">//?     ?. 一時的な結果を`firstOperand`に代入</span>
+<span class="hljs-comment">//! 分岐点(number or operand)</span>
+<span class="hljs-comment">//? 6. イコールを押すことで...</span>
+<span class="hljs-comment">//?     1. `nextStage`を変更</span>
+<span class="hljs-comment">//?     2. メソッドの計算結果を表示する</span>
+</code></pre>
+<h3 id="アクティビティ図オペレータ">アクティビティ図(オペレータ)</h3>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/Kop9ICrDLKWkAj5DBqfDpUDIB2XAJCzDL2WjJWrBBIh9J4xCyKnJoC_ZAiaioKbLUDoqwd7phCVDAnytRtxStFcuSTtJzcNF9xHn5PSa5fLm5QKMf2QMA5YXATDmr7pSDEbfwzAdNREjkHI00AvYpUFcFO-RzWEbNpRkUDOr3o8D0keAUVabgGevgMabLdv05ge-cCbE62O7fHQNvfI0HDjtmKMJ4fEponEBKf2aO_AmkB9njJNC4-KPcK0FQpoRjk5nu_p7ZQkUJTtmj669fa9ciO86n49DeA_p2xW0">
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/Kop9ICrDLKWkAj5DBqfDpUDIB2XAJCzDL2WjJWrBBIh9J4xCyKnJoC_ZSYWkIImgAStDuIh9BCb9LNZSjEfnywp7pIiVDsz-tDpvk77Tq_PbpoUq6N615NALPsG2LMaycxRXSUFynushdatTyBHXYQP2Ph62njFMfK-xPcjoAG215Pf16ewQrgWIQnutxtdSjFznqwINZJkUTSspngxFIHEe0c8oL4LGQd5fJWb8j7qN5j6OF4oh7pUkjkPApKi1knxgpiUDqu7kVzpOeWdqMdu15m00"><hr>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/ZLBBIiD05DtFLyHTkn2bui9su-C31DrsqT3UQY2TbCaKT6Sokl05KYZ5Ag9OHTegWXL4AtxCDOcVuHsfLTCgBf8mC-USUywPZCbLA86H5t9yHG1mDkjAKyXAoMRIaZOOYsKG9YyO2wQThzYcj1pEYeuZGHYfoTJKnEJCH6gQVP1OkWzEp2NHhmPR5y7EKOO9A8D9X-XjejT0Vm-zNVHkq6-XQg3geEgX_qA4SAU7tc4c9fFbkQ8bNDdVpA7N3azxKNUVW45pEwpTniur9Iwkpj1_HgLGRTFeB8ywdTU7ZQ1N8pe9lZwTariIf6LmNV_qKaVlCii_tSn_3vN-iPlbVISkv1rU-CDg770JR3J_vPXUslJZtf1fPXMDHBnSTVmXSZUeDMdGJNC2_foJP6ag8ZpqemO9jABxW_24gDMtiwke-VZbcyEQN9Rc2dptd7Dq3ka8dLG3ZxgPN_G63KaebHrXYlKbS2ks7DNHC6GmSUI5VrK1jWiw8e7lT3xLfdn3cO0Nz6CLsInzzA_-3W00"><p><img src="file:////Users/sakimine/Desktop/JavaScript学習/my-vanilla-cal/md/images/OperandCalculation.png" alt="OperandCalculation"></p>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/RL7BJW914BpFLuottOC_m5vG4hsf1oyc7bXXa4cMNJ8xHBqviveeOc98YF4H41-H244JDHB5hscOnRzmm0qGjO_TLTLLtJCyIt84fnYVtMI4k2ZkSvlnGiv1d7A7uEKyORQRnWdRIHKScrFFNNUD1RfDqdXZ1oUoDbzSMJNHY8PGBC8RSoR8Sd__hb-yiA8kzvZkVOcEAbQj2N9-6eaOoHER8wmhrkligZCPdk-1U1Wq3iBsQVXweggNrcXCCzWOwugIAdP1L42MGDH079bO9tEniKPySmJ_e_YZfNSdCvJvFBAJ1D5KLztmvTYQq7uXP1c2EiXF20883a6qmrPBA_Ux5LLvqlpUnutECyN_D-fmGXoVO6F9cx8ujZMeDyBRzmZdfcackWtUobBz64Erwdero6kGZo3V8BY7u5dp9ZTfcaZ_nSkZkEOFN_eD"><p><img src="file:////Users/sakimine/Desktop/JavaScript学習/my-vanilla-cal/md/images/OperandCalculation(FixedByChatGPT).png" alt="OperandCaluculation(Fixed)"></p>
+<h2 id="コンストラクタを設計する">コンストラクタを設計する</h2>
+<ol>
+<li>前オペランドと次オペランドをパラメータにした</li>
+<li>引数に数値を入れることでオペレータに応じた計算をさせることができた</li>
+<li>入力した値を引数にする</li>
+<li>オペレータを通して処理されたオペランド(A)のResultが次のオペランド(A)になる(?)</li>
+</ol>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> calculator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>(<span class="hljs-number">20</span>, <span class="hljs-number">10</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`addition: <span class="hljs-subst">${calculator.add()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`subtraction: <span class="hljs-subst">${calculator.subtract()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`multiplication: <span class="hljs-subst">${calculator.multiply()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`division: <span class="hljs-subst">${calculator.divide()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`percent: <span class="hljs-subst">${calculator.percent()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`plusMinus: <span class="hljs-subst">${calculator.plusOrMinus()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;--------------------&#x27;</span>);
+</code></pre>
+<h3 id="コンストラクタのthis">コンストラクタの<code>this</code></h3>
+<blockquote>
+<p>thisキーワードは、<code>new演算子</code>によって生成されるインスタンス(つまり自分自身)を表すものです。</p>
+</blockquote>
+<h2 id="evalについて"><code>eval</code>について</h2>
+<ul>
+<li><code>eval</code>は文字列を引数として扱う。
+<ul>
+<li>引数が算術式に相当する場合、<code>eval</code>は算術式として扱う。</li>
+</ul>
+</li>
+<li>悪意ある第三者が悪意あるコードを実行させることが可能であるため、<br>仕様は厳禁である。</li>
+<li>多くの場合、<code>eval</code>は他の方法よりも低速である。</li>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/eval">eval()</a></li>
+</ul>
+<blockquote>
+<p>警告: 文字列から JavaScript を実行することは、<br>
+非常に大きなセキュリティリスクを伴います。<br>
+<code>eval()</code> を使用すると、悪意のある者が任意のコードを実行することが<br>
+あまりにも簡単になります。<br>
+下記の <code>eval()</code> を使わないでください!を参照してください。<br></p>
+</blockquote>
+<hr>
+<hr>
+<hr>
+<h2 id="コード置き場">コード置き場</h2>
+<h3 id="ボタンがクリックされたときの処理を設定">ボタンがクリックされたときの処理を設定</h3>
+<pre><code class="language-js"><span class="hljs-comment">// ボタンがクリックされたときの処理を設定</span>
+buttons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> buttonText = button.<span class="hljs-property">innerText</span>; <span class="hljs-comment">// ボタンのテキストを取得</span>
+    button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-comment">// ここで buttonText を使用して処理を行う</span>
+        <span class="hljs-comment">// result.value += buttonText; //`result`に数字を表示する</span>
+
+        <span class="hljs-comment">// もしオペレータを押したら、`result.value`を変数に格納しディスプレイをクリアし、</span>
+        <span class="hljs-comment">// 各種メソッドを呼び出す</span>
+        <span class="hljs-comment">// ----------</span>
+        <span class="hljs-keyword">if</span> (buttonText !== <span class="hljs-built_in">isNaN</span>) { <span class="hljs-comment">//buttonがNumberであるとき</span>
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buttonText);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(buttonText === <span class="hljs-built_in">isNaN</span>){ <span class="hljs-comment">//buttonがNumberでないとき</span>
+            result.<span class="hljs-property">value</span> += buttonText;
+        }
+    });
+});
+</code></pre>
+<h3 id="0とを扱う条件分岐">'0'と'.'を扱う条件分岐</h3>
+<pre><code class="language-js">result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>; <span class="hljs-comment">//* 初期の表示は`0`</span>
+numbers.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span> {
+    number.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">const</span> numberText = number.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;data-numbers&#x27;</span>); <span class="hljs-comment">// 押された数字</span>
+        <span class="hljs-comment">// console.log(`Number:${numberText}`);</span>
+        <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;00&#x27;</span>) {
+            <span class="hljs-comment">// すでに &#x27;0&#x27; が表示されている場合は</span>
+            <span class="hljs-comment">// &#x27;00&#x27;を入力しても&#x27;0&#x27;を表示する</span>
+            <span class="hljs-comment">// console.log(result.value, numberText, &#x27;A&#x27;);</span>
+            result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+            (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;00&#x27;</span>) ||
+            (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)
+        ) {
+            <span class="hljs-comment">// 表示が&#x27;0&#x27;かつ入力が&#x27;00&#x27;または</span>
+            <span class="hljs-comment">// 表示が&#x27;0&#x27;かつ入力が&#x27;0&#x27;のとき</span>
+            <span class="hljs-comment">// 表示の&#x27;0&#x27;を&#x27;.&#x27;か&#x27;0~9&#x27;までの数字に置換</span>
+            <span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+                result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;
+                <span class="hljs-comment">// console.log(result.value, numberText, &#x27;Ba&#x27;);</span>
+            } <span class="hljs-keyword">else</span> {
+                result.<span class="hljs-property">value</span> = numberText;
+                <span class="hljs-comment">// console.log(result.value, numberText, &#x27;Bb&#x27;);</span>
+            }
+            <span class="hljs-comment">// result.value を更新</span>
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;.&#x27;</span>) { <span class="hljs-comment">// 既に小数点が含まれている場合、&#x27;.&#x27;を追加しない</span>
+            <span class="hljs-comment">// console.log(result.value, numberText, &#x27;C&#x27;);</span>
+            <span class="hljs-keyword">return</span>;
+        } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// 数字を連続して入力する</span>
+            <span class="hljs-comment">// console.log(result.value, numberText, &#x27;D&#x27;);</span>
+            result.<span class="hljs-property">value</span> += numberText; <span class="hljs-comment">// result.value を更新</span>
+        }
+        <span class="hljs-comment">// console.log(&#x27;--------------------&#x27;);</span>
+    });
+});
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Calculator</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">pre, next, result</span>) {
+        <span class="hljs-comment">//</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = pre;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = next;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = result;
+    }
+    <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">subtract</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> - <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">multiply</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> =  <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">divide</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> === <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;0で除算はできません&quot;</span>);
+        }
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> / <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">percent</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * <span class="hljs-number">0.01</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">plusOrMinus</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = -<span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">getResult</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+}
+
+<span class="hljs-keyword">const</span> buttons = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;button&#x27;</span>);
+<span class="hljs-keyword">const</span> numbers = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;button[data-numbers&#x27;</span>);
+<span class="hljs-keyword">const</span> clear = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;button[data-clear]&#x27;</span>);
+<span class="hljs-keyword">const</span> clearEntries = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;button[data-clearEntries]&#x27;</span>);
+<span class="hljs-keyword">const</span> operations = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;button[data-operation]&#x27;</span>);
+<span class="hljs-keyword">const</span> equal = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;button[data-equal]&#x27;</span>);
+<span class="hljs-keyword">const</span> result = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;result&#x27;</span>);
+
+<span class="hljs-keyword">let</span> nextStage = <span class="hljs-string">&#x27;operator&#x27;</span>;
+<span class="hljs-keyword">let</span> firstOperand = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">let</span> secondOperand = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">let</span> temporaryResult = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">let</span> selectedOperand = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">const</span> calculator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>(firstOperand, secondOperand);
+
+result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+numbers.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">number</span> =&gt;</span> {
+    number.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">const</span> numberText = number.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;data-numbers&#x27;</span>);
+        <span class="hljs-keyword">if</span> (firstOperand !== <span class="hljs-literal">null</span> &amp;&amp; nextStage === <span class="hljs-string">&#x27;number&#x27;</span>) {
+            result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (secondOperand !== <span class="hljs-literal">null</span>) {
+            result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+        }
+
+        <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;00&#x27;</span>) {
+            result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+            (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;00&#x27;</span>) ||
+            (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)
+        ) {
+            <span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+                result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;
+            } <span class="hljs-keyword">else</span> {
+                result.<span class="hljs-property">value</span> = numberText;
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+            (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span>) &amp;&amp;
+            (numberText === <span class="hljs-string">&#x27;.&#x27;</span>)
+        ) {
+            <span class="hljs-keyword">return</span>;
+        } <span class="hljs-keyword">else</span> {
+            result.<span class="hljs-property">value</span> += numberText;
+        }
+
+        nextStage = <span class="hljs-string">&#x27;operator&#x27;</span>;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`nextStage:<span class="hljs-subst">${nextStage}</span>`</span>);
+    });
+});
+
+operations.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">operator</span> =&gt;</span> {
+    operator.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">const</span> opeText = operator.<span class="hljs-property">innerHTML</span>;
+        <span class="hljs-keyword">if</span> (firstOperand === <span class="hljs-literal">null</span>) {
+            firstOperand = result.<span class="hljs-property">value</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (secondOperand === <span class="hljs-literal">null</span>) {
+            secondOperand = result.<span class="hljs-property">value</span>;
+        }
+
+        <span class="hljs-keyword">switch</span> (opeText) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>:
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Pushed &#x27;+&#x27;`</span>);
+                selectedOperand = <span class="hljs-string">&#x27;+&#x27;</span>;
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;-&#x27;</span>:
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Pushed &#x27;-&#x27;`</span>);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;÷&#x27;</span>:
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Pushed &#x27;÷&#x27;`</span>);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;×&#x27;</span>:
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Pushed &#x27;×&#x27;`</span>);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;%&#x27;</span>:
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Pushed &#x27;%&#x27;`</span>);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;±&#x27;</span>:
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Pushed &#x27;±&#x27;`</span>);
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-attr">default</span>:
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`他のオペレータが押された...?`</span>);
+        }
+
+        nextStage = <span class="hljs-string">&#x27;number&#x27;</span>;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`nextStage:<span class="hljs-subst">${nextStage}</span>, selectedOperand:<span class="hljs-subst">${selectedOperand}</span>`</span>);
+    });
+});
+
+clear.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`(<span class="hljs-subst">${clear.innerHTML}</span>):Clear`</span>);
+});
+
+clearEntries.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`(<span class="hljs-subst">${clearEntries.innerHTML}</span>):ClearEntries`</span>);
+});
+
+equal.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`(<span class="hljs-subst">${equal.innerHTML}</span>):Equal`</span>);
+    <span class="hljs-keyword">switch</span> (selectedOperand) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>:
+            <span class="hljs-keyword">const</span> adds = calculator.<span class="hljs-title function_">add</span>();
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(adds);
+    }
+    <span class="hljs-keyword">if</span> (secondOperand === <span class="hljs-literal">null</span>) {
+        secondOperand = result.<span class="hljs-property">value</span>;
+    }
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`FirstOperand:<span class="hljs-subst">${firstOperand}</span>, SecondOperand:<span class="hljs-subst">${secondOperand}</span>`</span>);
+});
+
+</code></pre>
+<h3 id="0判定20230929">0判定(2023/09/29)</h3>
+<pre><code class="language-js">        <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;00&#x27;</span>) {
+            <span class="hljs-comment">// 0の時,00を押しても...0のまま.</span>
+            <span class="hljs-comment">// result.value = &#x27;0&#x27;;</span>
+            <span class="hljs-keyword">return</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+            (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;00&#x27;</span>) ||
+            (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)) {
+            <span class="hljs-comment">// 0の時,0か00以外を押した時に...</span>
+            <span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {<span class="hljs-comment">// &#x27;.&#x27;を押すと...</span>
+                result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;<span class="hljs-comment">// &#x27;0.&#x27;を表示.</span>
+            } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// &#x27;.&#x27;を押さないときは...</span>
+                result.<span class="hljs-property">value</span> = numberText;<span class="hljs-comment">// 数字を表示.</span>
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+            (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span>) &amp;&amp; <span class="hljs-comment">// 表示に&#x27;.&#x27;があり...</span>
+            (numberText === <span class="hljs-string">&#x27;.&#x27;</span>)) { <span class="hljs-comment">//かつ&#x27;.&#x27;が入力されたら...</span>
+            <span class="hljs-keyword">return</span>; <span class="hljs-comment">//何もしない.</span>
+        } <span class="hljs-keyword">else</span> { <span class="hljs-comment">// 以上の条件に当てはまらないとき...</span>
+            result.<span class="hljs-property">value</span> += numberText; <span class="hljs-comment">//数字を後ろに追加する</span>
+        }
+</code></pre>
+<pre><code class="language-js">    <span class="hljs-keyword">if</span> ((result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;00&#x27;</span>) ||
+        (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)) {
+        <span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+            result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;
+        } <span class="hljs-keyword">else</span> {
+            result.<span class="hljs-property">value</span> = numberText;
+        }
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;00&#x27;</span>) {
+        <span class="hljs-keyword">return</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+        (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span>) &amp;&amp;
+        (numberText === <span class="hljs-string">&#x27;.&#x27;</span>)) {
+        <span class="hljs-keyword">return</span>;
+    } <span class="hljs-keyword">else</span> {
+        result.<span class="hljs-property">value</span> += numberText;
+    }
+
+</code></pre>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/ZL7DIiD04BxFKuovH153pWQX3v9BgriC9AjijlTCgA3s8fxy0n6Y28MALm_sOOQjFeQxIGc9L71FopVp_UotM_fOP08FbTuRPYEXO93heTAJB0MTw5JWzzFhL_LXYeffRfOFJ3TCBx4qPy_cyjx2NkXnEVK2ZscnkdXdcd9vRSuhixXZkkLo1b0hGZB6xLOC3p14fXbJXQsK0yCTG7lsbT0J9QC8H9eB_8lBHT5dnvBfa-cHwIsM_s4qTaw_2_k1tmpgB5qTFmpyg1wvO9jtMgNreZnAnXlUOGkrFgwjgpdJqaLt2JlTTfFq6u5VfhizryOnroUdCB1tzva_">
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var U=Object.defineProperty;var d=($,E)=>U($,"name",{value:E,configurable:!0});(()=>{var $={676:(w,b,g)=>{w.exports=g(185)},185:(w,b)=>{"use strict";var g;g={value:!0};const x={h1:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:()=>HTMLSpanElement},pre:{proto:()=>HTMLElement,style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},k="data-marp-auto-scaling-wrapper",u="data-marp-auto-scaling-svg",c="data-marp-auto-scaling-container",T=class T extends HTMLElement{constructor(){super(),this.svgPreserveAspectRatio="xMinYMid meet";const s=d(i=>([n])=>{const{width:e,height:t}=n.contentRect;this[i]={width:e,height:t},this.updateSVGRect()},"t");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(s("containerSize")),this.wrapperObserver=new ResizeObserver((...i)=>{s("wrapperSize")(...i),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){var s,i,n,e,t;this.shadowRoot.innerHTML=`
+<style>
+  svg[${u}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${c}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${k}>
+  <svg part="svg" ${u}>
+    <foreignObject><span ${c}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=(s=this.shadowRoot.querySelector(`div[${k}]`))!==null&&s!==void 0?s:void 0;const o=this.svg;this.svg=(n=(i=this.wrapper)===null||i===void 0?void 0:i.querySelector(`svg[${u}]`))!==null&&n!==void 0?n:void 0,this.svg!==o&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=(t=(e=this.svg)===null||e===void 0?void 0:e.querySelector(`span[${c}]`))!==null&&t!==void 0?t:void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:s}=this;s&&(s.style.display="inline",requestAnimationFrame(()=>{s.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(s){const i=d(()=>{const n=(()=>{const e=s.getPropertyValue("--preserve-aspect-ratio");return e?e.trim():`x${(({textAlign:t,direction:o})=>{if(t.endsWith("left"))return"Min";if(t.endsWith("right"))return"Max";if(t==="start"||t==="end"){let a=o==="rtl";return t==="end"&&(a=!a),a?"Max":"Min"}return"Mid"})(s)}YMid meet`})();n!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=n,this.updateSVGRect()),s===this.svgComputedStyle&&requestAnimationFrame(i)},"e");i()}updateSVGRect(){var s,i,n,e,t,o,a;let p=Math.ceil((i=(s=this.containerSize)===null||s===void 0?void 0:s.width)!==null&&i!==void 0?i:0);const h=Math.ceil((e=(n=this.containerSize)===null||n===void 0?void 0:n.height)!==null&&e!==void 0?e:0);this.dataset.downscaleOnly!==void 0&&(p=Math.max(p,(o=(t=this.wrapperSize)===null||t===void 0?void 0:t.width)!==null&&o!==void 0?o:0));const f=(a=this.svg)===null||a===void 0?void 0:a.querySelector(":scope > foreignObject");if(f?.setAttribute("width",`${p}`),f?.setAttribute("height",`${h}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${p} ${h}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=p<=0||h<=0?"0":""),this.container){const _=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=_.startsWith("xmid")||_.startsWith("xmax")?"auto":"0",this.container.style.marginRight=_.startsWith("xmi")?"auto":"0"}}};d(T,"s");let r=T;const m=d((l,{attrs:s={},style:i})=>class extends l{constructor(...n){super(...n);for(const[e,t]of Object.entries(s))this.hasAttribute(e)||this.setAttribute(e,t);this.attachShadow({mode:"open"})}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_update(){const n=i?`<style>:host { ${i} }</style>`:"";let e="<slot></slot>";const{autoScaling:t}=this.dataset;t!==void 0&&(e=`<marp-auto-scaling exportparts="svg:auto-scaling" ${t==="downscale-only"?"data-downscale-only":""}>${e}</marp-auto-scaling>`),this.shadowRoot.innerHTML=n+e}},"o");let v;const j=Symbol();let C;const z="marpitSVGPolyfill:setZoomFactor,",A=Symbol(),D=Symbol(),W=d(()=>{const l=navigator.vendor==="Apple Computer, Inc.",s=l?[B]:[],i={then:n=>(l?(async()=>{if(C===void 0){const e=document.createElement("canvas");e.width=10,e.height=10;const t=e.getContext("2d"),o=new Image(10,10),a=new Promise(p=>{o.addEventListener("load",()=>p())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await a,t.drawImage(o,0,0),C=t.getImageData(5,5,1,1).data[3]<128}return C})().then(e=>{n?.(e?[B]:[])}):n?.([]),i)};return Object.assign(s,i)},"h");let H,O;function B(l){const s=typeof l=="object"&&l.target||document,i=typeof l=="object"?l.zoom:l;window[D]||(Object.defineProperty(window,D,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:e,origin:t})=>{if(t===window.origin)try{if(e&&typeof e=="string"&&e.startsWith(z)){const[,o]=e.split(","),a=Number.parseFloat(o);Number.isNaN(a)||(O=a)}}catch(o){console.error(o)}}));let n=!1;Array.from(s.querySelectorAll("svg[data-marpit-svg]"),e=>{var t,o,a,p;e.style.transform||(e.style.transform="translateZ(0)");const h=i||O||e.currentScale||1;H!==h&&(H=h,n=h);const f=e.getBoundingClientRect(),{length:_}=e.children;for(let F=0;F<_;F+=1){const S=e.children[F];if(S.getScreenCTM){const y=S.getScreenCTM();if(y){const I=(o=(t=S.x)===null||t===void 0?void 0:t.baseVal.value)!==null&&o!==void 0?o:0,Z=(p=(a=S.y)===null||a===void 0?void 0:a.baseVal.value)!==null&&p!==void 0?p:0,Y=S.children.length;for(let R=0;R<Y;R+=1){const N=S.children[R];if(N.tagName==="SECTION"){const{style:q}=N;q.transformOrigin||(q.transformOrigin=`${-I}px ${-Z}px`),q.transform=`scale(${h}) matrix(${y.a}, ${y.b}, ${y.c}, ${y.d}, ${y.e-f.left}, ${y.f-f.top}) translateZ(0.0001px)`;break}}}}}}),n!==!1&&Array.from(s.querySelectorAll("iframe"),({contentWindow:e})=>{e?.postMessage(`${z}${n}`,window.origin==="null"?"*":window.origin)})}d(B,"u");function P({once:l=!1,target:s=document}={}){const i=function(n=document){if(n[A])return n[A];let e=!0;const t=d(()=>{e=!1,delete n[A]},"i");Object.defineProperty(n,A,{configurable:!0,value:t});let o=[],a=!1;(async()=>{try{o=await W()}finally{a=!0}})();const p=d(()=>{for(const h of o)h({target:n});a&&o.length===0||e&&window.requestAnimationFrame(p)},"o");return p(),t}(s);return l?(i(),()=>{}):i}d(P,"v"),H=1,O=void 0;const G=P,M=Symbol(),L=d((l=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((e=document)=>{const t=window[j];t||customElements.define("marp-auto-scaling",r);for(const o of Object.keys(x)){const a=`marp-${o}`,p=x[o].proto();v!=null||(v=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is")),v&&p!==HTMLElement?t||customElements.define(a,m(p,{style:x[o].style}),{extends:o}):(t||customElements.define(a,m(HTMLElement,x[o])),e.querySelectorAll(`${o}[is="${a}"]`).forEach(h=>{h.outerHTML=h.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${a}`).replace(new RegExp(`</${o}>$`,"i"),`</${a}>`)}))}window[j]=!0})(l),l[M])return l[M];const s=P({target:l}),i=d(()=>{s(),delete l[M]},"n"),n=Object.assign(i,{cleanup:i,update:()=>L(l)});return Object.defineProperty(l,M,{configurable:!0,value:n}),n},"y");b.browser=L,g=L,g=G}},E={};function V(w){var b=E[w];if(b!==void 0)return b.exports;var g=E[w]={exports:{}};return $[w](g,g.exports,V),g.exports}d(V,"__webpack_require__");var J={};(()=>{"use strict";var w=V(676);function b(){let u,c;const r=d(()=>{const m=document.getElementById("__marp-vscode"),v=!!m;u!==v?(document.body.classList.toggle("marp-vscode",v),v?c=(0,w.browser)():(c?.cleanup(),c=void 0),u=v):v&&c?.update(),u?(m&&g(m),x()):k()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(r,100)),window.addEventListener("vscode.markdown.updateContent",r),r()}d(b,"preview");const g=d(u=>{u.querySelectorAll("[is]").forEach(c=>{if(c.nodeName.includes("-")||document.createElement(c.nodeName).constructor!==c.constructor)return;const{outerHTML:m}=c;c.outerHTML=m,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",m.slice(0,m.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),x=d(()=>{const u=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),c=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');u.forEach(r=>{r.closest("#__marp-vscode")||(r.dataset.marpVscodeBody=r.textContent??"",r.textContent="")}),c.forEach(r=>{if(r.closest("#__marp-vscode"))return;const{href:m}=r;r.dataset.marpVscodeHref=m,r.removeAttribute("href")})},"removeStyles"),k=d(()=>{const u=document.querySelectorAll("style[data-marp-vscode-body]"),c=document.querySelectorAll("link[data-marp-vscode-href]");u.forEach(r=>{r.textContent=r.dataset.marpVscodeBody||"",delete r.dataset.marpVscodeBody}),c.forEach(r=>{r.href=r.dataset.marpVscodeHref||"",delete r.dataset.marpVscodeHref})},"restoreStyles");b()})()})();})();
+
+</script>
+
+    </body>
+    </html>

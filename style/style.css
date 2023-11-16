@@ -12,6 +12,10 @@ body {
     padding: 0;
 }
 
+a:visited{
+    color: rgba(210,210,210,1)
+}
+
 ul,
 li {
     font-size: 0.8rem;
@@ -193,4 +197,10 @@ key {
     font-size: 0.86rem;
     background-color: transparent;
     transition: background-color 1s ease;
+}
+
+.description {
+    color: rgb(211, 211, 211);
+    width:  700px;
+    font-size: 90%;
 }

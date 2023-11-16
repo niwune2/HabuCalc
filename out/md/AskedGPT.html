@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>ChatGPT&#x306b;&#x8a0a;&#x3044;&#x305f;&#x3053;&#x3068;</title>
+  <style>
+    /* From extension vscode.github */
+    /*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+    .vscode-dark img[src$=\#gh-light-mode-only],
+    .vscode-light img[src$=\#gh-dark-mode-only] {
+      display: none;
+    }
+
+    /* From extension bierner.markdown-checkbox */
+    .contains-task-list {
+      padding-left: 0;
+    }
+
+    .contains-task-list li {
+      margin-left: 24px;
+    }
+
+    .contains-task-list .task-list-item {
+      list-style: none;
+      padding-left: 0;
+      margin-left: 0;
+    }
+
+    .contains-task-list .contains-task-list {
+      padding-left: 20px;
+    }
+
+    /* From extension marp-team.marp-vscode */
+    #__marp-vscode {
+      all: revert;
+    }
+
+    /* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+    body.marp-vscode {
+      padding: 0;
+    }
+
+    body.marp-vscode img {
+      max-width: unset;
+      max-height: unset;
+    }
+
+    body.marp-vscode a,
+    body.marp-vscode a:hover,
+    body.marp-vscode code {
+      color: unset;
+    }
+
+    body.marp-vscode blockquote {
+      background: unset;
+      border-color: unset;
+    }
+
+    @media screen {
+      body.marp-vscode {
+        overflow-y: scroll;
+      }
+
+      #__marp-vscode [data-marp-vscode-slide-wrapper] {
+        margin: 20px;
+      }
+
+      #__marp-vscode svg[data-marpit-svg] {
+        box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+        display: block;
+        margin: 0;
+      }
+
+      /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+      #code-csp-warning {
+        background-color: #444;
+        box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+        color: white;
+        cursor: pointer;
+        font-family: sans-serif;
+        font-size: 12px;
+        line-height: 22px;
+        margin: 16px;
+        padding: 6px;
+        position: fixed;
+        right: 0;
+        text-align: center;
+        top: 0;
+        word-wrap: break-word;
+      }
+
+      #code-csp-warning:hover {
+        text-decoration: none;
+        background-color: #007acc;
+        box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+      }
+    }
+
+    @media print {
+      body.marp-vscode #code-csp-warning {
+        display: none;
+      }
+    }
+
+    /* From extension tsutsu3.markdown-named-codeblocks */
+    .named-fence-block {
+      position: relative;
+      padding-top: 2em !important;
+    }
+
+    .named-fence-filename {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0 4px;
+      font-weight: bold;
+      color: #000000;
+      background: #c0c0c0;
+      opacity: 0.6;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet"
+    type="text/css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  </style>
+  <style>
+    .task-list-item {
+      list-style-type: none;
+    }
+
+    .task-list-item-checkbox {
+      margin-left: -20px;
+      vertical-align: middle;
+      pointer-events: none;
+    }
+
+    body {
+      background-color: rgb(150,150,150);
+    }
+    
+    code {
+      background-color: rgba(30,30,30,0.5);
+    }
+
+    a {
+      color: rgba(0,0,150,1);
+    }
+  </style>
+
+</head>
+
+<body class="vscode-body vscode-dark">
+  <h1 id="chatgptに訊いたこと">ChatGPTに訊いたこと</h1>
+  <p>GPTに質問したことをメモします。</p>
+  <ul>
+    <li><a href="#chatgpt%E3%81%AB%E8%A8%8A%E3%81%84%E3%81%9F%E3%81%93%E3%81%A8">ChatGPTに訊いたこと</a>
+      <ul>
+        <li><a
+            href="#%E8%A8%88%E7%AE%97%E6%A9%9F%E3%82%92%E4%BD%9C%E3%82%8B%E3%81%AE%E3%81%AB%E5%BD%B9%E3%81%AB%E7%AB%8B%E3%81%A4%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AF">計算機を作るのに役に立つオブジェクトは？</a>
+          <ul>
+            <li><a
+                href="#js%E3%81%AE%E6%95%B0%E5%80%A4%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">JSの”数値オブジェクトについて”</a>
+            </li>
+            <li><a
+                href="#%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AE%E3%82%82%E3%81%AE">&quot;表示する&quot;ためのもの</a>
+            </li>
+            <li><a href="#%E5%B1%A5%E6%AD%B4%E3%82%92%E6%AE%8B%E3%81%99">&quot;履歴&quot;を残す</a></li>
+          </ul>
+        </li>
+        <li><a href="#class%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6"><code>class</code>について</a></li>
+        <li><a
+            href="#%E9%85%8D%E5%88%97%E3%82%92%E4%BD%BF%E3%81%86%E3%82%A2%E3%82%A4%E3%83%87%E3%82%A3%E3%82%A2">配列を使うアイディア</a>
+          <ul>
+            <li><a
+                href="#%E5%A4%89%E6%95%B0%E3%81%AF%E7%94%9F%E6%88%90%E3%81%A7%E3%81%8D%E3%81%AA%E3%81%84">変数は生成できない</a>
+            </li>
+          </ul>
+        </li>
+        <li><a
+            href="#%E6%AD%A3%E3%81%97%E3%81%84class%E3%81%AE%E6%9B%B8%E3%81%8D%E6%96%B9">正しい<code>class</code>の書き方</a>
+          <ul>
+            <li><a
+                href="#%E4%BB%96%E3%81%AE%E3%82%AA%E3%83%9A%E3%83%AC%E3%83%BC%E3%82%BF%E3%81%AE%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89">他のオペレータのメソッド</a>
+            </li>
+          </ul>
+        </li>
+        <li><a
+            href="#%E6%9D%A1%E4%BB%B6%E5%88%86%E5%B2%90-%E3%82%A4%E3%82%B3%E3%83%BC%E3%83%AB%E3%81%8B%E3%82%AA%E3%83%9A%E3%83%AC%E3%83%BC%E3%82%BF%E3%81%8B">条件分岐:
+            イコールかオペレータか</a></li>
+        <li><a
+            href="#%E3%82%A2%E3%82%AF%E3%83%86%E3%82%A3%E3%83%93%E3%83%86%E3%82%A3%E5%9B%B3%E3%81%AE%E6%B3%A8%E6%84%8F%E7%82%B9">アクティビティ図の注意点</a>
+          <ul>
+            <li><a href="#%E4%BF%AE%E6%AD%A3%E4%BE%8B">修正例</a></li>
+          </ul>
+        </li>
+        <li><a href="#%E3%82%B3%E3%83%B3%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC">コンストラクター</a>
+          <ul>
+            <li><a
+                href="#js%E3%81%AE%E3%82%B3%E3%83%B3%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%81%A8%E3%81%AF">JSのコンストラクターとは?</a>
+              <ul>
+                <li><a
+                    href="#%E5%90%8C%E3%81%98%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E3%81%A8%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E3%82%92%E6%8C%81%E3%81%A4%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%9C%E6%88%90%E3%81%A7%E3%81%8D%E3%82%8B">同じプロパティとメソッドを持つオブジェクトを簡単に作成できる</a>
+                </li>
+              </ul>
+            </li>
+            <li><a
+                href="#%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%B3%E3%83%B3%E3%82%B9%E3%83%88%E3%83%A9%E3%82%AF%E3%82%BF%E3%83%BC%E3%81%A8%E3%81%AF">クラスを使ったコンストラクターとは?</a>
+            </li>
+            <li><a
+                href="#%E5%91%BC%E3%81%B3%E5%87%BA%E3%81%97%E9%83%A8%E5%88%86%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">呼び出し部分について</a>
+            </li>
+            <li><a
+                href="#%E6%96%B0%E3%81%97%E3%81%84%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%A4%E3%83%B3%E3%82%B9%E3%82%BF%E3%83%B3%E3%82%B9%E3%81%AB%E7%8B%AC%E8%87%AA%E3%81%AE%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E3%82%92%E8%BF%BD%E5%8A%A0%E5%8F%AF%E8%83%BD">新しいオブジェクト(=インスタンス)に独自のプロパティを追加可能</a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#function%E3%81%AE%E5%9F%BA%E6%9C%AC">functionの基本</a>
+          <ul>
+            <li><a href="#function%E3%81%AE%E5%A0%B4%E6%89%80">functionの場所</a></li>
+            <li><a href="#%E5%B7%BB%E3%81%8D%E4%B8%8A%E3%81%92%E3%81%A8%E3%81%AF">巻き上げとは</a></li>
+            <li><a
+                href="#%E5%B7%BB%E3%81%8D%E4%B8%8A%E3%81%92%E3%81%8C%E5%AD%98%E5%9C%A8%E3%81%99%E3%82%8B%E7%90%86%E7%94%B1%E3%81%AF">巻き上げが存在する理由は？</a>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#%E6%AD%A3%E8%A6%8F%E8%A1%A8%E7%8F%BE%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6">正規表現について</a>
+          <ul>
+            <li><a
+                href="#%E6%9D%A1%E4%BB%B6%E6%96%87%E3%81%A7%E6%95%B0%E5%AD%97%E3%82%92%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF%E3%81%99%E3%82%8B">条件文で数字をチェックする</a>
+            </li>
+            <li><a
+                href="#match%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E9%83%A8%E5%88%86%E6%96%87%E5%AD%97%E5%88%97%E3%82%92%E6%A4%9C%E7%B4%A2%E3%81%97%E3%81%A6%E8%BF%94%E3%81%99"><code>match</code>メソッド(部分文字列を検索して返す)</a>
+            </li>
+            <li><a
+                href="#test%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E6%96%87%E5%AD%97%E5%88%97%E5%86%85%E3%81%AE%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%8B"><code>test</code>メソッド(文字列内のパターンを調べる)</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <h2 id="計算機を作るのに役に立つオブジェクトは">計算機を作るのに役に立つオブジェクトは？</h2>
+  <p>計算機を作成する際に役立つさまざまなオブジェクトがあります。以下は、計算機アプリケーションの開発において一般的に使用されるオブジェクトのいくつかです：</p>
+  <ol>
+    <li>
+      <p><strong>数値オブジェクト</strong>: <br>計算機は数値演算を行うため、数値を表現および操作するための数値オブジェクトが重要です。<br>主要な数値型オブジェクトには整数
+        (<code>int</code>)、浮動小数点数 (<code>float</code>) が含まれます。<br>これらのオブジェクトは計算機が数値計算を行う際に使用されます。</p>
+    </li>
+    <li>
+      <p><strong>文字列オブジェクト</strong>:
+        <br>ユーザーからの入力を受け取り、表示するために文字列オブジェクトが必要です。<br>文字列オブジェクトはテキストデータを表現し、文字列操作（例：連結、分割、置換など）を実行するのに使用されます。</p>
+    </li>
+    <li>
+      <p><strong>ボタンオブジェクト</strong>:
+        <br>計算機のユーザーインターフェースでボタンを表現するためのボタンオブジェクトが必要です。<br>これらのオブジェクトはユーザーが数値や演算子を入力するために使用され、<br>クリックイベントなどのアクションをトリガーします。
+      </p>
+    </li>
+    <li>
+      <p><strong>演算子オブジェクト</strong>: <br>計算機は数値演算を行うため、演算子を表現および操作するオブジェクトが必要です。<br>演算子オブジェクトは計算機の動作を制御し、数値演算を実行します。</p>
+    </li>
+    <li>
+      <p><strong>計算エンジンオブジェクト</strong>:
+        <br>計算機の中核部分は計算エンジンであり、数値演算や計算の制御を担当します。<br>これは計算機の主要なロジックを実装するオブジェクトで、<br>数式の解析や計算結果の追跡などを行います。</p>
+    </li>
+    <li>
+      <p><strong>表示オブジェクト</strong>:
+        <br>計算機の表示を管理するための表示オブジェクトが必要です。<br>これらのオブジェクトは数値や計算結果をユーザーに表示し、<br>ユーザーが操作した内容を表示します。</p>
+    </li>
+    <li>
+      <p><strong>履歴オブジェクト</strong>: <br>計算機が計算の履歴を保持し、過去の計算結果を参照できるようにする場合、<br>履歴オブジェクトが必要です。<br>これは計算の記録と復元を管理します。</p>
+    </li>
+    <li>
+      <p><strong>エラーハンドリングオブジェクト</strong>:
+        <br>計算機がエラー処理を実装する場合、エラーハンドリングオブジェクトが役立ちます。<br>エラーハンドリングオブジェクトはエラーの検出と適切なエラーメッセージの表示を担当します。</p>
+    </li>
+  </ol>
+  <p>これらのオブジェクトは、計算機アプリケーションの開発において一般的に使用されます。<br>
+    計算機の機能や要件に応じて、これらのオブジェクトを組み合わせて計算機を設計および実装します。<br>
+    また、計算機アプリケーションがウェブベースである場合、<br>
+    JavaScriptを使用してこれらのオブジェクトを実装することが一般的です。</p>
+  <hr>
+  <h3 id="jsの数値オブジェクトについて">JSの”数値オブジェクトについて”</h3>
+  <p>JavaScriptにおいて、数値を操作するための組み込みオブジェクトや関数がいくつか提供されています。以下は主要なものです：</p>
+  <ol>
+    <li>
+      <p><strong>Number オブジェクト</strong>: <br>JavaScriptにおける数値は、Number
+        オブジェクトで表されます。<br>このオブジェクトには、数値を操作するためのメソッドやプロパティが含まれています。<br>例えば、数値の四捨五入や小数点以下の桁数を制御するためのメソッドがあります。</p>
+      <pre><code class="language-javascript"><span class="hljs-keyword">let</span> num = <span class="hljs-number">123.456</span>;
+<span class="hljs-keyword">let</span> rounded = num.<span class="hljs-title function_">toFixed</span>(<span class="hljs-number">2</span>); <span class="hljs-comment">// 123.46</span>
+</code></pre>
+    </li>
+    <li>
+      <p><strong>Math オブジェクト</strong>: <br>Math
+        オブジェクトは、数学的な操作を提供します。<br>三角関数、指数関数、対数関数など、多くの数学関数が含まれています。<br>また、最大値、最小値、乱数生成など、一般的な数値操作もサポートしています。</p>
+      <pre><code class="language-javascript"><span class="hljs-keyword">let</span> x = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">sqrt</span>(<span class="hljs-number">25</span>); <span class="hljs-comment">// 5</span>
+<span class="hljs-keyword">let</span> randomNum = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>(); <span class="hljs-comment">// 0 から 1 未満のランダムな数</span>
+</code></pre>
+    </li>
+    <li>
+      <p><strong>基本的な算術演算子</strong>:
+        <br>JavaScriptは四則演算（+、-、*、/）や、余りを求める演算子（%）、<br>比較演算子（&lt;、&gt;、&lt;=、&gt;=、===、!==）を提供します。<br>これらの演算子を使用して、基本的な算術演算を行います。
+      </p>
+      <pre><code class="language-javascript"><span class="hljs-keyword">let</span> sum = <span class="hljs-number">5</span> + <span class="hljs-number">3</span>; <span class="hljs-comment">// 8</span>
+<span class="hljs-keyword">let</span> remainder = <span class="hljs-number">10</span> % <span class="hljs-number">3</span>; <span class="hljs-comment">// 1</span>
+<span class="hljs-keyword">let</span> isEqual = <span class="hljs-number">5</span> === <span class="hljs-number">5</span>; <span class="hljs-comment">// true</span>
+</code></pre>
+    </li>
+    <li>
+      <p><strong>パースと変換関数</strong>: <br>文字列から数値への変換や、数値から文字列への変換を行う関数があります。<br>これらは
+        <code>parseInt()</code>、<code>parseFloat()</code>、<code>toString()</code> などです。</p>
+      <pre><code class="language-javascript"><span class="hljs-keyword">let</span> str = <span class="hljs-string">&quot;42&quot;</span>;
+<span class="hljs-keyword">let</span> num = <span class="hljs-built_in">parseInt</span>(str); <span class="hljs-comment">// 42 (文字列から整数への変換)</span>
+<span class="hljs-keyword">let</span> str2 = num.<span class="hljs-title function_">toString</span>(); <span class="hljs-comment">// &quot;42&quot; (数値から文字列への変換)</span>
+</code></pre>
+    </li>
+  </ol>
+  <p>これらの機能を駆使して、JavaScriptでは数値を操作し、計算を行うことができます。<br>数値に対する操作は、JavaScriptの多くのアプリケーションで非常に重要です。</p>
+  <h3 id="表示するためのもの">&quot;表示する&quot;ためのもの</h3>
+  <p>JavaScriptで計算機を作成するために役立つ表示に関するオブジェクトやテクニックは以下の通りです：</p>
+  <ol>
+    <li>
+      <p><strong>HTML要素の操作</strong>:
+        <br>計算機のインターフェースを構築するために、HTML要素を操作するための方法があります。<br>代表的な方法は、<code>document.getElementById()</code>、<code>document.querySelector()</code>、<br>および
+        <code>document.createElement()</code> メソッドを使用して要素を取得し、作成することです。</p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// HTML要素を取得</span>
+<span class="hljs-keyword">const</span> resultDisplay = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;result&quot;</span>);
+
+<span class="hljs-comment">// 新しい要素を作成</span>
+<span class="hljs-keyword">const</span> button = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&quot;button&quot;</span>);
+button.<span class="hljs-property">textContent</span> = <span class="hljs-string">&quot;Click me&quot;</span>;
+</code></pre>
+    </li>
+    <li>
+      <p><strong>テキストの操作</strong>: <br>計算機の画面にテキストを表示する場合、テキストコンテンツを更新するための方法が必要です。<br>これには <code>textContent</code>
+        プロパティや <code>innerHTML</code> プロパティを使用できます。</p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// テキストコンテンツを更新</span>
+resultDisplay.<span class="hljs-property">textContent</span> = <span class="hljs-string">&quot;Result: 42&quot;</span>;
+</code></pre>
+    </li>
+    <li>
+      <p><strong>CSSスタイリング</strong>: <br>要素のスタイルを変更して、計算機の外観をカスタマイズできます。<br><code>style</code> プロパティを使用してスタイルを設定できます。
+      </p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// スタイルを設定</span>
+resultDisplay.<span class="hljs-property">style</span>.<span class="hljs-property">color</span> = <span class="hljs-string">&quot;blue&quot;</span>;
+button.<span class="hljs-property">style</span>.<span class="hljs-property">backgroundColor</span> = <span class="hljs-string">&quot;green&quot;</span>;
+</code></pre>
+    </li>
+    <li>
+      <p><strong>イベントハンドリング</strong>: <br>ユーザーがボタンをクリックなどのアクションを実行した場合、<br>それに応答するためのイベントハンドラを設定することができます。</p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// クリックイベントハンドラを設定</span>
+button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;click&quot;</span>, <span class="hljs-function">() =&gt;</span> {
+  <span class="hljs-comment">// ボタンがクリックされたときの処理</span>
+});
+</code></pre>
+    </li>
+    <li>
+      <p><strong>DOMの操作</strong>: <br>DOM（Document Object Model）を操作して、<br>要素の作成、追加、削除、属性の変更などを行うことができます。</p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// 新しい要素を追加</span>
+<span class="hljs-keyword">const</span> container = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&quot;container&quot;</span>);
+container.<span class="hljs-title function_">appendChild</span>(button);
+
+<span class="hljs-comment">// 要素を削除</span>
+container.<span class="hljs-title function_">removeChild</span>(button);
+</code></pre>
+    </li>
+    <li>
+      <p><strong>ライブラリとフレームワーク</strong>: <br>複雑なUIコンポーネントを構築するために、ライブラリ（例: React、Vue.js）や<br>フレームワーク（例:
+        Angular）を使用することも一般的です。</p>
+    </li>
+  </ol>
+  <p>これらのテクニックとオブジェクトを組み合わせて、計算機の表示を操作し、<br>ユーザーとの対話を実現できます。<br>計算機アプリケーションの要件に合わせて、これらの技術を活用してください。</p>
+  <h3 id="履歴を残す">&quot;履歴&quot;を残す</h3>
+  <p>計算機の履歴を残すためには、JavaScriptにおいてデータを保存および<br>操作するための適切なオブジェクトやメソッドを使用することができます。<br>以下は、履歴を管理するのに役立ついくつかの方法です。</p>
+  <ol>
+    <li>
+      <p><strong>配列 (Array)</strong>: <br>計算機の計算履歴を配列に保存することができます。<br>新しい計算が行われるたびに、その結果を配列に追加します。</p>
+      <pre><code class="language-javascript"><span class="hljs-keyword">const</span> history = []; <span class="hljs-comment">// 履歴用の空の配列</span>
+
+<span class="hljs-comment">// 計算結果を履歴に追加</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">addToHistory</span>(<span class="hljs-params">calculation, result</span>) {
+  history.<span class="hljs-title function_">push</span>({ calculation, result });
+}
+</code></pre>
+    </li>
+    <li>
+      <p><strong>localStorage</strong>: <br><code>localStorage</code>
+        オブジェクトを使用して、<br>計算履歴をブラウザのローカルストレージに保存することができます。<br>これにより、ユーザーがページをリロードしても履歴が保持されます。</p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// 履歴をローカルストレージに保存</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">saveHistoryToLocalStorage</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;calculationHistory&quot;</span>, <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(history));
+}
+
+<span class="hljs-comment">// ローカルストレージから履歴を読み込む</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">loadHistoryFromLocalStorage</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> storedHistory = <span class="hljs-variable language_">localStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;calculationHistory&quot;</span>);
+  <span class="hljs-keyword">if</span> (storedHistory) {
+    history = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(storedHistory);
+  }
+}
+</code></pre>
+    </li>
+    <li>
+      <p><strong>IndexedDB</strong>:
+        <br>より高度なデータベース操作が必要な場合、<br>IndexedDBを使用して履歴を保存できます。<br>IndexedDBはブラウザ内のデータベースを提供します。</p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// IndexedDBを開いて履歴を保存</span>
+<span class="hljs-keyword">const</span> request = indexedDB.<span class="hljs-title function_">open</span>(<span class="hljs-string">&quot;calculatorHistoryDB&quot;</span>, <span class="hljs-number">1</span>);
+<span class="hljs-keyword">let</span> db;
+
+request.<span class="hljs-property">onsuccess</span> = <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+  db = event.<span class="hljs-property">target</span>.<span class="hljs-property">result</span>;
+
+  <span class="hljs-comment">// 履歴をデータベースに保存</span>
+  <span class="hljs-keyword">const</span> transaction = db.<span class="hljs-title function_">transaction</span>(<span class="hljs-string">&quot;history&quot;</span>, <span class="hljs-string">&quot;readwrite&quot;</span>);
+  <span class="hljs-keyword">const</span> historyStore = transaction.<span class="hljs-title function_">objectStore</span>(<span class="hljs-string">&quot;history&quot;</span>);
+  historyStore.<span class="hljs-title function_">add</span>({ calculation, result });
+};
+</code></pre>
+    </li>
+    <li>
+      <p><strong>Cookies</strong>: <br>履歴情報をクッキーに保存することもできます。<br>ただし、クッキーには制限があり、小規模なデータの保存に適しています。</p>
+      <pre><code class="language-javascript"><span class="hljs-comment">// クッキーに履歴情報を保存</span>
+<span class="hljs-variable language_">document</span>.<span class="hljs-property">cookie</span> = <span class="hljs-string">`calculation=<span class="hljs-subst">${calculation}</span>; expires=Sat, 31 Dec 2022 23:59:59 UTC; path=/`</span>;
+</code></pre>
+    </li>
+    <li>
+      <p><strong>外部サーバーへのデータ送信</strong>: <br>履歴情報を外部サーバーに送信し、<br>サーバーサイドでデータベースに保存する方法も考えられます。</p>
+    </li>
+  </ol>
+  <p>これらの方法を組み合わせて、計算機の履歴を効果的に管理できます。<br>選択肢は計算機アプリケーションの要件に合わせて選択し、実装することが重要です。</p>
+  <h2 id="classについて"><code>class</code>について</h2>
+  <p>
+    もちろん、JavaScriptで<code>class</code>を使用してクラスを定義する基本的な方法について説明します。<br><code>class</code>を使ってオブジェクト指向プログラミングを行うことができます。<br>以下は基本的な構文です。
+  </p>
+  <pre><code class="language-javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Calculator</span> {
+  <span class="hljs-comment">// コンストラクタ</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// インスタンス変数の初期化</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-number">0</span>;
+  }
+
+  <span class="hljs-comment">// メソッドの定義</span>
+  <span class="hljs-title function_">add</span>(<span class="hljs-params">number</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> += number;
+  }
+
+  <span class="hljs-title function_">subtract</span>(<span class="hljs-params">number</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> -= number;
+  }
+
+  <span class="hljs-title function_">multiply</span>(<span class="hljs-params">number</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> *= number;
+  }
+
+  <span class="hljs-title function_">divide</span>(<span class="hljs-params">number</span>) {
+    <span class="hljs-keyword">if</span> (number === <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;Division by zero is not allowed.&quot;</span>);
+    }
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> /= number;
+  }
+
+  <span class="hljs-comment">// 結果を取得するメソッド</span>
+  <span class="hljs-title function_">getResult</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+  }
+}
+
+<span class="hljs-comment">// Calculatorクラスのインスタンスを作成</span>
+<span class="hljs-keyword">const</span> calculator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>();
+
+<span class="hljs-comment">// メソッドの呼び出し</span>
+calculator.<span class="hljs-title function_">add</span>(<span class="hljs-number">5</span>);
+calculator.<span class="hljs-title function_">multiply</span>(<span class="hljs-number">2</span>);
+calculator.<span class="hljs-title function_">subtract</span>(<span class="hljs-number">3</span>);
+calculator.<span class="hljs-title function_">divide</span>(<span class="hljs-number">4</span>);
+
+<span class="hljs-comment">// 結果を取得</span>
+<span class="hljs-keyword">const</span> result = calculator.<span class="hljs-title function_">getResult</span>();
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(result); <span class="hljs-comment">// 結果をコンソールに表示</span>
+</code></pre>
+  <p>
+    この例では、<code>Calculator</code>というクラスを定義しています。<br>このクラスにはコンストラクタといくつかのメソッドが含まれています。<br>コンストラクタはインスタンスを初期化し、<br>メソッドはオブジェクトの振る舞いを定義します。
+  </p>
+  <p>クラスを使用する際のポイント:</p>
+  <ol>
+    <li>
+      <p><strong>コンストラクタ</strong>: <br><code>constructor</code> メソッドはクラスのインスタンスを初期化します。<br>ここでインスタンス変数を初期化するのが一般的です。</p>
+    </li>
+    <li>
+      <p><strong>メソッド</strong>: <br>クラス内で定義された関数は、そのクラスのメソッドとして扱われます。<br>メソッドはオブジェクトの振る舞いを表現します。</p>
+    </li>
+    <li>
+      <p><strong>インスタンスの作成</strong>: <br>クラスからインスタンスを作成するには、<code>new</code> キーワードを使用します。<br>例:
+        <code>const calculator = new Calculator();</code></p>
+    </li>
+    <li>
+      <p><strong>メソッドの呼び出し</strong>: <br>インスタンスを使用してメソッドを呼び出します。<br>例: <code>calculator.add(5);</code></p>
+    </li>
+    <li>
+      <p><strong>thisキーワード</strong>: <br>インスタンス変数やメソッドにアクセスするために、<code>this</code> キーワードを使用します。<br>例:
+        <code>this.result</code> はインスタンスの <code>result</code> 変数を参照します。</p>
+    </li>
+  </ol>
+  <p>これは基本的なクラスの使い方です。計算機の例では四則演算のメソッドが含まれていますが、<br>他にもさまざまなプロパティやメソッドをクラスに追加できます。<br>計算機の機能を拡張したり、新しいクラスを作成する際に役立ちます。
+  </p>
+  <h2 id="配列を使うアイディア">配列を使うアイディア</h2>
+  <p>おはようございます！計算式を収めるために配列を使用するのは良いアイデアです。<br>
+    配列を使用することで、計算式を簡単に管理し、<br>
+    計算履歴を取得したり、計算結果を表示するのに役立ちます。</p>
+  <p>以下に、計算式を収めるための配列を使用した基本的なアイデアを示します。</p>
+  <ol>
+    <li>配列を宣言して計算式を格納するための変数を作成します。</li>
+  </ol>
+  <pre><code class="language-javascript"><span class="hljs-keyword">const</span> calculationExpression = [];
+</code></pre>
+  <ol start="2">
+    <li>数字や演算子が押されたときに、その値を配列に追加します。</li>
+  </ol>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 数字ボタンが押された場合</span>
+<span class="hljs-keyword">const</span> numberText = number.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;data-numbers&#x27;</span>);
+calculationExpression.<span class="hljs-title function_">push</span>(numberText);
+
+<span class="hljs-comment">// 演算子ボタンが押された場合</span>
+<span class="hljs-keyword">const</span> operatorText = operator.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;data-operators&#x27;</span>);
+calculationExpression.<span class="hljs-title function_">push</span>(operatorText);
+</code></pre>
+  <ol start="3">
+    <li>計算ボタンが押されたときに、配列内の要素を使用して計算を行います。</li>
+  </ol>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 計算ボタンが押された場合</span>
+<span class="hljs-keyword">const</span> expressionString = calculationExpression.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;&#x27;</span>); <span class="hljs-comment">// 配列内の要素を文字列に変換</span>
+<span class="hljs-keyword">const</span> result = <span class="hljs-built_in">eval</span>(expressionString); <span class="hljs-comment">// eval() を使用して計算</span>
+</code></pre>
+  <ol start="4">
+    <li>計算結果を表示し、計算式をクリアするなどの適切な処理を行います。</li>
+  </ol>
+  <p>このように、配列を使用することで、計算式を効果的に管理できます。<br>
+    計算履歴を保持するために、計算式ごとに配列を作成し、<br>
+    必要な情報を追加していくこともできます。<br>
+    計算式の履歴を保持する際には、複数の配列を管理することが考えられます。</p>
+  <h3 id="変数は生成できない">変数は生成できない</h3>
+  <p>JavaScriptにおいて、変数自体を動的に生成することはできません。<br>
+    変数はコードが実行される前に静的に定義される必要があります。<br>
+    しかし、動的なデータの管理や条件に応じたデータの保持には、<br>
+    配列やオブジェクトを使用することが一般的です。</p>
+  <p>特定の操作（例: 'C'ボタンが押されたとき）に対応する新しいデータを格納するには、<br>
+    既存の変数やデータ構造（配列やオブジェクト）を使用することが一般的です。<br>
+    新しいデータを追加するか、既存のデータをクリアすることができます。</p>
+  <p>たとえば、計算式の履歴を保持する場合、配列を使用して計算式を追加し、<br>
+    'C'ボタンが押されたときに配列をクリアすることができます。</p>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 計算式の履歴を保持するための配列</span>
+<span class="hljs-keyword">const</span> calculationHistory = [];
+
+<span class="hljs-comment">// 数字ボタンが押された場合</span>
+<span class="hljs-keyword">const</span> numberText = number.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;data-numbers&#x27;</span>);
+calculationHistory.<span class="hljs-title function_">push</span>(numberText);
+
+<span class="hljs-comment">// &#x27;C&#x27;ボタンが押された場合</span>
+<span class="hljs-keyword">if</span> (clearButtonIsPressed) {
+  calculationHistory.<span class="hljs-property">length</span> = <span class="hljs-number">0</span>; <span class="hljs-comment">// 配列をクリア</span>
+}
+</code></pre>
+  <p>このように、データを格納するためのデータ構造を使用して、<br>
+    必要なデータを管理することが一般的です。</p>
+  <h2 id="正しいclassの書き方">正しい<code>class</code>の書き方</h2>
+  <p>提供されたコードの一部を見る限り、クラス <code>Calculator</code> のコンストラクタと <code>add</code>
+    メソッドの基本的な構造は合っていますが、いくつかの点で修正が必要です。以下の修正が必要です：</p>
+  <ol>
+    <li>
+      <p>クラスの閉じかっこ <code>}</code> が不足しています。クラスの中身を適切に閉じる必要があります。</p>
+    </li>
+    <li>
+      <p>コンストラクタの引数とプロパティの代入には <code>this</code> を使用しますが、提供されたコードでは <code>this</code> の参照が不足しています。コンストラクタ内で
+        <code>this</code> を使用するには、<code>super()</code> を呼び出す必要があります。</p>
+    </li>
+    <li>
+      <p><code>add</code> メソッド内で、<code>this.pre</code> と <code>this.next</code>
+        の値が適切に設定されていることを確認する必要があります。現在のコードでは、これらの値がコンストラクタに渡されているようには見えません。</p>
+    </li>
+  </ol>
+  <p>修正したコードの例を以下に示します：</p>
+  <pre><code class="language-javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Calculator</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">pre, next</span>) {
+        <span class="hljs-comment">// コンストラクタでプロパティを初期化</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = pre;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = next;
+    }
+
+    <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// `pre`はコンストラクタで設定された前オペランド</span>
+        <span class="hljs-comment">// `next`はコンストラクタで設定された次のオペランド</span>
+        <span class="hljs-comment">// 加算した数値を返す</span>
+        <span class="hljs-keyword">const</span> addition = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> addition;
+    }
+}
+
+<span class="hljs-comment">// クラスのインスタンスを生成</span>
+<span class="hljs-keyword">const</span> calculator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>(<span class="hljs-number">10</span>, <span class="hljs-number">5</span>);
+
+<span class="hljs-comment">// 加算メソッドを呼び出して結果を表示</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(calculator.<span class="hljs-title function_">add</span>()); <span class="hljs-comment">// 出力: 15</span>
+</code></pre>
+  <p>上記の修正により、<code>Calculator</code> クラスが正しく機能し、加算メソッドが <code>pre</code> と <code>next</code>
+    の値を使用して計算を行うようになります。また、クラスのインスタンスを作成してメソッドを呼び出す方法も示しています。</p>
+  <h3 id="他のオペレータのメソッド">他のオペレータのメソッド</h3>
+  <p>わかりました。他のオペレータのメソッドも書いてみました。正しくかけていますか？</p>
+  <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Calculator</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">pre, next</span>) {
+        <span class="hljs-comment">// コンストラクタでプロパティを初期化</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = pre;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = next;
+    }
+
+    <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// `pre`はコンストラクタで設定された前オペランド</span>
+        <span class="hljs-comment">// `next`はコンストラクタで設定された次のオペランド</span>
+        <span class="hljs-comment">// 加算した数値を返す</span>
+        <span class="hljs-keyword">const</span> addition = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> addition;
+    }
+
+    <span class="hljs-title function_">subtract</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//減算</span>
+        <span class="hljs-keyword">const</span> subtraction = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> - <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> subtraction;
+    }
+
+    <span class="hljs-title function_">multiply</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//乗算</span>
+        <span class="hljs-keyword">const</span> multiplications =  <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> multiplications;
+    }
+
+    <span class="hljs-title function_">divide</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//除算</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> === <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;0で除算はできません&quot;</span>);
+        }
+        <span class="hljs-keyword">const</span> division = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> / <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> division;
+    }
+
+    <span class="hljs-title function_">percent</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//％</span>
+        <span class="hljs-keyword">const</span> presenting = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * <span class="hljs-number">0.01</span>;
+        <span class="hljs-keyword">return</span> presenting;
+    }
+
+    <span class="hljs-title function_">plusOrMinus</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//±</span>
+        <span class="hljs-keyword">const</span> plusMinus = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * (-<span class="hljs-number">1</span>);
+        <span class="hljs-keyword">return</span> plusMinus;
+    }
+
+    <span class="hljs-title function_">getResult</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">// result</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+}
+</code></pre>
+  <hr>
+  <p>提供されたコードの各メソッドの基本的な構造は合っています。<br>各オペレータに対して計算を行うメソッドが適切に定義されており、<br>エラー処理も考慮されています。</p>
+  <p>ただし、いくつかのポイントを指摘させていただきます：</p>
+  <ol>
+    <li>
+      <p><code>getResult</code> メソッドの中で <code>this.result</code> を返そうとしていますが、<br>現在のコードではコンストラクタで
+        <code>this.result</code> が<br>初期化されていないため、<code>undefined</code> を返すことになります。<br>もし <code>result</code>
+        プロパティを使用するつもりであれば、<br>コンストラクタ内で適切に初期化する必要があります。</p>
+    </li>
+    <li>
+      <p><code>percent</code> メソッドと <code>plusOrMinus</code> メソッドでは、<br>計算結果を <code>this.pre</code>
+        に影響を与えずに返しています。<br>通常、これらのメソッドは <code>this.pre</code> の値を変更するものとして<br>想定されるでしょう。<br>したがって、これらのメソッドは
+        <code>this.pre</code> の値を変更し、<br>変更後の値を返すようにするべきです。</p>
+    </li>
+    <li>
+      <p>各メソッドはインスタンス変数 <code>this.pre</code> と <code>this.next</code>
+        を<br>使用して計算を行っていますが、<br>コンストラクタでこれらの値を初期化する箇所がないため、<br>インスタンス生成時にこれらの値を指定しなければならないでしょう。<br>通常、コンストラクタ内で初期化することが一般的です。
+      </p>
+    </li>
+  </ol>
+  <p>修正されたコードの一部を以下に示します：</p>
+  <pre><code class="language-javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Calculator</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">pre, next</span>) {
+        <span class="hljs-comment">// コンストラクタでプロパティを初期化</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = pre;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = next;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-number">0</span>; <span class="hljs-comment">// result プロパティを初期化</span>
+    }
+
+    <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-comment">// 加算した数値を計算結果として設定し、返す</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+
+    <span class="hljs-comment">// 他のメソッドも同様に修正</span>
+}
+</code></pre>
+  <p>上記の修正により、コンストラクタで <code>pre</code> と <code>next</code> の初期値を設定し、<br>各メソッドが <code>this.pre</code> と
+    <code>this.next</code> を使用して計算し、<br>計算結果を <code>this.result</code> に設定することができるようになります。</p>
+  <hr>
+  <hr>
+  <p>これは合っていますか？</p>
+  <pre><code class="language-js">  <span class="hljs-title function_">percent</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//％</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> *= <span class="hljs-number">0.01</span>;
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span>;
+  }
+
+  <span class="hljs-title function_">plusOrMinus</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//±</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> *= (-<span class="hljs-number">1</span>);
+      <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span>;
+  }
+</code></pre>
+  <hr>
+  <p>提供されたコードは、<code>percent</code> メソッドが値をパーセントに変換し、<br><code>plusOrMinus</code>
+    メソッドが値の符号を反転させることを意味しています。<br>ただし、これらのメソッドは計算結果を返すのではなく、<br><code>this.pre</code> の値を変更してしまいます。</p>
+  <p>このコードの動作が意図通りであるかどうかは、コンテキストに依存します。<br>つまり、<code>percent</code> メソッドや <code>plusOrMinus</code>
+    メソッドを呼び出す側が、<br>これらのメソッドをどのように使用するかによります。</p>
+  <p>もし <code>percent</code> メソッドや <code>plusOrMinus</code> メソッドを呼び出した後に<br>元の値 (<code>this.pre</code>)
+    を使用しない場合、この実装は問題ありません。<br>ただし、計算結果として変更された <code>this.pre</code> の値が後続の計算に<br>影響を与える可能性がある場合、注意が必要です。</p>
+  <p>計算結果を変更しないようにするために、<br>これらのメソッドが新しい値を返すように変更できます。例えば：</p>
+  <pre><code class="language-javascript"><span class="hljs-title function_">percent</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//％</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * <span class="hljs-number">0.01</span>;
+}
+
+<span class="hljs-title function_">plusOrMinus</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//±</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * (-<span class="hljs-number">1</span>);
+}
+</code></pre>
+  <p>このように変更することで、<code>percent</code> メソッドや <br><code>plusOrMinus</code> メソッドを呼び出した後にも、<br>元の値 (<code>this.pre</code>)
+    が変更されずに利用できるようになります。</p>
+  <hr>
+  <hr>
+  <p>参考にしてこのようにしました。</p>
+  <pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Calculator</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">pre, next</span>) {
+        <span class="hljs-comment">// コンストラクタでプロパティを初期化</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = pre;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = next;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">subtract</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//減算</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> - <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">multiply</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//乗算</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> =  <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> * <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">divide</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//除算</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> === <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&quot;0で除算はできません&quot;</span>);
+        }
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> / <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">percent</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//％</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> *= <span class="hljs-number">0.01</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">plusOrMinus</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//±</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> *= (-<span class="hljs-number">1</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+    <span class="hljs-title function_">getResult</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">// result</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+}
+</code></pre>
+  <hr>
+  <p>提供されたコードは、計算機クラス (<code>Calculator</code>) を定義し、<br>各種計算操作を行うためのメソッドを持つクラスとして見えます。<br>メソッド内で
+    <code>this.result</code> プロパティを計算の結果にセットし、<br>結果を返すように変更されました。</p>
+  <p>このように変更されたコードは、計算の結果を <code>this.result</code>
+    プロパティに<br>格納して返すため、計算機クラスを使って計算を行う際に便利です。<br>コードが見直され、問題なく動作するようになっています。</p>
+  <p>ただし、注意点として、計算機クラスのインスタンスを作成する際に、<br>初期値として <code>pre</code> と <code>next</code> を渡していますが、<br>初期値が <code>0</code>
+    になっているため、<br>これらの値を変更してから計算を行う必要があります。<br>計算機クラスのインスタンスを作成する際に、<br>初期値を指定できるようにすることも考慮しておくと良いでしょう。</p>
+  <p>それ以外は、クラスが計算機能を持つ形になっており、<br>計算結果を <code>getResult</code> メソッドで取得できるなど、<br>使いやすい設計になっているように見えます。</p>
+  <hr>
+  <hr>
+  <p>ためしに以下のコードを書いてコンソールで確認しました。</p>
+  <pre><code class="language-js"><span class="hljs-keyword">const</span> calculator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`addition: <span class="hljs-subst">${calculator.add()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`subtraction: <span class="hljs-subst">${calculator.subtract()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`multiplications: <span class="hljs-subst">${calculator.multiply()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`division: <span class="hljs-subst">${calculator.divide()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`percent: <span class="hljs-subst">${calculator.percent(<span class="hljs-number">10</span>)}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`plusMinus: <span class="hljs-subst">${calculator.plusOrMinus(<span class="hljs-number">10</span>)}</span>`</span>);
+</code></pre>
+  <p>この中の<code>console.log(</code>plusMinus:
+    ${calculator.plusOrMinus(10)}<code>);</code>ですが、<code>plusMinus: -0.1</code>となっています。なぜ<code>-10</code>とならないのでしょうか？
+  </p>
+  <hr>
+  <p><code>plusOrMinus</code> メソッド内での計算処理に問題があるようです。<br>正しく数値を反転させるには、引数を受け取る必要はありません。<br>また、<code>plusOrMinus</code>
+    メソッド内で <code>this.pre</code> の値を変更するのではなく、<br>計算結果を反映させるべきです。以下のように修正できます：</p>
+  <pre><code class="language-js"><span class="hljs-title function_">plusOrMinus</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = -<span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+}
+</code></pre>
+  <p>この修正により、<code>plusOrMinus</code> メソッドは<br>現在の結果 (<code>this.result</code>) の符号を反転させ、正しく動作するはずです。</p>
+  <p>修正後のコード：</p>
+  <pre><code class="language-js"><span class="hljs-keyword">const</span> calculator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`addition: <span class="hljs-subst">${calculator.add()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`subtraction: <span class="hljs-subst">${calculator.subtract()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`multiplication: <span class="hljs-subst">${calculator.multiply()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`division: <span class="hljs-subst">${calculator.divide()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`percent: <span class="hljs-subst">${calculator.percent()}</span>`</span>);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`plusMinus: <span class="hljs-subst">${calculator.plusOrMinus()}</span>`</span>);
+</code></pre>
+  <p>上記のコードで <code>plusMinus</code> メソッドが正しく <code>-10</code> を返すはずです。</p>
+  <hr>
+  <p><em>結局正しかったコード</em></p>
+  <pre><code class="language-js"><span class="hljs-title function_">plusOrMinus</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">//±</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = -<span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+}
+</code></pre>
+  <h2 id="条件分岐-イコールかオペレータか">条件分岐: イコールかオペレータか</h2>
+  <ol>
+    <li>数字を押す -&gt;</li>
+    <li>オペレータを押す -&gt;</li>
+    <li>数字を押す -&gt; ...</li>
+    <li>次の操作(<code>=</code>かオペレータか)に応じて挙動を変えるにはどうすればいいか</li>
+  </ol>
+  <p>数字を押す -&gt; オペレータを押す -&gt; 数字を押す... という操作を実装する際、<br>次の操作が &quot;イコールを押すか次のオペレータを押すか&quot;
+    という条件になる場合、<br>条件分岐とイベントリスナーの組み合わせで処理を管理することができます。<br>以下に示すアプローチでこれを実現できます：</p>
+  <ol>
+    <li>
+      <p>オペレータが押されたときに、計算が実行され、<br>結果が表示される前に、状態変数を設定します。<br>この状態変数は、次のアクションが &quot;イコールを押すか次のオペレータを押すか&quot; を示すものです。
+      </p>
+    </li>
+    <li>
+      <p>イコールボタンとオペレータボタンのクリックイベントリスナー内で、<br>状態変数を確認し、次のアクションを決定します。</p>
+    </li>
+  </ol>
+  <p>例えば、JavaScriptで次のように記述できます：</p>
+  <pre><code class="language-javascript"><span class="hljs-keyword">let</span> result = <span class="hljs-number">0</span>; <span class="hljs-comment">// 計算結果</span>
+<span class="hljs-keyword">let</span> currentOperand = <span class="hljs-string">&#x27;&#x27;</span>; <span class="hljs-comment">// 現在のオペランド</span>
+<span class="hljs-keyword">let</span> currentOperator = <span class="hljs-string">&#x27;&#x27;</span>; <span class="hljs-comment">// 現在のオペレータ</span>
+<span class="hljs-keyword">let</span> nextState = <span class="hljs-string">&#x27;operator&#x27;</span>; <span class="hljs-comment">// 次の状態を示す変数</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handleNumberClick</span>(<span class="hljs-params">number</span>) {
+    <span class="hljs-keyword">if</span> (nextState === <span class="hljs-string">&#x27;operator&#x27;</span>) {
+        <span class="hljs-comment">// オペレータが押される前に新しいオペランドを開始</span>
+        currentOperand = number;
+        nextState = <span class="hljs-string">&#x27;number&#x27;</span>;
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// 既存のオペランドに数字を追加</span>
+        currentOperand += number;
+    }
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handleOperatorClick</span>(<span class="hljs-params">operator</span>) {
+    <span class="hljs-keyword">if</span> (nextState === <span class="hljs-string">&#x27;number&#x27;</span>) {
+        <span class="hljs-comment">// すでにオペランドがある場合、計算を実行</span>
+        <span class="hljs-title function_">calculate</span>();
+    }
+    currentOperator = operator;
+    nextState = <span class="hljs-string">&#x27;operator&#x27;</span>;
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handleEqualClick</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (nextState === <span class="hljs-string">&#x27;number&#x27;</span>) {
+        <span class="hljs-title function_">calculate</span>();
+    }
+    <span class="hljs-comment">// 結果を表示などの処理を行う</span>
+    <span class="hljs-comment">// 状態をリセットするなど</span>
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">calculate</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// 現在のオペランドと演算子を使用して計算</span>
+    <span class="hljs-comment">// 結果をresultに格納</span>
+    <span class="hljs-comment">// その後、currentOperandをリセット</span>
+}
+</code></pre>
+  <p>このコードでは、次のアクションを示すために <code>nextState</code>
+    変数を使用し、<br>数字を押すかオペレータを押すかに応じて状態を変更します。<br>イコールボタンがクリックされた場合、必要に応じて計算が実行され、結果が表示されます。</p>
+  <p>このアプローチにより、ユーザーが計算機を操作する際に適切な順序で操作を処理できます。</p>
+  <h2 id="アクティビティ図の注意点">アクティビティ図の注意点</h2>
+  <p>アクティビティ図のコードを提供いただき、どのようにアクティビティが進行するかを示すために使用した <code>plantUML</code> を見ました。</p>
+  <p>このアクティビティ図は、計算機でオペランドと演算子を入力し、<br>計算を行う一般的なフローを示しています。<br>条件分岐と繰り返しを適切に使用しており、<br>アクティビティの流れが理解しやすいです。</p>
+  <p>ただし、いくつかの注意点があります：</p>
+  <ol>
+    <li>
+      <p><code>変数</code> や <code>メソッド</code>
+        など、コード中のテキストは通常のアクティビティ図ではなく、コードの中に出現するテキストのように見えます。<br>通常、アクティビティ図ではアクションを直接示し、詳細なプログラムコードは含まれません。<br>したがって、コードスニペットとしてのテキストを含める必要はありません。
+      </p>
+    </li>
+    <li>
+      <p><code>変数</code> や <code>メソッド</code>
+        といったコンピュータープログラムの要素は、<br>アクティビティ図では代わりにアクションや処理のフローを示すアクティビティステートメントを使用するのが一般的です。<br>アクティビティステートメントは、コードの詳細を隠し、<br>アクティビティの高レベルのフローを示します。
+      </p>
+    </li>
+    <li>
+      <p>アクティビティ図ではアクティビティの流れが時間に沿って示されます。したがって、アクティビティステートメントは、実行される順序に従って配置されるべきです。</p>
+    </li>
+  </ol>
+  <p>
+    アクティビティ図の目的は、高レベルでビジネスプロセスや操作のフローを視覚的に表現することです。<br>これを考慮しながら、アクティビティ図を再検討し、アクティビティの順序とアクションを適切に表現できるようにすることをお勧めします。<br>アクティビティ図内でプログラムコードの詳細を含める必要はありません。
+  </p>
+  <h3 id="修正例">修正例</h3>
+  <p>もちろん、アクティビティ図を修正したものを以下に示します。修正により、プログラムコードの詳細ではなく、高レベルなアクティビティフローを示すようにしました。</p>
+
+  <img style="background-color:#FFF;"
+    src="https://www.plantuml.com/plantuml/svg/PP71JiCm38RlUGeVsrTeB-k6a3Z0473XjcXrLqjf7CMEWBSd2IkCBSS_dt_RlpUYDcfQd55IXx0F6AqVOMVTCJchnDvKn9ZkmOUaAz4CRM-wtSmi2DR_oCgnl-QscJCH0rera5-tMYEyuH8uslW5BoZ9QLy1cg1PtM2RLDd3SqGH75lG6JqqxoXjPQlXQmPlpO0y72QAekT93lrVoI12f-j_i5ByuRw8CCHJMj0hy5JLHzIPnmkFspMBZ2xdqJpnnNnt9C7P_qkY7sawnm8VCxbIX9-vxR5a3YI_YROcNu23sUIQSgXl">
+  <p>
+    この修正版では、プログラムの詳細ではなく、<br>アクティビティフローを示すようにアクティビティステートメントを使用しています。<br>アクティビティステートメントは、アクティビティのフローとステップを高レベルで表現するのに役立ちます。
+  </p>
+  <p>
+    修正版では、オペランドと演算子の入力、一時的な結果の計算、<br>そして次のアクションがオペレータを選択するかどうかを反復処理しています。<br>このように、アクティビティ図はプログラムの詳細には焦点を当てず、<br>ユーザーが行う操作の高レベルの流れを示すために使用されます。
+  </p>
+  <h2 id="コンストラクター">コンストラクター</h2>
+  <h3 id="jsのコンストラクターとは">JSのコンストラクターとは?</h3>
+  <h4 id="同じプロパティとメソッドを持つオブジェクトを簡単に作成できる">同じプロパティとメソッドを持つオブジェクトを簡単に作成できる</h4>
+  <p>おはようございます！JavaScriptのコンストラクターについて詳しく説明しましょう。</p>
+  <p>JavaScriptのコンストラクターは、<strong>新しいオブジェクトを作成するための特別な関数です。</strong><br>
+    コンストラクターは通常、**クラス（ES6以降）<strong>または</strong>関数（古いバージョンのJavaScript）**として定義されます。<br>
+    コンストラクターを使用すると、<strong>同じ構造を持つ複数のオブジェクトを簡単に作成できます。</strong></p>
+  <p>以下は、コンストラクターを使用してオブジェクトを作成する基本的な例です。</p>
+  <pre><code class="language-javascript"><span class="hljs-comment">// コンストラクターを定義</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Person</span>(<span class="hljs-params">name, age</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age;
+}
+
+<span class="hljs-comment">// 新しいオブジェクトを作成</span>
+<span class="hljs-keyword">const</span> person1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;Alice&quot;</span>, <span class="hljs-number">30</span>);
+<span class="hljs-keyword">const</span> person2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">25</span>);
+
+<span class="hljs-comment">// オブジェクトのプロパティにアクセス</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">name</span>); <span class="hljs-comment">// &quot;Alice&quot;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person2.<span class="hljs-property">age</span>);  <span class="hljs-comment">// 25</span>
+</code></pre>
+  <p>上記のコードでは、<code>Person</code> というコンストラクター関数を定義し、<br>
+    それを使用して <code>person1</code> と <code>person2</code> という2つの異なるオブジェクトを作成しています。<br>
+    コンストラクター関数内では、<code>this</code> キーワードを使用してオブジェクトのプロパティを設定します。</p>
+  <p>コンストラクターを使用すると、<u>同じプロパティとメソッドを持つオブジェクトを簡単に作成でき</u>、オブジェクトの初期化を効率化できます。<br></p>
+  <p>クラスを使った場合、コンストラクターはクラスのコンストラクターメソッドとして定義されます。</p>
+  <p>
+    ES6以降では、クラスを使用してコンストラクターをより簡潔に定義できるようになりましたが、従来の関数を使用したコンストラクターもまだ使用されています。コンストラクターはオブジェクト指向プログラミングにおいて基本的な概念の一つであり、JavaScriptにおいても重要な役割を果たしています。
+  </p>
+  <h3 id="クラスを使ったコンストラクターとは">クラスを使ったコンストラクターとは?</h3>
+  <p>クラスを使用したコンストラクターについて詳しく説明しましょう。<br>
+    クラスを使用することで、<u>オブジェクト指向プログラミングの原則に従ったコードをより簡潔かつ効果的に書くことができます。</u></p>
+  <p>クラスはES6（ECMAScript 2015）から導入された概念で、オブジェクトの設計図として機能します。<br>
+    クラスはコンストラクターメソッドを持ち、新しいオブジェクトを生成する際に呼び出されます。以下は、クラスを使用したコンストラクターの基本的な使い方です。</p>
+  <pre><code class="language-javascript"><span class="hljs-comment">// クラスを定義</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, age</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age;
+    }
+
+    <span class="hljs-comment">// メソッドを追加</span>
+    <span class="hljs-title function_">greet</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Hello, my name is <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.name}</span> and I am <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.age}</span> years old.`</span>);
+    }
+}
+
+<span class="hljs-comment">// 新しいオブジェクトを作成</span>
+<span class="hljs-keyword">const</span> person1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;Alice&quot;</span>, <span class="hljs-number">30</span>);
+<span class="hljs-keyword">const</span> person2 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;Bob&quot;</span>, <span class="hljs-number">25</span>);
+
+<span class="hljs-comment">// オブジェクトのプロパティにアクセス</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">name</span>); <span class="hljs-comment">// &quot;Alice&quot;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person2.<span class="hljs-property">age</span>);  <span class="hljs-comment">// 25</span>
+
+<span class="hljs-comment">// オブジェクトのメソッドを呼び出し</span>
+person1.<span class="hljs-title function_">greet</span>(); <span class="hljs-comment">// &quot;Hello, my name is Alice and I am 30 years old.&quot;</span>
+person2.<span class="hljs-title function_">greet</span>(); <span class="hljs-comment">// &quot;Hello, my name is Bob and I am 25 years old.&quot;</span>
+</code></pre>
+  <p>上記のコードでは、</p>
+  <ol>
+    <li><code>Person</code> クラスを定義し、</li>
+    <li><code>constructor</code> メソッド内でオブジェクトのプロパティ（<code>name</code> と <code>age</code>）を初期化しています。</li>
+    <li>さらに、<code>greet</code> メソッドをクラスに追加して、オブジェクトが挨拶をする機能を提供しています。</li>
+    <li>その後、<code>new</code> キーワードを使用して新しい <code>Person</code> オブジェクトを作成し、それぞれのオブジェクトのプロパティやメソッドにアクセスしています。</li>
+  </ol>
+  <p>このように、クラスを使用することで、オブジェクト指向プログラミングの原則に従ってコードを簡潔かつ整理された形で書くことができます。クラスはコードの再利用性を向上させ、より構造化されたプログラムを作成するのに役立ちます。</p>
+  <h3 id="呼び出し部分について">呼び出し部分について</h3>
+  <p>この部分は、クラスを使用して新しいオブジェクトを作成し、そのオブジェクトのプロパティにアクセスし、メソッドを呼び出す例です。以下に詳細を説明します。</p>
+  <ol>
+    <li>
+      <p>
+        <code>const person1 = new Person(&quot;Alice&quot;, 30);</code>と<br><code>const person2 = new Person(&quot;Bob&quot;, 25);</code>：<br>
+      </p>
+      <ol>
+        <li><code>new</code> キーワードを使用して <code>Person</code> クラスのコンストラクターを呼び出し</li>
+        <li>新しいオブジェクト <code>person1</code> と <code>person2</code> を作成しています。</li>
+        <li>それぞれのオブジェクトには <code>name</code> と <code>age</code> というプロパティが設定されます。</li>
+        <li><code>&quot;Alice&quot;</code> と <code>30</code> は <code>person1</code>
+          のプロパティに、<br><code>&quot;Bob&quot;</code> と <code>25</code> は <code>person2</code> のプロパティに割り当てられます。</li>
+      </ol>
+    </li>
+    <li>
+      <p><code>console.log(person1.name);</code>と<br><code>console.log(person2.age);</code>：</p>
+      <ol>
+        <li>オブジェクトのプロパティにアクセスして、それらの値を表示しています。</li>
+        <li><code>person1.name</code> は <code>person1</code> オブジェクトの <code>name</code> プロパティの値であり、</li>
+        <li><code>person2.age</code> は <code>person2</code> オブジェクトの <code>age</code> プロパティの値です。</li>
+      </ol>
+    </li>
+    <li>
+      <p><code>person1.greet();</code>と<br><code>person2.greet();</code>：</p>
+      <ol>
+        <li>オブジェクトのメソッドを呼び出しています。</li>
+        <li><code>person1.greet()</code> は <code>person1</code> オブジェクトの <code>greet</code> メソッドを呼び出し、</li>
+        <li><code>person2.greet()</code> は <code>person2</code> オブジェクトの <code>greet</code> メソッドを呼び出します。</li>
+        <li>それぞれの <code>greet</code> メソッド内で、オブジェクトのプロパティを使用して挨拶の文を生成し、それをコンソールに表示します。</li>
+      </ol>
+    </li>
+  </ol>
+  <p>このようにして、クラスを使用すると、同じ構造を持つオブジェクトを簡単に作成し、<br>
+    それらのオブジェクトに対してプロパティへのアクセスやメソッドの呼び出しが行えます。<br>
+    クラスを使うことでコードが整理され、<br>オブジェクト指向プログラミングの原則に従ったコードを書くことができます。</p>
+  <h3 id="新しいオブジェクトインスタンスに独自のプロパティを追加可能">新しいオブジェクト(=インスタンス)に独自のプロパティを追加可能</h3>
+  <p>いいえ、インスタンスに設定できるプロパティはクラスのコンストラクターにあるものに限られるわけではありません。<br>
+    クラスのコンストラクター内で定義されたプロパティは、<br>
+    インスタンスが作成された際に初期化されるデフォルトのプロパティですが、<br>
+    <strong>インスタンス自体に新しいプロパティを追加することも可能です。</strong>
+  </p>
+  <p>以下は例です：</p>
+  <pre><code class="language-javascript"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, age</span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name; <span class="hljs-comment">// コンストラクターで定義されたプロパティ</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">age</span> = age;   <span class="hljs-comment">// コンストラクターで定義されたプロパティ</span>
+    }
+}
+
+<span class="hljs-keyword">const</span> person1 = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Person</span>(<span class="hljs-string">&quot;Alice&quot;</span>, <span class="hljs-number">30</span>);
+
+<span class="hljs-comment">// インスタンスに新しいプロパティを追加</span>
+person1.<span class="hljs-property">email</span> = <span class="hljs-string">&quot;alice@example.com&quot;</span>;
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">name</span>);  <span class="hljs-comment">// &quot;Alice&quot;</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">age</span>);   <span class="hljs-comment">// 30</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(person1.<span class="hljs-property">email</span>); <span class="hljs-comment">// &quot;alice@example.com&quot;</span>
+</code></pre>
+  <p>上記の例では、<code>Person</code> クラスのコンストラクターで定義された <code>name</code> と <code>age</code> プロパティに加えて、<br>
+    <code>person1</code> インスタンスに新しいプロパティ <code>email</code> を追加しました。<br>
+    インスタンスはオブジェクトなので、プロパティを自由に追加・変更・削除することができます。<br>
+    ただし、通常はコンストラクター内で定義されたプロパティを使うことが多いです。
+  </p>
+  <h2 id="functionの基本">functionの基本</h2>
+  <h3 id="functionの場所">functionの場所</h3>
+  <p>JavaScriptでは、関数宣言がコードの実行前に巻き上げられる（hoisted）ため、<br>
+    <strong>関数をコードの上部に配置することが一般的です。</strong><br>
+    この特性により、関数をどこでも呼び出すことができます。
+  </p>
+  <p>したがって、関数をコードの上部に配置しておくことは、コードの可読性を向上させ、<br>
+    関数のスコープやアクセス性を明示的に管理するのに役立ちます。<br>
+    <strong>また、関数が宣言された位置から上方向に呼び出されても問題ありません。</strong>
+  </p>
+  <p>ただし、関数宣言には注意点もあります。関数宣言は巻き上げられるため、<br>
+    宣言前に関数を呼び出すことができますが、関数式（function expression）は巻き上げられないため、<br>
+    関数宣言よりも順序が重要です。</p>
+  <p>以下は関数宣言と関数式の例です：</p>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 関数宣言（巻き上げられるため、宣言前に呼び出し可能）</span>
+<span class="hljs-title function_">sayHello</span>(); <span class="hljs-comment">// &quot;Hello, world!&quot;</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">sayHello</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Hello, world!&quot;</span>);
+}
+
+<span class="hljs-comment">// 関数式（巻き上げられないため、宣言前に呼び出すとエラーになる）</span>
+<span class="hljs-title function_">sayHi</span>(); <span class="hljs-comment">// エラー: sayHi is not a function</span>
+
+<span class="hljs-keyword">const</span> sayHi = <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Hi, there!&quot;</span>);
+};
+</code></pre>
+  <p>一般的なプラクティスとして、関数宣言はコードの上部に配置し、<br>
+    関数式は必要に応じてその場で定義することが推奨されています。<br>
+    これにより、コードの動作が予測しやすくなります。</p>
+  <blockquote>
+    <p>JavaScriptで関数はどこに書けばいいですか？
+      プログラムの中で関数と関数を呼び出す側をどちらを先に記述すればいいのかについて、
+      どちらから先に記述しても問題ありません。
+      一般的には関数を先に定義しておき、そのあとで関数を呼び出すように記述されるケースが多いですが、
+      関数の定義をあとに記述しても問題はありません。
+      <a href="https://www.javadrive.jp/javascript/function/index6.html">JavaScript | 関数と関数の呼び出しを記述する位置について</a>
+    </p>
+  </blockquote>
+  <h3 id="巻き上げとは">巻き上げとは</h3>
+  <p>JavaScriptにおいて、&quot;巻き上げ&quot;（hoisting）とは、<br>
+    コード内の変数宣言や関数宣言が、そのスコープ内での実際の位置とは関係なく、<br>
+    コードの先頭に移動するプロセスを指します。<br>
+    これにより、宣言が後で行われているにもかかわらず、<br>
+    それらの変数や関数をコード内のどこからでもアクセスできるようになります。</p>
+  <p>巻き上げの仕組みは、JavaScriptの実行コンテキスト（スコープ）が解釈される際に行われます。<br>
+    コードが実行される前に、変数や関数の宣言がコード内で検出され、<br>
+    その宣言がそのスコープの先頭に移動します。<br>
+    これにより、変数や関数が宣言される前に参照されてもエラーが発生しないため、<br>
+    コードの記述順序に注意を払う必要があります。</p>
+  <p>例えば、以下のコードを考えてみましょう：</p>
+  <pre><code class="language-javascript"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// undefined</span>
+<span class="hljs-keyword">var</span> x = <span class="hljs-number">5</span>;
+</code></pre>
+  <p>このコードは、変数 <code>x</code> を宣言してから <code>console.log(x)</code> を実行しているように見えますが、実際には次のように解釈されます：</p>
+  <pre><code class="language-javascript"><span class="hljs-keyword">var</span> x; <span class="hljs-comment">// 変数宣言が巻き上げられる</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(x); <span class="hljs-comment">// undefined</span>
+x = <span class="hljs-number">5</span>; <span class="hljs-comment">// 初期化</span>
+</code></pre>
+  <p>変数 <code>x</code> は宣言が巻き上げられ、初期化は宣言の後で行われています。そのため、<code>console.log(x)</code> は <code>undefined</code> を表示します。</p>
+  <p>このように、巻き上げはJavaScriptの実行コンテキスト内で<br>
+    変数と関数の宣言をプロセス化する仕組みであり、<br>
+    コードの実行前にコード内の変数や関数が事実上「持ち上げ」られると考えると理解しやすいかもしれません。<br>
+    ただし、この挙動に注意してコードを書くことが重要です。</p>
+  <h3 id="巻き上げが存在する理由は">巻き上げが存在する理由は？</h3>
+  <p>
+    JavaScriptの巻き上げ（Hoisting）は、コードの読みやすさや予測可能性を向上させるため、および変数のスコープを説明するために導入されたものではなく、言語の設計上の遺産です。具体的には、JavaScriptが初期のバージョンから存在しており、現在のJavaScriptエンジン（ブラウザやNode.jsなど）でも互換性を維持するために続けてサポートされています。
+  </p>
+  <p>巻き上げの主な理由は次のとおりです：</p>
+  <ol>
+    <li>
+      <p>
+        関数スコープ：巻き上げは、関数スコープ内の変数を宣言した場合に役立ちます。関数スコープ内では、変数宣言がブロックスコープではなく、関数全体にわたって有効であるため、変数がどこで宣言されているかに関係なく、関数内のどこからでもアクセスできる必要があります。
+      </p>
+    </li>
+    <li>
+      <p>
+        予測可能性：変数宣言がスコープの先頭に巻き上げられることで、コード内で変数がどこで宣言されているかを事前に知ることができます。これにより、変数を使用する前に宣言する必要があるというルールが適用され、エラーやバグを減少させるのに役立ちます。
+      </p>
+    </li>
+    <li>
+      <p>
+        古いコードのサポート：JavaScriptは初期のバージョンから巻き上げをサポートしており、多くの既存のコードがこの仕組みに依存しています。このため、巻き上げを廃止すると、既存のコードとの互換性の問題が発生する可能性があります。
+      </p>
+    </li>
+  </ol>
+  <p>
+    しかし、巻き上げは一部の開発者にとっては混乱の原因となり、バグの原因になることもあります。このため、新しい変数宣言方法（<code>let</code>および<code>const</code>）が導入され、ブロックスコープ変数の宣言と初期化がより直感的に制御できるようになりました。したがって、新しいコードでは通常、<code>let</code>および<code>const</code>を使用し、巻き上げを避けることが推奨されています。
+  </p>
+  <h2 id="正規表現について">正規表現について</h2>
+  <h3 id="条件文で数字をチェックする">条件文で数字をチェックする</h3>
+  <p>
+    正規表現を使って数字とそれ以外を分けるアプローチは素晴らしいですが、正規表現の書き方に誤りがあります。正規表現を使用する場合、正規表現のパターンはスラッシュ(<code>/</code>)で囲む必要がありません。また、<code>search</code>メソッドは正規表現を受け入れる関数ではありません。正規表現を使って文字列を検索するには、<code>test</code>メソッドまたは<code>match</code>メソッドを使用することが一般的です。
+  </p>
+  <p>以下は正規表現を使ってボタンが数字かどうかをチェックする修正例です。</p>
+  <pre><code class="language-js">buttons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+    button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">const</span> buttonText = button.<span class="hljs-property">innerHTML</span>;
+        currentButton = buttonText;
+        <span class="hljs-keyword">const</span> isNumber = <span class="hljs-regexp">/^[0-9]+$/</span>.<span class="hljs-title function_">test</span>(buttonText); <span class="hljs-comment">// 正規表現で数字をチェック</span>
+
+        <span class="hljs-keyword">if</span> (isNumber) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;数字&#x27;</span>);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Not数字&#x27;</span>);
+        }
+    });
+});
+</code></pre>
+  <p>
+    このコードでは、<code>buttonText</code>が数字から成る文字列であれば<code>isNumber</code>は<code>true</code>になり、それ以外の場合は<code>false</code>になります。
+  </p>
+  <h3 id="matchメソッド部分文字列を検索して返す"><code>match</code>メソッド(部分文字列を検索して返す)</h3>
+  <p>もちろんです。以下に、<code>true</code>と<code>match</code>メソッドについての説明を示します。</p>
+  <ol>
+    <li>
+      <p><strong><code>true</code> (真)</strong>:</p>
+      <p><code>true</code> は、ブール型 (Boolean) の値の一つで、真を表します。JavaScriptにおいて、<code>true</code>
+        は条件式が真であることを示すために使用されます。条件式が成立している場合、その結果は <code>true</code> になります。逆に、条件式が成立していない場合、結果は <code>false</code>
+        になります。</p>
+      <p>例:</p>
+      <pre><code class="language-js"><span class="hljs-keyword">const</span> x = <span class="hljs-number">5</span>;
+<span class="hljs-keyword">const</span> y = <span class="hljs-number">10</span>;
+<span class="hljs-keyword">const</span> isGreaterThan = x &gt; y; <span class="hljs-comment">// xがyより大きいかどうかを判定</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(isGreaterThan); <span class="hljs-comment">// 結果は false です</span>
+</code></pre>
+    </li>
+    <li>
+      <p><strong><code>match</code> メソッド</strong>:</p>
+      <p><code>match</code> メソッドは、文字列に対して正規表現を用いてパターン検索を行うためのメソッドです。正規表現で指定したパターンが文字列内で見つかった場合、その部分文字列を返します。見つからない場合は
+        <code>null</code> を返します。このメソッドは主に文字列内でのパターンの一致を検査するために使用されます。</p>
+      <p>例:</p>
+      <pre><code class="language-js"><span class="hljs-keyword">const</span> text = <span class="hljs-string">&quot;Hello, my phone number is 123-456-7890.&quot;</span>;
+<span class="hljs-keyword">const</span> pattern = <span class="hljs-regexp">/\d{3}-\d{3}-\d{4}/</span>; <span class="hljs-comment">// 電話番号の正規表現パターン</span>
+<span class="hljs-keyword">const</span> phoneNumber = text.<span class="hljs-title function_">match</span>(pattern); <span class="hljs-comment">// テキスト内の電話番号を検索</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(phoneNumber); <span class="hljs-comment">// 結果は [&quot;123-456-7890&quot;] です</span>
+</code></pre>
+      <p><code>match</code> メソッドの結果は、見つかった部分文字列の配列です。見つからない場合は <code>null</code> です。</p>
+    </li>
+  </ol>
+  <p>これらの概念を理解すると、正規表現を使用して文字列内でパターンを検索し、ブール型の条件式を評価する際に役立ちます。</p>
+  <h3 id="testメソッド文字列内のパターンを調べる"><code>test</code>メソッド(文字列内のパターンを調べる)</h3>
+  <p><code>test</code> メソッドは、正規表現を使用して文字列がパターンに一致するかどうかを判定するための JavaScript の正規表現オブジェクトのメソッドです。このメソッドは、一致する場合に
+    <code>true</code> を返し、一致しない場合に <code>false</code> を返します。</p>
+  <p>具体的には、正規表現を作成し、それを使って文字列が一致するかどうかをテストするのに使用されます。通常、正規表現のパターンと <code>test</code>
+    メソッドを組み合わせて、文字列内で特定のパターンが存在するかどうかを確認するのに便利です。</p>
+  <p>以下は <code>test</code> メソッドの基本的な使用例です：</p>
+  <pre><code class="language-js"><span class="hljs-keyword">const</span> pattern = <span class="hljs-regexp">/\d+/</span>; <span class="hljs-comment">// 数字の正規表現パターン</span>
+<span class="hljs-keyword">const</span> text = <span class="hljs-string">&quot;Hello, there are 42 apples in the basket.&quot;</span>; <span class="hljs-comment">// テキスト</span>
+
+<span class="hljs-keyword">const</span> isMatch = pattern.<span class="hljs-title function_">test</span>(text); <span class="hljs-comment">// テキスト内で数字のパターンが一致するかどうかをテスト</span>
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(isMatch); <span class="hljs-comment">// 結果は true です（数字が存在するため）</span>
+</code></pre>
+  <p>この例では、正規表現 <code>/d+/</code> は数字を表し、テキスト内の &quot;42&quot; という部分文字列が数字のパターンと一致するため、<code>test</code> メソッドは
+    <code>true</code> を返します。</p>
+  <p><code>test</code> メソッドは、文字列内でのパターンの存在を確認する際に非常に便利で、条件文やループ内で使用することが一般的です。</p>
+
+  <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+  <script async type="text/javascript">
+    /* From extension marp-team.marp-vscode */
+    (() => {
+      var U = Object.defineProperty; var d = ($, E) => U($, "name", { value: E, configurable: !0 }); (() => {
+        var $ = {
+          676: (w, b, g) => { w.exports = g(185) }, 185: (w, b) => {
+            "use strict"; var g; g = { value: !0 }; const x = { h1: { proto: () => HTMLHeadingElement, attrs: { role: "heading", "aria-level": "1" }, style: "display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;" }, h2: { proto: () => HTMLHeadingElement, attrs: { role: "heading", "aria-level": "2" }, style: "display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;" }, h3: { proto: () => HTMLHeadingElement, attrs: { role: "heading", "aria-level": "3" }, style: "display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;" }, h4: { proto: () => HTMLHeadingElement, attrs: { role: "heading", "aria-level": "4" }, style: "display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;" }, h5: { proto: () => HTMLHeadingElement, attrs: { role: "heading", "aria-level": "5" }, style: "display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;" }, h6: { proto: () => HTMLHeadingElement, attrs: { role: "heading", "aria-level": "6" }, style: "display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;" }, span: { proto: () => HTMLSpanElement }, pre: { proto: () => HTMLElement, style: "display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;" } }, k = "data-marp-auto-scaling-wrapper", u = "data-marp-auto-scaling-svg", c = "data-marp-auto-scaling-container", T = class T extends HTMLElement {
+              constructor() { super(), this.svgPreserveAspectRatio = "xMinYMid meet"; const s = d(i => ([n]) => { const { width: e, height: t } = n.contentRect; this[i] = { width: e, height: t }, this.updateSVGRect() }, "t"); this.attachShadow({ mode: "open" }), this.containerObserver = new ResizeObserver(s("containerSize")), this.wrapperObserver = new ResizeObserver((...i) => { s("wrapperSize")(...i), this.flushSvgDisplay() }) } static get observedAttributes() { return ["data-downscale-only"] } connectedCallback() {
+                var s, i, n, e, t; this.shadowRoot.innerHTML = `
+<style>
+  svg[${u}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${c}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${k}>
+  <svg part="svg" ${u}>
+    <foreignObject><span ${c}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""), this.wrapper = (s = this.shadowRoot.querySelector(`div[${k}]`)) !== null && s !== void 0 ? s : void 0; const o = this.svg; this.svg = (n = (i = this.wrapper) === null || i === void 0 ? void 0 : i.querySelector(`svg[${u}]`)) !== null && n !== void 0 ? n : void 0, this.svg !== o && (this.svgComputedStyle = this.svg ? window.getComputedStyle(this.svg) : void 0), this.container = (t = (e = this.svg) === null || e === void 0 ? void 0 : e.querySelector(`span[${c}]`)) !== null && t !== void 0 ? t : void 0, this.observe()
+              } disconnectedCallback() { this.svg = void 0, this.svgComputedStyle = void 0, this.wrapper = void 0, this.container = void 0, this.observe() } attributeChangedCallback() { this.observe() } flushSvgDisplay() { const { svg: s } = this; s && (s.style.display = "inline", requestAnimationFrame(() => { s.style.display = "" })) } observe() { this.containerObserver.disconnect(), this.wrapperObserver.disconnect(), this.wrapper && this.wrapperObserver.observe(this.wrapper), this.container && this.containerObserver.observe(this.container), this.svgComputedStyle && this.observeSVGStyle(this.svgComputedStyle) } observeSVGStyle(s) { const i = d(() => { const n = (() => { const e = s.getPropertyValue("--preserve-aspect-ratio"); return e ? e.trim() : `x${(({ textAlign: t, direction: o }) => { if (t.endsWith("left")) return "Min"; if (t.endsWith("right")) return "Max"; if (t === "start" || t === "end") { let a = o === "rtl"; return t === "end" && (a = !a), a ? "Max" : "Min" } return "Mid" })(s)}YMid meet` })(); n !== this.svgPreserveAspectRatio && (this.svgPreserveAspectRatio = n, this.updateSVGRect()), s === this.svgComputedStyle && requestAnimationFrame(i) }, "e"); i() } updateSVGRect() { var s, i, n, e, t, o, a; let p = Math.ceil((i = (s = this.containerSize) === null || s === void 0 ? void 0 : s.width) !== null && i !== void 0 ? i : 0); const h = Math.ceil((e = (n = this.containerSize) === null || n === void 0 ? void 0 : n.height) !== null && e !== void 0 ? e : 0); this.dataset.downscaleOnly !== void 0 && (p = Math.max(p, (o = (t = this.wrapperSize) === null || t === void 0 ? void 0 : t.width) !== null && o !== void 0 ? o : 0)); const f = (a = this.svg) === null || a === void 0 ? void 0 : a.querySelector(":scope > foreignObject"); if (f?.setAttribute("width", `${p}`), f?.setAttribute("height", `${h}`), this.svg && (this.svg.setAttribute("viewBox", `0 0 ${p} ${h}`), this.svg.setAttribute("preserveAspectRatio", this.svgPreserveAspectRatio), this.svg.style.height = p <= 0 || h <= 0 ? "0" : ""), this.container) { const _ = this.svgPreserveAspectRatio.toLowerCase(); this.container.style.marginLeft = _.startsWith("xmid") || _.startsWith("xmax") ? "auto" : "0", this.container.style.marginRight = _.startsWith("xmi") ? "auto" : "0" } }
+            }; d(T, "s"); let r = T; const m = d((l, { attrs: s = {}, style: i }) => class extends l { constructor(...n) { super(...n); for (const [e, t] of Object.entries(s)) this.hasAttribute(e) || this.setAttribute(e, t); this.attachShadow({ mode: "open" }) } static get observedAttributes() { return ["data-auto-scaling"] } connectedCallback() { this._update() } attributeChangedCallback() { this._update() } _update() { const n = i ? `<style>:host { ${i} }</style>` : ""; let e = "<slot></slot>"; const { autoScaling: t } = this.dataset; t !== void 0 && (e = `<marp-auto-scaling exportparts="svg:auto-scaling" ${t === "downscale-only" ? "data-downscale-only" : ""}>${e}</marp-auto-scaling>`), this.shadowRoot.innerHTML = n + e } }, "o"); let v; const j = Symbol(); let C; const z = "marpitSVGPolyfill:setZoomFactor,", A = Symbol(), D = Symbol(), W = d(() => { const l = navigator.vendor === "Apple Computer, Inc.", s = l ? [B] : [], i = { then: n => (l ? (async () => { if (C === void 0) { const e = document.createElement("canvas"); e.width = 10, e.height = 10; const t = e.getContext("2d"), o = new Image(10, 10), a = new Promise(p => { o.addEventListener("load", () => p()) }); o.crossOrigin = "anonymous", o.src = "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E", await a, t.drawImage(o, 0, 0), C = t.getImageData(5, 5, 1, 1).data[3] < 128 } return C })().then(e => { n?.(e ? [B] : []) }) : n?.([]), i) }; return Object.assign(s, i) }, "h"); let H, O; function B(l) { const s = typeof l == "object" && l.target || document, i = typeof l == "object" ? l.zoom : l; window[D] || (Object.defineProperty(window, D, { configurable: !0, value: !0 }), document.body.style.zoom = 1.0001, document.body.offsetHeight, document.body.style.zoom = 1, window.addEventListener("message", ({ data: e, origin: t }) => { if (t === window.origin) try { if (e && typeof e == "string" && e.startsWith(z)) { const [, o] = e.split(","), a = Number.parseFloat(o); Number.isNaN(a) || (O = a) } } catch (o) { console.error(o) } })); let n = !1; Array.from(s.querySelectorAll("svg[data-marpit-svg]"), e => { var t, o, a, p; e.style.transform || (e.style.transform = "translateZ(0)"); const h = i || O || e.currentScale || 1; H !== h && (H = h, n = h); const f = e.getBoundingClientRect(), { length: _ } = e.children; for (let F = 0; F < _; F += 1) { const S = e.children[F]; if (S.getScreenCTM) { const y = S.getScreenCTM(); if (y) { const I = (o = (t = S.x) === null || t === void 0 ? void 0 : t.baseVal.value) !== null && o !== void 0 ? o : 0, Z = (p = (a = S.y) === null || a === void 0 ? void 0 : a.baseVal.value) !== null && p !== void 0 ? p : 0, Y = S.children.length; for (let R = 0; R < Y; R += 1) { const N = S.children[R]; if (N.tagName === "SECTION") { const { style: q } = N; q.transformOrigin || (q.transformOrigin = `${-I}px ${-Z}px`), q.transform = `scale(${h}) matrix(${y.a}, ${y.b}, ${y.c}, ${y.d}, ${y.e - f.left}, ${y.f - f.top}) translateZ(0.0001px)`; break } } } } } }), n !== !1 && Array.from(s.querySelectorAll("iframe"), ({ contentWindow: e }) => { e?.postMessage(`${z}${n}`, window.origin === "null" ? "*" : window.origin) }) } d(B, "u"); function P({ once: l = !1, target: s = document } = {}) { const i = function (n = document) { if (n[A]) return n[A]; let e = !0; const t = d(() => { e = !1, delete n[A] }, "i"); Object.defineProperty(n, A, { configurable: !0, value: t }); let o = [], a = !1; (async () => { try { o = await W() } finally { a = !0 } })(); const p = d(() => { for (const h of o) h({ target: n }); a && o.length === 0 || e && window.requestAnimationFrame(p) }, "o"); return p(), t }(s); return l ? (i(), () => { }) : i } d(P, "v"), H = 1, O = void 0; const G = P, M = Symbol(), L = d((l = document) => { if (typeof window > "u") throw new Error("Marp Core's browser script is valid only in browser context."); if (((e = document) => { const t = window[j]; t || customElements.define("marp-auto-scaling", r); for (const o of Object.keys(x)) { const a = `marp-${o}`, p = x[o].proto(); v != null || (v = !!document.createElement("div", { is: "marp-auto-scaling" }).outerHTML.startsWith("<div is")), v && p !== HTMLElement ? t || customElements.define(a, m(p, { style: x[o].style }), { extends: o }) : (t || customElements.define(a, m(HTMLElement, x[o])), e.querySelectorAll(`${o}[is="${a}"]`).forEach(h => { h.outerHTML = h.outerHTML.replace(new RegExp(`^<${o}`, "i"), `<${a}`).replace(new RegExp(`</${o}>$`, "i"), `</${a}>`) })) } window[j] = !0 })(l), l[M]) return l[M]; const s = P({ target: l }), i = d(() => { s(), delete l[M] }, "n"), n = Object.assign(i, { cleanup: i, update: () => L(l) }); return Object.defineProperty(l, M, { configurable: !0, value: n }), n }, "y"); b.browser = L, g = L, g = G
+          }
+        }, E = {}; function V(w) { var b = E[w]; if (b !== void 0) return b.exports; var g = E[w] = { exports: {} }; return $[w](g, g.exports, V), g.exports } d(V, "__webpack_require__"); var J = {}; (() => { "use strict"; var w = V(676); function b() { let u, c; const r = d(() => { const m = document.getElementById("__marp-vscode"), v = !!m; u !== v ? (document.body.classList.toggle("marp-vscode", v), v ? c = (0, w.browser)() : (c?.cleanup(), c = void 0), u = v) : v && c?.update(), u ? (m && g(m), x()) : k() }, "updateCallback"); window.addEventListener("load", () => window.setTimeout(r, 100)), window.addEventListener("vscode.markdown.updateContent", r), r() } d(b, "preview"); const g = d(u => { u.querySelectorAll("[is]").forEach(c => { if (c.nodeName.includes("-") || document.createElement(c.nodeName).constructor !== c.constructor) return; const { outerHTML: m } = c; c.outerHTML = m, console.debug("[marp-vscode] Custom element has been upgraded forcibly:", m.slice(0, m.indexOf(">") + 1 || void 0)) }) }, "forceUpgradeCustomElements"), x = d(() => { const u = document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"), c = document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])'); u.forEach(r => { r.closest("#__marp-vscode") || (r.dataset.marpVscodeBody = r.textContent ?? "", r.textContent = "") }), c.forEach(r => { if (r.closest("#__marp-vscode")) return; const { href: m } = r; r.dataset.marpVscodeHref = m, r.removeAttribute("href") }) }, "removeStyles"), k = d(() => { const u = document.querySelectorAll("style[data-marp-vscode-body]"), c = document.querySelectorAll("link[data-marp-vscode-href]"); u.forEach(r => { r.textContent = r.dataset.marpVscodeBody || "", delete r.dataset.marpVscodeBody }), c.forEach(r => { r.href = r.dataset.marpVscodeHref || "", delete r.dataset.marpVscodeHref }) }, "restoreStyles"); b() })()
+      })();
+    })();
+
+  </script>
+
+</body>
+
+</html>

@@ -1,14 +1,11 @@
-class Calculator {
+class UIHandler {
     constructor(previousOperandTextElement, currentOperandTextElement) {
         this.previousOperandTextElement = previousOperandTextElement;
         this.currentOperandTextElement = currentOperandTextElement;
-
-        this.clearEntries();
     }
 
     clearEntries() {
         this.currentOperand = '';
-
     }
 
     clear() {
@@ -23,20 +20,6 @@ class Calculator {
             return;
         }
         this.currentOperand = this.currentOperand.toString() + number.toString();
-    }
-
-    chooseOperation(operator) {
-        if (this.currentOperand === '') {
-            return;
-        }
-
-        if (this.previousOperand !== '') {
-            this.compute();
-        }
-
-        this.operator = operator;
-        this.previousOperand = this.currentOperand;
-        this.currentOperand = '';
     }
 
     updateDisplay() {
@@ -69,6 +52,27 @@ class Calculator {
             return integerDisplay;
         }
     }
+}
+
+class OperationHandler {
+    constructor (operator, symbol) {
+        this.operator = operator;
+        this.symbol = symbol;
+    }
+
+    chooseOperation(operator) {
+        if (this.currentOperand === '') {
+            return;
+        }
+
+        if (this.previousOperand !== '') {
+            this.compute();
+        }
+
+        this.operator = operator;
+        this.previousOperand = this.currentOperand;
+        this.currentOperand = '';
+    }
 
     compute() {
         const previous = parseFloat(this.previousOperand);
@@ -98,27 +102,7 @@ class Calculator {
         this.currentOperand = this.result; // 連続計算
         this.operator = null;
         this.previousOperand = '';
-    }
 
-    addition(previous, current) {
-        return previous + current;
-    }
-
-    subtract(previous, current) {
-        return previous - current;
-    }
-
-    multiply(previous, current) {
-        return previous * current;
-    }
-
-    divide(previous, current) {
-        if (current === 0) {
-            errorMessages('divideByZero');
-            throw new Error("0で除算はできません");
-        }
-
-        return previous / current;
     }
 
     transform(symbol) {
@@ -237,6 +221,34 @@ class Calculator {
                 throw new Error('Symbolが定義されていません');
         }
     }
+}
+
+class MathOperation { // コンストラクタを設定し直す
+    constructor (previous, current) {
+        this.previous = previous;
+        this.current = current;
+    }
+
+    addition(previous, current) {
+        return previous + current;
+    }
+
+    subtract(previous, current) {
+        return previous - current;
+    }
+
+    multiply(previous, current) {
+        return previous * current;
+    }
+
+    divide(previous, current) {
+        if (current === 0) {
+            errorMessages('divideByZero');
+            throw new Error("0で除算はできません");
+        }
+
+        return previous / current;
+    }
 
     percent() {
         return 0.01 * parseFloat(this.currentOperand);
@@ -254,6 +266,14 @@ class Calculator {
         return Math.pow(10, parseFloat(this.currentOperand));
     }
 
+    squareRoot() {
+        return Math.sqrt(parseFloat(this.currentOperand));
+    }
+
+    cubedRoot() {
+        return Math.cbrt(parseFloat(this.currentOperand));
+    }
+
     napier() {
         return Math.E * parseFloat(this.currentOperand);
     }
@@ -265,21 +285,13 @@ class Calculator {
     reciprocal() {
         return 1 / parseFloat(this.currentOperand);
     }
+}
 
-    squareRoot() {
-        return Math.sqrt(parseFloat(this.currentOperand));
-    }
-
-    cubedRoot() {
-        return Math.cbrt(parseFloat(this.currentOperand));
-    }
-
-    log() {
-        return Math.log(parseFloat(this.currentOperand));
-    }
-
-    log10() {
-        return Math.log10(parseFloat(this.currentOperand));
+class MathFunction {
+    constructor (previous, current, option) {
+        this.previous = previous;
+        this.current = current;
+        this.option = option;
     }
 
     factorial() {
@@ -305,16 +317,28 @@ class Calculator {
         return result;
     }
 
-    pi() {
-        return Math.PI * parseFloat(this.currentOperand);
-    }
-
     rand() {
         return Math.random();
     }
 
+    pi() {
+        return Math.PI * parseFloat(this.currentOperand);
+    }
+
     degreesToRadians(degrees) {
         return degrees * (Math.PI / 180);
+    }
+
+    log() {
+        return Math.log(parseFloat(this.currentOperand));
+    }
+
+    log10() {
+        return Math.log10(parseFloat(this.currentOperand));
+    }
+
+    enterExponent() {
+        return parseFloat(this.currentOperand).toExponential();
     }
 
     sin(mode) {
@@ -458,9 +482,10 @@ class Calculator {
         return result;
     }
 
-    enterExponent() {
-        return parseFloat(this.currentOperand).toExponential();
-    }
+}
+
+class ErrorHandler {
+
 }
 
 const previousOperandTextElement = document.getElementById('previousOperand');
@@ -469,18 +494,22 @@ const inputFieldTextElement = document.getElementById('inputField');
 const buttons = document.querySelectorAll('button');
 const resultLog = document.querySelector('.result-log');
 const clearLog = document.getElementById('clearLog');
-const calculator =
-    new Calculator(previousOperandTextElement, currentOperandTextElement);
+
+const mathOperation = new MathOperation(previousOperandTextElement, currentOperandTextElement)
+const mathFunction = new MathFunction();
+const uiHandler = new UIHandler();
+const operationHandler = new OperationHandler();
+const errorHandler = new ErrorHandler();
 
 buttons.forEach(button => {
     button.addEventListener('click', (e) => {
         buttonProcess(button);
         logMessages(button);
-        // console.log(button.innerText);
     });
 });
 
 const operators = ['+', '-', '×', '*', '/', '÷'];
+
 const symbols = [
     '(', ')', 'mc', 'm+', 'm-', 'mr', '%', '±',
     'y^x', 'x^2', 'x^3', 'x^y', 'x^2', '10^x',
@@ -493,6 +522,7 @@ const symbols = [
     'e', 'e^x', 'EE', 'Rand',
     'ln', 'log10', 'logy', 'log2'
 ];
+
 const errorMessages = {
     'test': 'テストメッセージです',
     'divideByZero': 'エラー: 0 で除算はできません',
@@ -515,30 +545,30 @@ const errorMessages = {
 }
 
 /**---------------button--------------- */
-function buttonProcess(button) { //TODO ボタンの種類を追加する
+function buttonProcess(button) {
     const buttonText = button.innerText;
     const isNumber = /^[0-9]+$/.test(buttonText);
     const isOperator = operators.includes(buttonText);
     const isSymbol = symbols.includes(buttonText);
 
     if (isNumber || buttonText === '.') {
-        calculator.appendNumber(buttonText);
-        calculator.updateDisplay();
+        uiHandler.appendNumber(buttonText);
+        uiHandler.updateDisplay();
     } else if (isOperator) {
-        calculator.chooseOperation(buttonText);
-        calculator.updateDisplay();
+        operationHandler.chooseOperation(buttonText);
+        uiHandler.updateDisplay();
     } else if (isSymbol) {
-        calculator.transform(buttonText);
-        calculator.updateDisplay();
+        operationHandler.transform(buttonText);
+        uiHandler.updateDisplay();
     } else if (buttonText === '=') {
-        calculator.compute();
-        calculator.updateDisplay();
+        operationHandler.compute();
+        uiHandler.updateDisplay();
     } else if (buttonText === 'C') {
-        calculator.clear();
-        calculator.updateDisplay();
+        uiHandler.clear();
+        uiHandler.updateDisplay();
     } else if (buttonText === 'CE') {
-        calculator.clearEntries();
-        calculator.updateDisplay();
+        uiHandler.clearEntries();
+        uiHandler.updateDisplay();
     } else if (buttonText === 'CLEAR') {
         const removeParas = document.querySelectorAll('.resultPara');
         const removeErrorParas = document.querySelectorAll('.errorPara');
@@ -555,9 +585,9 @@ function buttonProcess(button) { //TODO ボタンの種類を追加する
 /**--------------------------------- */
 
 /**-------- log ---------- */
-function logMessages(button) {
+function logMessages(button) { //! クラス再設定
     const buttonText = button.innerText;
-    const { previousOperand, currentOperand, operator, result } = calculator; //分割代入
+    const { previousOperand, currentOperand, operator, result } = calculator; //分割代入ß
 
     const logDetails = `
     CurrentOperand: ${currentOperand}
@@ -617,16 +647,6 @@ const wordToSymbols = {
     "percent": '%', "plus or minus": '±'
 };
 
-
-// inputFieldに入力された単語を数値に変換するコード
-//// 'Enter'を押して変換する
-//// '25'のような2桁数字は'twenty-five'と入力させる
-//// 対応は2桁まで
-// 提案機能は後回し
-//// 初期の表示は薄地で”Enter numbers with words"と表示させる
-//// あるいは入力例を表示させる
-//// 20以上の二桁に対応するため、オブジェクトを2つに分ける？
-
 function convertWordToNumber(word) {
     if (word in wordToNumber) {
         return wordToNumber[word];
@@ -681,7 +701,7 @@ inputFieldTextElement.addEventListener('input', () => {
         const key = e.key;
         switch (key) {
             case 'Enter':
-                if (numericValue !== null) {
+                if (numericValue !== null) { //! クラス再設定
                     calculator.appendNumber(numericValue);
                     calculator.updateDisplay();
                     console.log(`the numeric value is: ${numericValue}`);
@@ -695,33 +715,3 @@ inputFieldTextElement.addEventListener('input', () => {
 });
 /**------------------------- */
 
-/**-----suggest----- */
-// inputFieldTextElement.addEventListener('input', () => {
-//     const userInput = inputFieldTextElement.value.trim().toLowerCase();
-//     if (userInput.length === 1) {
-//         const suggestion = suggestWord(userInput);
-//         inputFieldTextElement.value = suggestion;
-//     } else {
-//         inputFieldTextElement.value = '';
-//     }
-// });
-
-// inputFieldTextElement.addEventListener('keydown', (e) => {
-//     if (e.key === 'Enter') {
-//         const userInput = inputFieldTextElement.value.trim().toLowerCase();
-//         const suggestion = suggestWord(userInput);
-//         if (suggestion) {
-//             inputFieldTextElement.value = suggestion;
-//             inputFieldTextElement.value = '';
-//         }
-//     }
-// });
-
-// function suggestWord(userInput) {
-//     for (const word in wordToNumber) {
-//         if (word.startsWith(userInput)) {
-//             return word;
-//         }
-//     }
-//     return null;
-// }

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>my-vanilla-cal&lpar;&#x6a5f;&#x80fd;&#x5236;&#x9650;&#x7248;&rpar;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension bierner.markdown-checkbox */
+.contains-task-list {
+    padding-left: 0;
+}
+
+.contains-task-list li {
+    margin-left: 24px;
+}
+
+.contains-task-list .task-list-item {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.contains-task-list .contains-task-list {
+    padding-left: 20px;
+} 
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+  all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+body.marp-vscode {
+  padding: 0;
+}
+
+body.marp-vscode img {
+  max-width: unset;
+  max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+  color: unset;
+}
+
+body.marp-vscode blockquote {
+  background: unset;
+  border-color: unset;
+}
+
+@media screen {
+  body.marp-vscode {
+    overflow-y: scroll;
+  }
+
+  #__marp-vscode [data-marp-vscode-slide-wrapper] {
+    margin: 20px;
+  }
+
+  #__marp-vscode svg[data-marpit-svg] {
+    box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+    display: block;
+    margin: 0;
+  }
+
+  /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+  #code-csp-warning {
+    background-color: #444;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+    color: white;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 12px;
+    line-height: 22px;
+    margin: 16px;
+    padding: 6px;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    top: 0;
+    word-wrap: break-word;
+  }
+
+  #code-csp-warning:hover {
+    text-decoration: none;
+    background-color: #007acc;
+    box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+  }
+}
+
+@media print {
+  body.marp-vscode #code-csp-warning {
+    display: none;
+  }
+}
+
+/* From extension tsutsu3.markdown-named-codeblocks */
+.named-fence-block {
+  position: relative;
+  padding-top: 2em !important;
+}
+
+.named-fence-filename {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 4px;
+  font-weight: bold;
+  color: #000000;
+  background: #c0c0c0;
+  opacity: 0.6;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-dark">
+        <h1 id="my-vanilla-cal機能制限版">my-vanilla-cal(機能制限版)</h1>
+<ul>
+<li><a href="#my-vanilla-cal%E6%A9%9F%E8%83%BD%E5%88%B6%E9%99%90%E7%89%88">my-vanilla-cal(機能制限版)</a>
+<ul>
+<li><a href="#%E9%80%A3%E7%B6%9A%E8%A8%88%E7%AE%97%E6%A9%9F%E8%83%BDcontinuous-calculation-function">連続計算機能(Continuous calculation function)</a></li>
+<li><a href="#%E5%95%8F%E9%A1%8C">問題</a>
+<ul>
+<li><a href="#%E3%82%A4%E3%82%B3%E3%83%BC%E3%83%AB%E3%82%92%E6%8A%BC%E3%81%97%E3%81%9F%E3%81%82%E3%81%A8%E3%81%AE%E8%A8%88%E7%AE%97">イコールを押したあとの計算</a></li>
+</ul>
+</li>
+<li><a href="#code%E7%BD%AE%E3%81%8D%E5%A0%B4">Code置き場</a>
+<ul>
+<li><a href="#20231014">2023/10/14</a></li>
+</ul>
+</li>
+<li><a href="#vanilla-javascript-calculator%E3%81%A8%E3%81%AE%E6%AF%94%E8%BC%83">Vanilla-JavaScript-Calculatorとの比較</a>
+<ul>
+<li><a href="#%E3%82%AA%E3%83%9A%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%8F%97%E3%81%91%E4%BB%98%E3%81%91%E3%82%8Bchooseoperation">オペレーションの入力を受け付ける<code>chooseOperation()</code></a></li>
+<li><a href="#%E3%82%AA%E3%83%9A%E3%83%A9%E3%83%B3%E3%83%89%E3%82%92%E3%82%82%E3%81%A8%E3%81%AB%E8%A8%88%E7%AE%97%E3%82%92%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8Bcompute">オペランドをもとに計算を実行する<code>compute()</code></a></li>
+<li><a href="#%E5%85%A5%E5%8A%9B%E3%81%95%E3%82%8C%E3%81%9F%E6%95%B0%E5%AD%97%E3%82%92%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E3%81%AB%E4%BB%A3%E5%85%A5%E3%81%99%E3%82%8Bappendnumber">入力された数字をプロパティに代入する<code>appendNumber()</code></a></li>
+<li><a href="#number%E3%82%92%E6%95%B4%E5%BD%A2%E3%81%97%E3%81%A6%E8%A1%A8%E7%A4%BA%E5%8F%AF%E8%83%BD%E3%81%AA%E5%BD%A2%E5%BC%8F%E3%81%AB%E3%81%99%E3%82%8Bgetdisplaynumber"><code>number</code>を整形して表示可能な形式にする<code>getDisplayNumber()</code></a></li>
+<li><a href="#%E3%82%A4%E3%83%99%E3%83%B3%E3%83%88%E3%83%AA%E3%82%B9%E3%83%8A%E3%83%BC%E3%81%8B%E3%82%89%E9%80%81%E3%82%89%E3%82%8C%E3%81%9F%E6%95%B0%E5%80%A4%E3%82%92%E8%A1%A8%E7%A4%BA%E3%81%99%E3%82%8Bupdatedisplay">イベントリスナーから送られた数値を表示する<code>updateDisplay()</code></a></li>
+</ul>
+</li>
+<li><a href="#%E5%BF%9C%E7%94%A8%E3%81%99%E3%82%8B%E3%81%AB%E3%81%AF">応用するには</a></li>
+<li><a href="#%E5%95%8F%E9%A1%8C%E3%81%A8%E8%A7%A3%E6%B1%BA">問題と解決</a>
+<ul>
+<li><a href="#%E3%83%87%E3%82%A3%E3%82%B9%E3%83%97%E3%83%AC%E3%82%A4%E3%81%AB%E6%95%B0%E5%AD%97%E3%81%8C%E8%A1%A8%E7%A4%BA%E3%81%95%E3%82%8C%E3%81%AA%E3%81%84%E5%95%8F%E9%A1%8C">ディスプレイに数字が表示されない問題</a></li>
+</ul>
+</li>
+<li><a href="#%E3%82%B3%E3%83%BC%E3%83%89%E7%BD%AE%E3%81%8D%E5%A0%B4">コード置き場</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="連続計算機能continuous-calculation-function">連続計算機能(Continuous calculation function)</h2>
+<p>イコールが押されるまで連続して計算し続けられる計算機を作る。</p>
+<ul>
+<li>数字ボタンは3つ</li>
+<li>オペレータは'+'一つ</li>
+<li>イコール'='</li>
+<li>ディスプレイとサブディスプレイ</li>
+<li>'C'と'CE'</li>
+<li>ログ出力</li>
+</ul>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/Kop9ICrDLKWkAj5Dp4rABU9oA2v9B2efpStX0ZEuh9vDtV2qOSdZfabFMvS-xPfjpPMPfg3nk6dLu-PPZvlNF6xUyxXf_xCvgrusxdZMDKzJ0MXUde96P6gn9fU2WbL9HcQnNa5HgeAj0aGxq2Xhe4HUVacgbQCXLsfESQe25WCXfZtRqO7LmBpKYXAi9ZeXcGYtMj5M8Qyq9mUhIKMfnQKv8BDWggrnknhYPYE83Hf--SIu1wWwBoKp3HYM-GLS3a0sA601">
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/Kop9ICrDLKWkAj5Dp4rABU9oA2v9B2efpStXAiaioKbLy2z8BKhCItdSkFffwzAdNREVDYnvt3JfQUUcnqrTpthMFsxgvWBhuBA2orjpPQOfQ3nkMlMuUTRZvZMFc_SyRjh_kB4d9k_Pd5Kl6tSywvgdgG2qDqz18pArM9DBGS6g92EpMA-WA5N1LW7960M5lFoIL2j7GwxKdE9K1MocDasAoOCO-Mn7n-F6_LWDpakjAC5giXEIoN0dADhQAkILvkHWDQeejRWq1sGOJBarOUSRGIpHyCidnab0rNafcMd0KCqlu780ia5n0G00"><hr>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/ZL7BIiD05DtFLropYIA6h1k4VaWsVKmna8mocUvpGuNQRiILBn0XBOL2nQqB-p6NgNw6Cqa9YLHmLiEvzppcp96wu0c7WLHdlQJF9UkcgYVLE8cPYbJCuVjrzLLywAmWNEljC-4zuJ8K-dgXPqy6Tdo7yedZEOIRtSqxuOJoEpqjzEQHy87oEIi5MJI2ureBpi47mZbX0RMI1VqJ1kPq95TZAOA0yJZby1UNigpD3WNX9-4BuLie_iEexAn-4tOzjngKMPewhk-vGJcomGxlr4hxHJ6CHWVUOVeqFhQispNXraQt2HlLDfEq6s6_J4zRhfLZgYwlMDVSxL_-0000"><hr>
+
+<img style="background-color:#FFF;" src="https://www.plantuml.com/plantuml/svg/Kop9ICrDLKWkAj5Dp4rABU9oA2v9B2efpStXAiaioKbLUDcm-FcsMIzMT3nVD_rn8n3DVzouud5Zx-F6TJ5vZvjMFMwUzRXvvUFcpO-REu5YppetFcviuG8RmkMGcfS2CWa0"><h2 id="問題">問題</h2>
+<h3 id="イコールを押したあとの計算">イコールを押したあとの計算</h3>
+<ul>
+<li>最初の計算は問題ない</li>
+<li>イコールを押し、オペレータを押した時に問題が起こる</li>
+<li>イコール押下後のResultはオペレータ押下後にOperandAに代入する</li>
+<li><code>OperandB: 35</code>となってしまっているのは、<code>setOperand</code>に問題がある</li>
+<li>サブディスプレイの表示も更新されていない</li>
+</ul>
+<pre><code>入力: 12 + 23 =
+AnyOperator
+  OperandA: 12
+  OperandB: null
+  currentOperator: +
+  Result: null
+  currentStage: operator
+
+出力: 35
+Equal
+  OperandA: 12
+  OperandB: 23
+  currentOperator: +
+  Result: 35
+  currentStage: result
+
+入力: + 3 =
+AnyOperator
+  OperandA: 12 &lt;- ここは'35'となるべき
+  OperandB: 35 &lt;- 新規の計算なので'0'にするべき.Resultが代入されているのはおかしい
+  currentOperator: +
+  Result: 35
+  currentStage: operator
+
+出力: 15
+Equal
+  OperandA: 12　&lt;- 本来Resultの値が代入されるべき
+  OperandB: 3 &lt;- '3'が代入されているのはOK
+  currentOperator: +
+  Result: 15
+  currentStage: result
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>No.</th>
+<th>Input</th>
+<th>Stage</th>
+<th>Process</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>&quot;1&quot;</td>
+<td>number</td>
+<td><code>this.pre</code>の入力受付</td>
+</tr>
+<tr>
+<td>2</td>
+<td>&quot;+&quot;</td>
+<td>operator</td>
+<td>No.1を<code>this.pre</code>に</td>
+</tr>
+<tr>
+<td>3</td>
+<td>&quot;2&quot;</td>
+<td>number</td>
+<td><code>this.next</code>の入力受付</td>
+</tr>
+<tr>
+<td>4</td>
+<td>&quot;+&quot;</td>
+<td>operator</td>
+<td>計算実行し以下のようにする</td>
+</tr>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>1. <code>this.result = this.pre + this.result</code></td>
+</tr>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>2. <code>preOperand.value = this.pre</code></td>
+</tr>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>2. <code>this.result = this.pre</code></td>
+</tr>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>3. <code>result.value = 0</code></td>
+</tr>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>4. <code>this.next = null</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td>&quot;3&quot;</td>
+<td>number</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="code置き場">Code置き場</h2>
+<h3 id="20231014">2023/10/14</h3>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Calculator</span> {
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">selectedOperator</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-title function_">setOperand</span>(<span class="hljs-params">value</span>) {
+        <span class="hljs-keyword">if</span> (currentStage === <span class="hljs-string">&#x27;operandA&#x27;</span>) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = <span class="hljs-built_in">parseFloat</span>(value);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (currentStage === <span class="hljs-string">&#x27;operandB&#x27;</span>) {
+            <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = <span class="hljs-built_in">parseFloat</span>(value);
+        }
+    }
+
+    <span class="hljs-title function_">add</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+
+    <span class="hljs-title function_">reset</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">pre</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">selectedOperator</span> = <span class="hljs-literal">null</span>;
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span> = <span class="hljs-literal">null</span>;
+    }
+
+    <span class="hljs-title function_">getResult</span>(<span class="hljs-params"></span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">result</span>;
+    }
+}
+
+<span class="hljs-keyword">const</span> buttons = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;button&#x27;</span>);
+<span class="hljs-keyword">const</span> result = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;result&#x27;</span>);
+<span class="hljs-keyword">const</span> preOperand = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;previousOperand&#x27;</span>);
+<span class="hljs-keyword">const</span> resultLog = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&#x27;.result-log&#x27;</span>);
+<span class="hljs-keyword">const</span> clearLog = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">getElementById</span>(<span class="hljs-string">&#x27;clearLog&#x27;</span>);
+
+<span class="hljs-keyword">let</span> currentStage = <span class="hljs-string">&#x27;operandA&#x27;</span>;
+<span class="hljs-comment">// 1.&#x27;operandA&#x27;</span>
+<span class="hljs-comment">// 2.&#x27;operator&#x27;</span>
+<span class="hljs-comment">// 3.&#x27;operandB&#x27;</span>
+<span class="hljs-comment">// 4.&#x27;equal&#x27;</span>
+
+<span class="hljs-keyword">const</span> calculator = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Calculator</span>();
+<span class="hljs-keyword">let</span> currentOperator = <span class="hljs-literal">null</span>;
+<span class="hljs-keyword">let</span> currentButton = <span class="hljs-literal">null</span>;
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">logMessages</span>(<span class="hljs-params">pre, next, operator, result, currentStage</span>) {
+    <span class="hljs-keyword">const</span> forConsole = <span class="hljs-string">`\nOperandA: <span class="hljs-subst">${pre}</span> \nOperandB: <span class="hljs-subst">${next}</span> \ncurrentOperator: <span class="hljs-subst">${operator}</span> \nResult: <span class="hljs-subst">${result}</span> \ncurrentStage: <span class="hljs-subst">${currentStage}</span>`</span>;
+    <span class="hljs-keyword">const</span> forDisplay = <span class="hljs-string">`&lt;br&gt;OperandA: <span class="hljs-subst">${pre}</span> &lt;br&gt;OperandB: <span class="hljs-subst">${next}</span> &lt;br&gt;currentOperator: <span class="hljs-subst">${operator}</span> &lt;br&gt;Result: <span class="hljs-subst">${result}</span> &lt;br&gt;currentStage: <span class="hljs-subst">${currentStage}</span>`</span>;
+
+    <span class="hljs-keyword">if</span> (currentButton === <span class="hljs-string">&#x27;+&#x27;</span> || currentButton === <span class="hljs-string">&#x27;-&#x27;</span> || currentButton === <span class="hljs-string">&#x27;×&#x27;</span> || currentButton === <span class="hljs-string">&#x27;÷&#x27;</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;AnyOperator&#x27;</span> + forConsole);
+        <span class="hljs-title function_">displayLog</span>(<span class="hljs-string">&#x27;AnyOperator&#x27;</span> + forDisplay);
+        <span class="hljs-keyword">return</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (currentButton === <span class="hljs-string">&#x27;=&#x27;</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Equal&#x27;</span> + forConsole);
+        <span class="hljs-title function_">displayLog</span>(<span class="hljs-string">&#x27;Equal&#x27;</span> + forDisplay);
+        <span class="hljs-keyword">return</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (currentButton === <span class="hljs-string">&#x27;C&#x27;</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Cleared&#x27;</span> + forConsole);
+        <span class="hljs-title function_">displayLog</span>(<span class="hljs-string">&#x27;Cleared&#x27;</span> + forDisplay);
+        <span class="hljs-keyword">return</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (currentButton === <span class="hljs-string">&#x27;CE&#x27;</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;ClearEntries&#x27;</span> + forConsole);
+        <span class="hljs-title function_">displayLog</span>(<span class="hljs-string">&#x27;ClearEntries&#x27;</span> + forDisplay);
+    }
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">displayLog</span>(<span class="hljs-params">result</span>) {
+    <span class="hljs-keyword">const</span> resultPara = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;p&#x27;</span>);
+    resultPara.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&#x27;resultPara&#x27;</span>);
+    resultLog.<span class="hljs-title function_">appendChild</span>(resultPara);
+    resultPara.<span class="hljs-property">innerHTML</span> = result;
+    resultLog.<span class="hljs-property">scrollTop</span> = resultLog.<span class="hljs-property">scrollHeight</span>;
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">numberProcess</span>(<span class="hljs-params">number</span>) {
+    <span class="hljs-keyword">const</span> numberText = number.<span class="hljs-title function_">getAttribute</span>(<span class="hljs-string">&#x27;data-numbers&#x27;</span>);
+
+    <span class="hljs-keyword">if</span> (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText === <span class="hljs-string">&#x27;00&#x27;</span>) {
+        result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+        (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;00&#x27;</span>) ||
+        (result.<span class="hljs-property">value</span> === <span class="hljs-string">&#x27;0&#x27;</span> &amp;&amp; numberText !== <span class="hljs-string">&#x27;0&#x27;</span>)) {
+        <span class="hljs-keyword">if</span> (numberText === <span class="hljs-string">&#x27;.&#x27;</span>) {
+            result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0.&#x27;</span>;
+        } <span class="hljs-keyword">else</span> {
+            result.<span class="hljs-property">value</span> = numberText;
+        }
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (
+        (result.<span class="hljs-property">value</span>.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;.&#x27;</span>) !== -<span class="hljs-number">1</span>) &amp;&amp;
+        (numberText === <span class="hljs-string">&#x27;.&#x27;</span>)
+    ) {
+        <span class="hljs-keyword">return</span>;
+    } <span class="hljs-keyword">else</span> {
+        result.<span class="hljs-property">value</span> += numberText;
+    }
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">handleResult</span>(<span class="hljs-params">operator</span>) {
+    <span class="hljs-keyword">const</span> isOperator = operator === <span class="hljs-string">&#x27;+&#x27;</span> || operator === <span class="hljs-string">&#x27;-&#x27;</span> || operator === <span class="hljs-string">&#x27;×&#x27;</span> || operator === <span class="hljs-string">&#x27;÷&#x27;</span>;
+
+    <span class="hljs-keyword">if</span> (isOperator) {
+        calculator.<span class="hljs-title function_">setOperand</span>(result.<span class="hljs-property">value</span>);<span class="hljs-comment">//OpeAへ</span>
+        calculator.<span class="hljs-property">selectedOperator</span> = currentOperator = operator;
+        preOperand.<span class="hljs-property">value</span> = calculator.<span class="hljs-property">pre</span>;
+        result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+
+        <span class="hljs-title function_">logMessages</span>(calculator.<span class="hljs-property">pre</span>, calculator.<span class="hljs-property">next</span>, calculator.<span class="hljs-property">selectedOperator</span>, calculator.<span class="hljs-property">result</span>, currentStage);
+
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (operator === <span class="hljs-string">&#x27;=&#x27;</span>) {
+        calculator.<span class="hljs-title function_">setOperand</span>(result.<span class="hljs-property">value</span>);<span class="hljs-comment">//OpeBへ</span>
+        <span class="hljs-keyword">switch</span> (calculator.<span class="hljs-property">selectedOperator</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>:
+                calculator.<span class="hljs-title function_">add</span>();
+                result.<span class="hljs-property">value</span> = calculator.<span class="hljs-title function_">getResult</span>().<span class="hljs-title function_">toString</span>();
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-attr">default</span>:
+        }
+        <span class="hljs-title function_">logMessages</span>(calculator.<span class="hljs-property">pre</span>, calculator.<span class="hljs-property">next</span>, calculator.<span class="hljs-property">selectedOperator</span>, calculator.<span class="hljs-property">result</span>, currentStage);
+
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (currentStage === <span class="hljs-string">&#x27;operator&#x27;</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">next</span> !== <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">switch</span> (calculator.<span class="hljs-property">selectedOperator</span>) {
+            <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>:
+                calculator.<span class="hljs-title function_">add</span>();
+                preOperand.<span class="hljs-property">value</span> = calculator.<span class="hljs-title function_">getResult</span>().<span class="hljs-title function_">toString</span>();
+                <span class="hljs-keyword">break</span>;
+            <span class="hljs-attr">default</span>:
+        }
+        <span class="hljs-title function_">logMessages</span>(calculator.<span class="hljs-property">pre</span>, calculator.<span class="hljs-property">next</span>, calculator.<span class="hljs-property">selectedOperator</span>, calculator.<span class="hljs-property">result</span>, currentStage);
+    }
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">clearProcess</span>(<span class="hljs-params"></span>) {
+    calculator.<span class="hljs-title function_">reset</span>();
+    result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+    preOperand.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+
+    <span class="hljs-title function_">logMessages</span>(calculator.<span class="hljs-property">pre</span>, calculator.<span class="hljs-property">next</span>, calculator.<span class="hljs-property">selectedOperator</span>, calculator.<span class="hljs-property">result</span>, currentStage);
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">ceProcess</span>(<span class="hljs-params"></span>) {
+    result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+
+    <span class="hljs-title function_">logMessages</span>(calculator.<span class="hljs-property">pre</span>, calculator.<span class="hljs-property">next</span>, calculator.<span class="hljs-property">selectedOperator</span>, calculator.<span class="hljs-property">result</span>, currentStage);
+}
+
+result.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+preOperand.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;0&#x27;</span>;
+buttons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+    button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+        <span class="hljs-keyword">const</span> buttonText = button.<span class="hljs-property">innerHTML</span>;
+        currentButton = buttonText;
+        <span class="hljs-keyword">const</span> isNumber = <span class="hljs-regexp">/^[0-9]+$/</span>.<span class="hljs-title function_">test</span>(buttonText);
+        <span class="hljs-keyword">const</span> isOperator = buttonText === <span class="hljs-string">&#x27;+&#x27;</span> || buttonText === <span class="hljs-string">&#x27;-&#x27;</span> || buttonText === <span class="hljs-string">&#x27;×&#x27;</span> || buttonText === <span class="hljs-string">&#x27;÷&#x27;</span>;
+        <span class="hljs-keyword">if</span> (isNumber) {
+            <span class="hljs-title function_">numberProcess</span>(button);
+            <span class="hljs-keyword">if</span> (calculator.<span class="hljs-property">pre</span> !== <span class="hljs-literal">null</span>) { <span class="hljs-comment">//!</span>
+                currentStage = <span class="hljs-string">&#x27;operandB&#x27;</span>;
+            } <span class="hljs-keyword">else</span> {
+                currentStage = <span class="hljs-string">&#x27;operandA&#x27;</span>;
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (isOperator) {
+            <span class="hljs-title function_">handleResult</span>(buttonText);
+            currentStage = <span class="hljs-string">&#x27;operator&#x27;</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (buttonText === <span class="hljs-string">&#x27;=&#x27;</span>) {
+            <span class="hljs-title function_">handleResult</span>(buttonText);
+            currentStage = <span class="hljs-string">&#x27;equal&#x27;</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (buttonText === <span class="hljs-string">&#x27;C&#x27;</span>) {
+            <span class="hljs-title function_">clearProcess</span>();
+            currentStage = <span class="hljs-string">&#x27;operandA&#x27;</span>;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (buttonText === <span class="hljs-string">&#x27;CE&#x27;</span>) {
+            <span class="hljs-title function_">ceProcess</span>();
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (buttonText === <span class="hljs-string">&#x27;CLEAR&#x27;</span>) {
+            <span class="hljs-keyword">const</span> removeParas = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&#x27;.resultPara&#x27;</span>);
+            removeParas.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">para</span> =&gt;</span> {
+                para.<span class="hljs-title function_">remove</span>();
+                <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;Logs Cleared&#x27;</span>);
+            });
+        }
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;currentStage:&#x27;</span> + currentStage);
+    });
+});
+</code></pre>
+<h2 id="vanilla-javascript-calculatorとの比較">Vanilla-JavaScript-Calculatorとの比較</h2>
+<ol>
+<li>数値を格納する変数/プロパティは&quot;過去&quot;と&quot;現在&quot;のみ</li>
+<li>メソッドは
+<ol>
+<li><code>appendNumber()</code>: 数値の振り分けと追加</li>
+<li><code>chooseOperation()</code>: オペレータを選択したときのオペランドの操作や計算の実行</li>
+<li><code>compute()</code>: 入力されたオペレータに応じてオペランドで計算する</li>
+<li><code>getDisplayNumber()</code>: 数値を表示可能な文字列に整形する</li>
+<li><code>updateDisplay()</code>: 受け取った数値を画面に表示する</li>
+<li><code>clear()</code>: クリアボタンを押した時にリセットする</li>
+<li><code>delete()</code>: 数列の後ろ一文字を削除する</li>
+</ol>
+</li>
+</ol>
+<h3 id="オペレーションの入力を受け付けるchooseoperation">オペレーションの入力を受け付ける<code>chooseOperation()</code></h3>
+<ol>
+<li>パラメータ<code>(operation)</code>に送られたオペレータ文字列を<code>this.operation</code>に代入
+<ol>
+<li><code>this.operation</code>は<code>compte()</code>の計算実行やサブ画面の表示に用いられる</li>
+</ol>
+</li>
+<li>両方のオペランドが揃っているときのみ計算が実行されるようになっている</li>
+<li>オペレータボタンを押した時点で
+<ol>
+<li><code>this.previousOperand = this.currentOperand;</code> で数値を前オペランドに移動し</li>
+<li><code>this.currentOperand = '';</code> で現オペランドを空にする</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-js">  <span class="hljs-title function_">chooseOperation</span>(<span class="hljs-params">operation</span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> === <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-keyword">return</span>;
+    <span class="hljs-comment">//currentOperandが空であるとき、何もしない</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> !== <span class="hljs-string">&#x27;&#x27;</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">compute</span>();
+      <span class="hljs-comment">//previousOperandが入力されているとき計算を実行する</span>
+    }
+
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> = operation;
+    <span class="hljs-comment">// 入力されたオペレータをthis.operationに代入</span>
+    <span class="hljs-comment">// -&gt;`compute()`で使用可能にする</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>;
+    <span class="hljs-comment">// オペレータを選択すると、今のオペランドをpreviousオペランドに代入する</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+    <span class="hljs-comment">// currentOperandはprevに渡したので、新規の数値を受け付けるために空にする</span>
+  }
+</code></pre>
+<h3 id="オペランドをもとに計算を実行するcompute">オペランドをもとに計算を実行する<code>compute()</code></h3>
+<ol>
+<li>四則演算などは、すべて<code>compute()</code>メソッドが行っている</li>
+<li><code>let computation</code>: 結果を格納する変数</li>
+<li><code>appendNumber()</code>から送られた数字の文字列を<code>prev</code>定数に代入</li>
+<li><code>chooseNumber()</code>から送られた<code>this.currentOperand</code>の数値を<code>current</code>定数に代入</li>
+<li><code>prev</code>または<code>current</code>が数値でないときは何もせず<code>return</code></li>
+<li><code>chooseOperation()</code>で実行されて<code>this.operation</code>をもとに計算を実行する</li>
+<li>計算結果は<code>this.currentOperand = computation</code>で渡される</li>
+<li>計算後、<code>this.operation</code>はリセットされる</li>
+<li>計算後、<code>this.previousOperand = ''</code>はリセットされる</li>
+</ol>
+<p>8~9は連続計算に必要なカギ</p>
+<pre><code class="language-js">  <span class="hljs-title function_">compute</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">let</span> computation
+        <span class="hljs-comment">//結果を格納する変数</span>
+    <span class="hljs-keyword">const</span> prev = <span class="hljs-built_in">parseFloat</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span>)
+    <span class="hljs-keyword">const</span> current = <span class="hljs-built_in">parseFloat</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>)
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(prev) || <span class="hljs-built_in">isNaN</span>(current)) <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">switch</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span>) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>:
+        computation = prev + current
+        <span class="hljs-keyword">break</span>
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;-&#x27;</span>:
+        computation = prev - current
+        <span class="hljs-keyword">break</span>
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;*&#x27;</span>:
+        computation = prev * current
+        <span class="hljs-keyword">break</span>
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;÷&#x27;</span>:
+        computation = prev / current
+        <span class="hljs-keyword">break</span>
+      <span class="hljs-attr">default</span>:
+        <span class="hljs-keyword">return</span>
+    }
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = computation
+      <span class="hljs-comment">// 計算結果をcurrentOperandに代入する</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> = <span class="hljs-literal">undefined</span>
+      <span class="hljs-comment">// `this.operation`で計算した後、リセットする</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> = <span class="hljs-string">&#x27;&#x27;</span>
+      <span class="hljs-comment">// previousOperandを空にする</span>
+  }
+</code></pre>
+<h3 id="入力された数字をプロパティに代入するappendnumber">入力された数字をプロパティに代入する<code>appendNumber()</code></h3>
+<ol>
+<li>各メソッドで用いられる数字は最初にここで処理される</li>
+<li><code>this.currentOperand = this.currentOperand.toString() + number.toString();</code>
+<ol>
+<li><code>this.currentOperand</code>に、入力された数字を後ろから追加するためのコード</li>
+</ol>
+</li>
+<li><code>this.previousOperand</code>は<code>chooseOperation()</code>で使用可能にする</li>
+</ol>
+<pre><code class="language-js"><span class="hljs-title function_">appendNumber</span>(<span class="hljs-params">number</span>) {<span class="hljs-comment">//数値の振り分け、追加</span>
+    <span class="hljs-keyword">if</span> (number === <span class="hljs-string">&#x27;.&#x27;</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;.&#x27;</span>)) <span class="hljs-keyword">return</span>;
+    <span class="hljs-comment">//入力が &#x27;.&#x27; かつ currentOperand に &#x27;.&#x27; が含まれている場合に何もしない</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">toString</span>() + number.<span class="hljs-title function_">toString</span>();
+}
+</code></pre>
+<h3 id="numberを整形して表示可能な形式にするgetdisplaynumber"><code>number</code>を整形して表示可能な形式にする<code>getDisplayNumber()</code></h3>
+<ol>
+<li><code>updateDisplay()</code>から送られた数文字列を処理する</li>
+<li>小数点がある場合、数文字列を'.'で分割し整数部分と小数部分を分ける</li>
+<li>整数部分は<code>toLocalString</code>で読みやすい形式に直せるように<code>parseFloat</code>で数値にする</li>
+<li>小数部分があるとき、<code>${integerDisplay}.${decimalDigits}</code>で整数と連結して返す</li>
+<li>小数部分がなければそのまま整数部分のみを返す</li>
+</ol>
+<pre><code class="language-js">  <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {<span class="hljs-comment">//numberを整形してディスプレイに表示する文字列を生成する関数</span>
+    <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+
+    <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]);
+    <span class="hljs-comment">//stringNumberを&#x27;.&#x27;で分割し、整数部分を定数に代入する</span>
+    <span class="hljs-keyword">const</span> decimalDigits = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">1</span>];
+    <span class="hljs-comment">//&#x27;.&#x27;で分割し、インデックスの1番目の部分以降(小数点以下の桁)を定数に代入する</span>
+    <span class="hljs-keyword">let</span> integerDisplay;
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) {
+      integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>;
+      <span class="hljs-comment">//integerDigitsが数値でないとき(存在しないとき)に空文字列を代入する</span>
+    } <span class="hljs-keyword">else</span> {
+      integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });
+      <span class="hljs-comment">//整数部分が数値のとき、整数としてフォーマットし、</span>
+      <span class="hljs-comment">//大きな数値を読みやすい形式で表示できるようにする</span>
+    }
+
+    <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+      <span class="hljs-comment">//小数部分があるとき、整数部分と小数部分を連結して返す。</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">return</span> integerDisplay;
+      <span class="hljs-comment">//小数部分がないとき、整数部分のみを返す</span>
+    }
+  }
+</code></pre>
+<h3 id="イベントリスナーから送られた数値を表示するupdatedisplay">イベントリスナーから送られた数値を表示する<code>updateDisplay()</code></h3>
+<ol>
+<li><code>this.currentOperandTextElement.innerText</code>に
+<ol>
+<li><code>getDisplayNumber()</code>で処理された<code>this.currentOperand</code>の値を数文字列として代入</li>
+</ol>
+</li>
+<li>オペレータが入力されているときは、前オペランドの値をサブディスプレイに表示する
+<ol>
+<li><code>this.previousOperand</code>への代入は<code>chooseOperation()</code>が行う</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-js">  <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {<span class="hljs-comment">//イベントリスナーから送られた数値を表示する</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+    <span class="hljs-comment">//`this.getDisplayNumber(this.currentOperand)`を使って整形した文字列を</span>
+    <span class="hljs-comment">//`this.currentOperandTextElement.innerText`に設定する</span>
+    <span class="hljs-comment">//現在の数値の表示を更新する</span>
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+        <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+        <span class="hljs-comment">// operationが入力されているとき</span>
+        <span class="hljs-comment">// サブディスプレイに`this.getDisplayNumber(this.previousOperand)の値と</span>
+        <span class="hljs-comment">//operationの文字列を表示する</span>
+
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+      <span class="hljs-comment">// operationが未設定のとき、サブディスプレイに空文字が代入される</span>
+    }
+  }
+</code></pre>
+<h2 id="応用するには">応用するには</h2>
+<ol>
+<li>プロパティや変数は減らす</li>
+<li>プロパティの名前を<code>pre</code>と<code>cur</code>にする</li>
+<li><code>selectedOperator</code>は<code>operator</code>に</li>
+<li>機能はすべて<code>class</code>内で</li>
+<li>入力値は数値に変換した上で表示させる
+<ol>
+<li><code>numberProcess()</code>を省ける</li>
+</ol>
+</li>
+<li>currentStageは廃止</li>
+</ol>
+<h2 id="問題と解決">問題と解決</h2>
+<h3 id="ディスプレイに数字が表示されない問題">ディスプレイに数字が表示されない問題</h3>
+<pre><code class="language-js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+</code></pre>
+<p>このコードがメインディスプレイに文字列を表示させるはずだったが、
+なぜか表示されなかった。</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;screen&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;currentOperand&quot;</span> <span class="hljs-attr">readonly</span>&gt;</span>
+</code></pre>
+<p>原因は<code>input</code>要素に<code>.innerText</code>で文字列を表示させようとしていたため。</p>
+<pre><code class="language-js"><span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">value</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+</code></pre>
+<p>このようにすることで問題なく数字の文字列が表示できるようになった。</p>
+<h2 id="コード置き場">コード置き場</h2>
+<pre><code class="language-js"><span class="hljs-comment">// const numberButtons = document.querySelectorAll(&#x27;[data-numbers]&#x27;);</span>
+<span class="hljs-comment">// const operationButtons = document.querySelectorAll(&#x27;[data-operation]&#x27;);</span>
+<span class="hljs-comment">// const equalsButton = document.querySelector(&#x27;[data-equal]&#x27;);</span>
+<span class="hljs-comment">// const clearButton = document.querySelector(&#x27;[data-clear]&#x27;);</span>
+<span class="hljs-comment">// const clearEntriesButton = document.querySelector(&#x27;[data-clearEntries]&#x27;);</span>
+
+<span class="hljs-comment">// numberButtons.forEach(button =&gt; {</span>
+<span class="hljs-comment">//     button.addEventListener(&#x27;click&#x27;, () =&gt; {</span>
+<span class="hljs-comment">//         calculator.appendNumber(button.innerText);</span>
+<span class="hljs-comment">//         calculator.updateDisplay();</span>
+<span class="hljs-comment">//     });</span>
+<span class="hljs-comment">// });</span>
+
+<span class="hljs-comment">// operationButtons.forEach(button =&gt; {</span>
+<span class="hljs-comment">//     button.addEventListener(&#x27;click&#x27;, () =&gt; {</span>
+<span class="hljs-comment">//         calculator.chooseOperation(button.innerText);</span>
+<span class="hljs-comment">//         calculator.updateDisplay();</span>
+<span class="hljs-comment">//     });</span>
+<span class="hljs-comment">// });</span>
+
+<span class="hljs-comment">// equalsButton.addEventListener(&#x27;click&#x27;, button =&gt; {</span>
+<span class="hljs-comment">//     calculator.compute();</span>
+<span class="hljs-comment">//     calculator.updateDisplay();</span>
+<span class="hljs-comment">// });</span>
+
+<span class="hljs-comment">// clearButton.addEventListener(&#x27;click&#x27;, button =&gt; {</span>
+<span class="hljs-comment">//     calculator.clear();</span>
+<span class="hljs-comment">//     calculator.updateDisplay();</span>
+<span class="hljs-comment">// });</span>
+
+<span class="hljs-comment">// clearEntriesButton.addEventListener(&#x27;click&#x27;, button =&gt; {</span>
+<span class="hljs-comment">//     calculator.clearEntries();</span>
+<span class="hljs-comment">//     calculator.updateDisplay();</span>
+<span class="hljs-comment">// });</span>
+</code></pre>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        <script async type="text/javascript">
+/* From extension marp-team.marp-vscode */
+(()=>{var U=Object.defineProperty;var d=($,E)=>U($,"name",{value:E,configurable:!0});(()=>{var $={676:(w,b,g)=>{w.exports=g(185)},185:(w,b)=>{"use strict";var g;g={value:!0};const x={h1:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"1"},style:"display: block; font-size: 2em; margin-block-start: 0.67em; margin-block-end: 0.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h2:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"2"},style:"display: block; font-size: 1.5em; margin-block-start: 0.83em; margin-block-end: 0.83em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h3:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"3"},style:"display: block; font-size: 1.17em; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h4:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"4"},style:"display: block; margin-block-start: 1.33em; margin-block-end: 1.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h5:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"5"},style:"display: block; font-size: 0.83em; margin-block-start: 1.67em; margin-block-end: 1.67em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},h6:{proto:()=>HTMLHeadingElement,attrs:{role:"heading","aria-level":"6"},style:"display: block; font-size: 0.67em; margin-block-start: 2.33em; margin-block-end: 2.33em; margin-inline-start: 0px; margin-inline-end: 0px; font-weight: bold;"},span:{proto:()=>HTMLSpanElement},pre:{proto:()=>HTMLElement,style:"display: block; font-family: monospace; white-space: pre; margin: 1em 0; --marp-auto-scaling-white-space: pre;"}},k="data-marp-auto-scaling-wrapper",u="data-marp-auto-scaling-svg",c="data-marp-auto-scaling-container",T=class T extends HTMLElement{constructor(){super(),this.svgPreserveAspectRatio="xMinYMid meet";const s=d(i=>([n])=>{const{width:e,height:t}=n.contentRect;this[i]={width:e,height:t},this.updateSVGRect()},"t");this.attachShadow({mode:"open"}),this.containerObserver=new ResizeObserver(s("containerSize")),this.wrapperObserver=new ResizeObserver((...i)=>{s("wrapperSize")(...i),this.flushSvgDisplay()})}static get observedAttributes(){return["data-downscale-only"]}connectedCallback(){var s,i,n,e,t;this.shadowRoot.innerHTML=`
+<style>
+  svg[${u}] { display: block; width: 100%; height: auto; vertical-align: top; }
+  span[${c}] { display: table; white-space: var(--marp-auto-scaling-white-space, nowrap); width: max-content; }
+</style>
+<div ${k}>
+  <svg part="svg" ${u}>
+    <foreignObject><span ${c}><slot></slot></span></foreignObject>
+  </svg>
+</div>
+    `.split(/\n\s*/).join(""),this.wrapper=(s=this.shadowRoot.querySelector(`div[${k}]`))!==null&&s!==void 0?s:void 0;const o=this.svg;this.svg=(n=(i=this.wrapper)===null||i===void 0?void 0:i.querySelector(`svg[${u}]`))!==null&&n!==void 0?n:void 0,this.svg!==o&&(this.svgComputedStyle=this.svg?window.getComputedStyle(this.svg):void 0),this.container=(t=(e=this.svg)===null||e===void 0?void 0:e.querySelector(`span[${c}]`))!==null&&t!==void 0?t:void 0,this.observe()}disconnectedCallback(){this.svg=void 0,this.svgComputedStyle=void 0,this.wrapper=void 0,this.container=void 0,this.observe()}attributeChangedCallback(){this.observe()}flushSvgDisplay(){const{svg:s}=this;s&&(s.style.display="inline",requestAnimationFrame(()=>{s.style.display=""}))}observe(){this.containerObserver.disconnect(),this.wrapperObserver.disconnect(),this.wrapper&&this.wrapperObserver.observe(this.wrapper),this.container&&this.containerObserver.observe(this.container),this.svgComputedStyle&&this.observeSVGStyle(this.svgComputedStyle)}observeSVGStyle(s){const i=d(()=>{const n=(()=>{const e=s.getPropertyValue("--preserve-aspect-ratio");return e?e.trim():`x${(({textAlign:t,direction:o})=>{if(t.endsWith("left"))return"Min";if(t.endsWith("right"))return"Max";if(t==="start"||t==="end"){let a=o==="rtl";return t==="end"&&(a=!a),a?"Max":"Min"}return"Mid"})(s)}YMid meet`})();n!==this.svgPreserveAspectRatio&&(this.svgPreserveAspectRatio=n,this.updateSVGRect()),s===this.svgComputedStyle&&requestAnimationFrame(i)},"e");i()}updateSVGRect(){var s,i,n,e,t,o,a;let p=Math.ceil((i=(s=this.containerSize)===null||s===void 0?void 0:s.width)!==null&&i!==void 0?i:0);const h=Math.ceil((e=(n=this.containerSize)===null||n===void 0?void 0:n.height)!==null&&e!==void 0?e:0);this.dataset.downscaleOnly!==void 0&&(p=Math.max(p,(o=(t=this.wrapperSize)===null||t===void 0?void 0:t.width)!==null&&o!==void 0?o:0));const f=(a=this.svg)===null||a===void 0?void 0:a.querySelector(":scope > foreignObject");if(f?.setAttribute("width",`${p}`),f?.setAttribute("height",`${h}`),this.svg&&(this.svg.setAttribute("viewBox",`0 0 ${p} ${h}`),this.svg.setAttribute("preserveAspectRatio",this.svgPreserveAspectRatio),this.svg.style.height=p<=0||h<=0?"0":""),this.container){const _=this.svgPreserveAspectRatio.toLowerCase();this.container.style.marginLeft=_.startsWith("xmid")||_.startsWith("xmax")?"auto":"0",this.container.style.marginRight=_.startsWith("xmi")?"auto":"0"}}};d(T,"s");let r=T;const m=d((l,{attrs:s={},style:i})=>class extends l{constructor(...n){super(...n);for(const[e,t]of Object.entries(s))this.hasAttribute(e)||this.setAttribute(e,t);this.attachShadow({mode:"open"})}static get observedAttributes(){return["data-auto-scaling"]}connectedCallback(){this._update()}attributeChangedCallback(){this._update()}_update(){const n=i?`<style>:host { ${i} }</style>`:"";let e="<slot></slot>";const{autoScaling:t}=this.dataset;t!==void 0&&(e=`<marp-auto-scaling exportparts="svg:auto-scaling" ${t==="downscale-only"?"data-downscale-only":""}>${e}</marp-auto-scaling>`),this.shadowRoot.innerHTML=n+e}},"o");let v;const j=Symbol();let C;const z="marpitSVGPolyfill:setZoomFactor,",A=Symbol(),D=Symbol(),W=d(()=>{const l=navigator.vendor==="Apple Computer, Inc.",s=l?[B]:[],i={then:n=>(l?(async()=>{if(C===void 0){const e=document.createElement("canvas");e.width=10,e.height=10;const t=e.getContext("2d"),o=new Image(10,10),a=new Promise(p=>{o.addEventListener("load",()=>p())});o.crossOrigin="anonymous",o.src="data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2210%22%20height%3D%2210%22%20viewBox%3D%220%200%201%201%22%3E%3CforeignObject%20width%3D%221%22%20height%3D%221%22%20requiredExtensions%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%3E%3Cdiv%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxhtml%22%20style%3D%22width%3A%201px%3B%20height%3A%201px%3B%20background%3A%20red%3B%20position%3A%20relative%22%3E%3C%2Fdiv%3E%3C%2FforeignObject%3E%3C%2Fsvg%3E",await a,t.drawImage(o,0,0),C=t.getImageData(5,5,1,1).data[3]<128}return C})().then(e=>{n?.(e?[B]:[])}):n?.([]),i)};return Object.assign(s,i)},"h");let H,O;function B(l){const s=typeof l=="object"&&l.target||document,i=typeof l=="object"?l.zoom:l;window[D]||(Object.defineProperty(window,D,{configurable:!0,value:!0}),document.body.style.zoom=1.0001,document.body.offsetHeight,document.body.style.zoom=1,window.addEventListener("message",({data:e,origin:t})=>{if(t===window.origin)try{if(e&&typeof e=="string"&&e.startsWith(z)){const[,o]=e.split(","),a=Number.parseFloat(o);Number.isNaN(a)||(O=a)}}catch(o){console.error(o)}}));let n=!1;Array.from(s.querySelectorAll("svg[data-marpit-svg]"),e=>{var t,o,a,p;e.style.transform||(e.style.transform="translateZ(0)");const h=i||O||e.currentScale||1;H!==h&&(H=h,n=h);const f=e.getBoundingClientRect(),{length:_}=e.children;for(let F=0;F<_;F+=1){const S=e.children[F];if(S.getScreenCTM){const y=S.getScreenCTM();if(y){const I=(o=(t=S.x)===null||t===void 0?void 0:t.baseVal.value)!==null&&o!==void 0?o:0,Z=(p=(a=S.y)===null||a===void 0?void 0:a.baseVal.value)!==null&&p!==void 0?p:0,Y=S.children.length;for(let R=0;R<Y;R+=1){const N=S.children[R];if(N.tagName==="SECTION"){const{style:q}=N;q.transformOrigin||(q.transformOrigin=`${-I}px ${-Z}px`),q.transform=`scale(${h}) matrix(${y.a}, ${y.b}, ${y.c}, ${y.d}, ${y.e-f.left}, ${y.f-f.top}) translateZ(0.0001px)`;break}}}}}}),n!==!1&&Array.from(s.querySelectorAll("iframe"),({contentWindow:e})=>{e?.postMessage(`${z}${n}`,window.origin==="null"?"*":window.origin)})}d(B,"u");function P({once:l=!1,target:s=document}={}){const i=function(n=document){if(n[A])return n[A];let e=!0;const t=d(()=>{e=!1,delete n[A]},"i");Object.defineProperty(n,A,{configurable:!0,value:t});let o=[],a=!1;(async()=>{try{o=await W()}finally{a=!0}})();const p=d(()=>{for(const h of o)h({target:n});a&&o.length===0||e&&window.requestAnimationFrame(p)},"o");return p(),t}(s);return l?(i(),()=>{}):i}d(P,"v"),H=1,O=void 0;const G=P,M=Symbol(),L=d((l=document)=>{if(typeof window>"u")throw new Error("Marp Core's browser script is valid only in browser context.");if(((e=document)=>{const t=window[j];t||customElements.define("marp-auto-scaling",r);for(const o of Object.keys(x)){const a=`marp-${o}`,p=x[o].proto();v!=null||(v=!!document.createElement("div",{is:"marp-auto-scaling"}).outerHTML.startsWith("<div is")),v&&p!==HTMLElement?t||customElements.define(a,m(p,{style:x[o].style}),{extends:o}):(t||customElements.define(a,m(HTMLElement,x[o])),e.querySelectorAll(`${o}[is="${a}"]`).forEach(h=>{h.outerHTML=h.outerHTML.replace(new RegExp(`^<${o}`,"i"),`<${a}`).replace(new RegExp(`</${o}>$`,"i"),`</${a}>`)}))}window[j]=!0})(l),l[M])return l[M];const s=P({target:l}),i=d(()=>{s(),delete l[M]},"n"),n=Object.assign(i,{cleanup:i,update:()=>L(l)});return Object.defineProperty(l,M,{configurable:!0,value:n}),n},"y");b.browser=L,g=L,g=G}},E={};function V(w){var b=E[w];if(b!==void 0)return b.exports;var g=E[w]={exports:{}};return $[w](g,g.exports,V),g.exports}d(V,"__webpack_require__");var J={};(()=>{"use strict";var w=V(676);function b(){let u,c;const r=d(()=>{const m=document.getElementById("__marp-vscode"),v=!!m;u!==v?(document.body.classList.toggle("marp-vscode",v),v?c=(0,w.browser)():(c?.cleanup(),c=void 0),u=v):v&&c?.update(),u?(m&&g(m),x()):k()},"updateCallback");window.addEventListener("load",()=>window.setTimeout(r,100)),window.addEventListener("vscode.markdown.updateContent",r),r()}d(b,"preview");const g=d(u=>{u.querySelectorAll("[is]").forEach(c=>{if(c.nodeName.includes("-")||document.createElement(c.nodeName).constructor!==c.constructor)return;const{outerHTML:m}=c;c.outerHTML=m,console.debug("[marp-vscode] Custom element has been upgraded forcibly:",m.slice(0,m.indexOf(">")+1||void 0))})},"forceUpgradeCustomElements"),x=d(()=>{const u=document.querySelectorAll("style:not(#__marp-vscode-style,#_defaultStyles,[data-marp-vscode-body])"),c=document.querySelectorAll('link[rel="stylesheet"][href]:not([href*="marp-vscode"])');u.forEach(r=>{r.closest("#__marp-vscode")||(r.dataset.marpVscodeBody=r.textContent??"",r.textContent="")}),c.forEach(r=>{if(r.closest("#__marp-vscode"))return;const{href:m}=r;r.dataset.marpVscodeHref=m,r.removeAttribute("href")})},"removeStyles"),k=d(()=>{const u=document.querySelectorAll("style[data-marp-vscode-body]"),c=document.querySelectorAll("link[data-marp-vscode-href]");u.forEach(r=>{r.textContent=r.dataset.marpVscodeBody||"",delete r.dataset.marpVscodeBody}),c.forEach(r=>{r.href=r.dataset.marpVscodeHref||"",delete r.dataset.marpVscodeHref})},"restoreStyles");b()})()})();})();
+
+</script>
+
+    </body>
+    </html>
