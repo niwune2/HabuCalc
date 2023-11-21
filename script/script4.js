@@ -2,28 +2,14 @@ class UIHandler {
     constructor(previousOperandTextElement, currentOperandTextElement) {
         this.previousOperandTextElement = previousOperandTextElement;
         this.currentOperandTextElement = currentOperandTextElement;
-    }
-
-    clearEntries() {
-        this.currentOperand = '';
-    }
-
-    clear() {
-        this.currentOperand = '';
+        this.currentOperand = ''; //
         this.previousOperand = '';
         this.result = '';
-        this.operator = null;
-    }
-
-    appendNumber(number) {
-        if (number === '.' && this.currentOperand.includes('.')) {
-            return;
-        }
-        this.currentOperand = this.currentOperand.toString() + number.toString();
     }
 
     updateDisplay() {
-        this.currentOperandTextElement.value = this.getDisplayNumber(this.currentOperand);
+        this.currentOperandTextElement.value =
+            this.getDisplayNumber(this.currentOperand);
 
         if (this.operator != null) {
             this.previousOperandTextElement.value =
@@ -52,12 +38,32 @@ class UIHandler {
             return integerDisplay;
         }
     }
+
+    appendNumber(number) {
+        if (number === '.' && this.currentOperand.includes('.')) {
+            return;
+        }
+
+        this.currentOperand =
+            this.currentOperand.toString() + number.toString();
+    }
+
+    clearEntries() {
+        this.currentOperand = '';
+    }
+
+    clear() {
+        this.currentOperand = '';
+        this.previousOperand = '';
+        this.result = '';
+        this.operator = null;
+    }
 }
 
 class OperationHandler {
-    constructor (operator, symbol) {
+    constructor(currentOperand, operator) {
+        this.currentOperand = currentOperand;
         this.operator = operator;
-        this.symbol = symbol;
     }
 
     chooseOperation(operator) {
@@ -102,7 +108,12 @@ class OperationHandler {
         this.currentOperand = this.result; // 連続計算
         this.operator = null;
         this.previousOperand = '';
+    }
+}
 
+class SymbolHandler {
+    constructor (symbol) {
+        this.symbol = symbol;
     }
 
     transform(symbol) {
@@ -112,10 +123,11 @@ class OperationHandler {
 
         switch (symbol) {
             case '%':
-                this.currentOperand = this.percent();
+                console.log('symbol: %');
+                this.currentOperand = mathOperation.percent;
                 break;
             case '±':
-                this.currentOperand = this.plusOrMinus();
+                this.currentOperand = mathOperation.plusOrMinus;
                 break;
             case 'x^2':
                 this.currentOperand = this.exponentiation(2);
@@ -221,10 +233,11 @@ class OperationHandler {
                 throw new Error('Symbolが定義されていません');
         }
     }
+
 }
 
 class MathOperation { // コンストラクタを設定し直す
-    constructor (previous, current) {
+    constructor(previous, current) {
         this.previous = previous;
         this.current = current;
     }
@@ -288,7 +301,7 @@ class MathOperation { // コンストラクタを設定し直す
 }
 
 class MathFunction {
-    constructor (previous, current, option) {
+    constructor(previous, current, option) {
         this.previous = previous;
         this.current = current;
         this.option = option;
@@ -495,10 +508,12 @@ const buttons = document.querySelectorAll('button');
 const resultLog = document.querySelector('.result-log');
 const clearLog = document.getElementById('clearLog');
 
-const mathOperation = new MathOperation(previousOperandTextElement, currentOperandTextElement)
+const mathOperation = new MathOperation()
 const mathFunction = new MathFunction();
-const uiHandler = new UIHandler();
+const uiHandler =
+    new UIHandler(previousOperandTextElement, currentOperandTextElement);
 const operationHandler = new OperationHandler();
+const symbolHandler = new SymbolHandler();
 const errorHandler = new ErrorHandler();
 
 buttons.forEach(button => {
@@ -535,7 +550,7 @@ const errorMessages = {
     'sinhArc': 'エラー: 入力は 1 以上である必要があります',
     'cosDeg': 'エラー: 入力は -90 から 90 の範囲である必要があります',
     'cosRad': 'エラー: 入力は -π/2 から π/2 の範囲である必要があります',
-    'cosArc':'エラー: 入力は -1 から 1 の範囲である必要があります',
+    'cosArc': 'エラー: 入力は -1 から 1 の範囲である必要があります',
     'coshArc': 'エラー: 入力は 1 以上である必要があります',
     'tanDeg': 'エラー: 入力は 90 の倍数の範囲でなければなりません',
     'tanRad': 'エラー: 入力は π/2 の倍数でなければなりません',
@@ -550,6 +565,7 @@ function buttonProcess(button) {
     const isNumber = /^[0-9]+$/.test(buttonText);
     const isOperator = operators.includes(buttonText);
     const isSymbol = symbols.includes(buttonText);
+    console.log(`buttonText: ${buttonText}`);
 
     if (isNumber || buttonText === '.') {
         uiHandler.appendNumber(buttonText);
@@ -558,7 +574,7 @@ function buttonProcess(button) {
         operationHandler.chooseOperation(buttonText);
         uiHandler.updateDisplay();
     } else if (isSymbol) {
-        operationHandler.transform(buttonText);
+        symbolHandler.transform(buttonText);
         uiHandler.updateDisplay();
     } else if (buttonText === '=') {
         operationHandler.compute();
@@ -571,7 +587,8 @@ function buttonProcess(button) {
         uiHandler.updateDisplay();
     } else if (buttonText === 'CLEAR') {
         const removeParas = document.querySelectorAll('.resultPara');
-        const removeErrorParas = document.querySelectorAll('.errorPara');
+        const removeErrorParas =
+            document.querySelectorAll('.errorPara');
         removeErrorParas.forEach(para => {
             para.remove();
             console.log('Error Logs Cleared');
@@ -586,8 +603,9 @@ function buttonProcess(button) {
 
 /**-------- log ---------- */
 function logMessages(button) { //! クラス再設定
-    const buttonText = button.innerText;
-    const { previousOperand, currentOperand, operator, result } = calculator; //分割代入ß
+    const buttonText = button.value;
+    const { previousOperand, currentOperand, result } = uiHandler; //分割代入
+    const { operator } = operationHandler;
 
     const logDetails = `
     CurrentOperand: ${currentOperand}

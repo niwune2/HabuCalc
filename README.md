@@ -35,10 +35,17 @@
     - [2023/11/13](#20231113)
     - [2023/11/14](#20231114)
     - [2023/11/16](#20231116)
+    - [2023/11/21](#20231121)
 
 ## 目標
 iOSの計算機app並の機能を備えた計算機をプログラムする
+
 ![iOS_Calculator](images/IMG_0470.PNG)
+
+![iOS_Calculator_History_0](images/iOSCalculatorHistory_0.png)
+
+![iOS_Calculator_History_1](images/iOSCalculatorHistoty_1.png)
+
 
 ## 進捗状況
 ### 2023/09/15
@@ -289,4 +296,12 @@ transfomerの扱いを検討中
 - [ ] イベントリスナーなどが参照する`class`を変更する
 - [ ] `ErrorHandler`を設定する
 
+### 2023/11/21
+**TODO**
+- [ ] `class`で変更すべき点
+  - [ ] `this.currentOperand`
+  - [ ] `this.previousOperand`
+  - [ ] `this.operator`
+  - [ ] `this.option`
+  - [ ] その他異なるクラスにまたがるプロパティを変更する
 🐍 <ｼｬ-!
