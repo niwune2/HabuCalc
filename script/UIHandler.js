@@ -1,0 +1,61 @@
+export default class UIHandler {
+    constructor(previousOperandTextElement, currentOperandTextElement) {
+        this.previousOperandTextElement = previousOperandTextElement;
+        this.currentOperandTextElement = currentOperandTextElement;
+        this.currentOperand = ''; //
+        this.previousOperand = '';
+        this.result = '';
+    }
+
+    updateDisplay() {
+        this.currentOperandTextElement.value =
+            this.getDisplayNumber(this.currentOperand);
+
+        if (this.operator != null) {
+            this.previousOperandTextElement.value =
+                `${this.getDisplayNumber(this.previousOperand)} ${this.operator}`;
+        } else {
+            this.previousOperandTextElement.value = '';
+        }
+    }
+
+    getDisplayNumber(number) {
+        const stringNumber = number.toString();
+        const integerDigits = parseFloat(stringNumber.split('.')[0]);
+        const decimalDigits = stringNumber.split('.')[1];
+        let integerDisplay;//整数桁表示用
+
+        if (Number.isNaN(integerDigits)) {
+            integerDisplay = '';
+        } else {
+            integerDisplay =
+                integerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
+        }
+
+        if (decimalDigits != null) {
+            return `${integerDisplay}.${decimalDigits}`;
+        } else {
+            return integerDisplay;
+        }
+    }
+
+    appendNumber(number) {
+        if (number === '.' && this.currentOperand.includes('.')) {
+            return;
+        }
+
+        this.currentOperand =
+            this.currentOperand.toString() + number.toString();
+    }
+
+    clearEntries() {
+        this.currentOperand = '';
+    }
+
+    clear() {
+        this.currentOperand = '';
+        this.previousOperand = '';
+        this.result = '';
+        this.operator = null;
+    }
+}

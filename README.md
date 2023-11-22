@@ -36,6 +36,8 @@
     - [2023/11/14](#20231114)
     - [2023/11/16](#20231116)
     - [2023/11/21](#20231121)
+    - [2023/11/22](#20231122)
+      - [各スクリプトの役割](#各スクリプトの役割)
 
 ## 目標
 iOSの計算機app並の機能を備えた計算機をプログラムする
@@ -304,4 +306,37 @@ transfomerの扱いを検討中
   - [ ] `this.operator`
   - [ ] `this.option`
   - [ ] その他異なるクラスにまたがるプロパティを変更する
+
+### 2023/11/22
+- jsファイルを`class`ごとに分割
+- `html`変換した`md`ファイルのリンクを`index.html`に追加
+
+#### 各スクリプトの役割
+- `main.js`
+  - 各`class`の統括
+  - 入力値を`class`へ渡す
+  - 値を`index.html`に出力
+  - ログを表示する
+  - イベントリスナー
+- `UIHandler.js`
+  - 数字の入力
+  - 数字の表示
+  - `CE`
+  - `C
+- `OperationHandler.js`
+  - `chooseOperation`: `operator`の入力
+  - `compute()`: 四則演算の結果を`this.result`に代入する
+- `MathOperation.js`
+  - 四則演算
+  - %, ±, y乗, $10^y$, $x^2$, $x^3$, $e$, `napierExp()`, $1/x$
+- `MathFunction.js`
+  - 三角関数, rand, pi, log, log10, 指数表現
+- `SymbolHandler.js`
+  - 各`symbol`を`this.currenOperation`に代入する
+- `ErrorHandler.js`
+  - エラーに関する`class`
+
+**TODO**
+- [ ] ファイル間を連携させる
+
 🐍 <ｼｬ-!

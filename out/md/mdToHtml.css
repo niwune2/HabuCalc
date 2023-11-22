@@ -1,0 +1,135 @@
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+    display: none;
+}
+
+/* From extension bierner.markdown-checkbox */
+.contains-task-list {
+    padding-left: 0;
+}
+
+.contains-task-list li {
+    margin-left: 24px;
+}
+
+.contains-task-list .task-list-item {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.contains-task-list .contains-task-list {
+    padding-left: 20px;
+}
+
+/* From extension marp-team.marp-vscode */
+#__marp-vscode {
+    all: revert;
+}
+
+/* Override VS Code default CSS rules reverting to initial
+   https://github.com/microsoft/vscode/blob/master/src/vs/workbench/contrib/webview/browser/pre/main.js#L53 */
+body.marp-vscode {
+    padding: 0;
+}
+
+body.marp-vscode img {
+    max-width: unset;
+    max-height: unset;
+}
+
+body.marp-vscode a,
+body.marp-vscode a:hover,
+body.marp-vscode code {
+    color: unset;
+}
+
+body.marp-vscode blockquote {
+    background: unset;
+    border-color: unset;
+}
+
+@media screen {
+    body.marp-vscode {
+        overflow-y: scroll;
+    }
+
+    #__marp-vscode [data-marp-vscode-slide-wrapper] {
+        margin: 20px;
+    }
+
+    #__marp-vscode svg[data-marpit-svg] {
+        box-shadow: 0 5px 10px rgb(0 0 0 / 25%);
+        display: block;
+        margin: 0;
+    }
+
+    /* Based on https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+    #code-csp-warning {
+        background-color: #444;
+        box-shadow: 1px 1px 1px rgb(0 0 0 / 25%);
+        color: white;
+        cursor: pointer;
+        font-family: sans-serif;
+        font-size: 12px;
+        line-height: 22px;
+        margin: 16px;
+        padding: 6px;
+        position: fixed;
+        right: 0;
+        text-align: center;
+        top: 0;
+        word-wrap: break-word;
+    }
+
+    #code-csp-warning:hover {
+        text-decoration: none;
+        background-color: #007acc;
+        box-shadow: 2px 2px 2px rgb(0 0 0 / 25%);
+    }
+}
+
+@media print {
+    body.marp-vscode #code-csp-warning {
+        display: none;
+    }
+}
+
+/* From extension tsutsu3.markdown-named-codeblocks */
+.named-fence-block {
+    position: relative;
+    padding-top: 2em !important;
+}
+
+.named-fence-filename {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 4px;
+    font-weight: bold;
+    color: #000000;
+    background: #c0c0c0;
+    opacity: 0.6;
+}
+
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+}
