@@ -30,16 +30,7 @@ buttons.forEach(button => {
 const operators = ['+', '-', '×', '*', '/', '÷'];
 
 const symbols = [
-    '(', ')', 'mc', 'm+', 'm-', 'mr', '%', '±',
-    'y^x', 'x^2', 'x^3', 'x^y', 'x^2', '10^x',
-    'π', 'x!', '1/x', '2√x', '3√x', 'y√x',
-    'sin(Deg)', 'cos(Deg)', 'tan(Deg)',
-    'sin(Rad)', 'cos(Rad)', 'tan(Rad)',
-    'sinh', 'cosh', 'tanh',
-    'sin-1', 'cos-1', 'tan-1',
-    'sinh-1', 'cosh-1', 'tanh-1',
-    'e', 'e^x', 'EE', 'Rand',
-    'ln', 'log10', 'logy', 'log2'
+    '(', ')', 'mc', 'm+', 'm-', 'mr', '%', '±', 'y^x', 'x^2', 'x^3', 'x^y', 'x^2', '10^x', 'π', 'x!', '1/x', '2√x', '3√x', 'y√x', 'sin(Deg)', 'cos(Deg)', 'tan(Deg)', 'sin(Rad)', 'cos(Rad)', 'tan(Rad)', 'sinh', 'cosh', 'tanh', 'sin-1', 'cos-1', 'tan-1', 'sinh-1', 'cosh-1', 'tanh-1', 'e', 'e^x', 'EE', 'Rand', 'ln', 'log10', 'logy', 'log2'
 ];
 
 const errorMessages = {
@@ -91,8 +82,7 @@ function buttonProcess(button) {
         uiHandler.updateDisplay();
     } else if (buttonText === 'CLEAR') {
         const removeParas = document.querySelectorAll('.resultPara');
-        const removeErrorParas =
-            document.querySelectorAll('.errorPara');
+        const removeErrorParas = document.querySelectorAll('.errorPara');
         removeErrorParas.forEach(para => {
             para.remove();
             console.log('Error Logs Cleared');
@@ -107,7 +97,7 @@ function buttonProcess(button) {
 
 /**-------- log ---------- */
 function logMessages(button) { //! クラス再設定
-    const buttonText = button.value;
+    const buttonText = button.innerHTML;
     const { previousOperand, currentOperand, result } = uiHandler; //分割代入
     const { operator } = operationHandler;
 
@@ -126,7 +116,11 @@ function logMessages(button) { //! クラス再設定
     `;
 
     const isOperator = ['+', '-', '×', '÷'].includes(operator);
-    const messageType = isOperator ? 'AnyOperator' : buttonText === '=' ? 'Equal' : buttonText === 'C' ? 'Cleared' : 'ClearedEntries';
+    const messageType =
+        isOperator ? 'AnyOperator'
+        : buttonText === '=' ? 'Equal'
+        : buttonText === 'C' ? 'Cleared'
+        :'ClearedEntries'; //?
 
     console.log(messageType + logDetails);
     displayLog(messageType + displayDetails);
@@ -134,6 +128,8 @@ function logMessages(button) { //! クラス再設定
 
 function displayError(target) {
     const errorMessage = errorMessages[target];
+    const {divide} = mathOperation;
+
     if (errorMessage) {
         const errorPara = document.createElement('p');
         errorPara.classList.add('errorPara');

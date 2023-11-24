@@ -30,6 +30,9 @@ askedGPT2.md
   - [`<script>`タグでファイルを分割する](#scriptタグでファイルを分割する)
   - [`class`から別ファイルの`class`にアクセスする方法について](#classから別ファイルのclassにアクセスする方法について)
   - [`main.js`に`class`をもたせる必要は？](#mainjsにclassをもたせる必要は)
+  - [コンポジションとは](#コンポジションとは)
+    - [具体的なコード例](#具体的なコード例)
+  - [モジュール化されたアプローチ](#モジュール化されたアプローチ)
 
  ## 英単語で数値を入力する機能について
  英単語を数値に変換する機能を実装する場合、オブジェクトが非常に便利です。具体的には、英単語とそれに対応する数値を関連付けたオブジェクト（辞書）を使用できます。この辞書により、英単語がキーであり、対応する数値が値として格納されます。
@@ -1056,3 +1059,120 @@ app.start();
 ```
 
 このように`main.js`をクラスにして、アプリケーションの初期化や起動処理を行います。それにより、各機能ごとに分割された他のクラスやモジュールと連携しつつ、アプリケーション全体を管理することができます。
+
+## コンポジションとは
+コンポジション（Composition）は、オブジェクト指向プログラミングにおいて、異なるクラスやオブジェクトを組み合わせて新しいオブジェクトを作る手法です。継承とは対照的で、継承が「is-a」関係を表現するのに対して、コンポジションは「has-a」関係を表現します。
+
+具体的には、あるクラスが他のクラスのオブジェクトをフィールドとして持つことによって、新しい機能を提供したり、既存の機能を組み合わせたりします。これにより、クラス同士の結合度を低くし、柔軟性や保守性を向上させることができます。
+
+例えば、車のクラスを考えてみましょう。継承を使う場合、自動車（`Car`）クラスが車の機能とトラックの機能を持つクラス（`Truck`）を継承すると、`Car`は`Truck`の機能も持つことになります。しかし、これが必ずしも適切ではない場合があります。
+
+コンポジションを使う場合、`Car` クラスが `Engine` クラスや `Transmission` クラスなどの異なるクラスのオブジェクトをフィールドとして持ち、それらを組み合わせて自動車の機能を実現します。このようにすることで、`Car` クラスは必要な機能だけを持ち、他のクラスとの結合度が低くなります。
+
+簡潔に言えば、コンポジションはオブジェクトの機能を再利用する手法であり、継承よりも柔軟で保守性が高いとされています。
+
+### 具体的なコード例
+もちろんです。以下は、JavaScriptでコンポジションを使った簡単な例です。
+
+```javascript
+// Engine クラス
+class Engine {
+  start() {
+    console.log('エンジンが始動しました。');
+  }
+
+  stop() {
+    console.log('エンジンが停止しました。');
+  }
+}
+
+// Car クラス (コンポジションを使用)
+class Car {
+  constructor() {
+    this.engine = new Engine(); // Engine クラスのインスタンスをフィールドとして持つ
+  }
+
+  drive() {
+    this.engine.start();
+    console.log('車が走り出しました。');
+  }
+
+  park() {
+    console.log('車が停車しました。');
+    this.engine.stop();
+  }
+}
+
+// Truck クラス (コンポジションを使用)
+class Truck {
+  constructor() {
+    this.engine = new Engine(); // Engine クラスのインスタンスをフィールドとして持つ
+  }
+
+  drive() {
+    this.engine.start();
+    console.log('トラックが走り出しました。');
+  }
+
+  park() {
+    console.log('トラックが停車しました。');
+    this.engine.stop();
+  }
+
+  loadCargo() {
+    console.log('トラックに積み荷を積みました。');
+  }
+}
+
+// Car クラスと Truck クラスの使用例
+const myCar = new Car();
+myCar.drive();
+myCar.park();
+
+const myTruck = new Truck();
+myTruck.drive();
+myTruck.loadCargo();
+myTruck.park();
+```
+
+この例では、`Car` クラスと `Truck` クラスがそれぞれ `Engine` クラスを持つ形でコンポジションを利用しています。各車両はエンジンの機能を再利用し、同時にそれぞれのクラスが必要な機能を提供しています。
+
+## モジュール化されたアプローチ
+UIHandlerクラスに `setCurrentOperand` メソッドを追加し、他のクラスからこのメソッドを呼び出すことで、よりモジュール化されたアプローチを取ることができます。以下は、UIHandlerクラスを拡張した例です：
+
+```js
+// UIHandler.js
+
+export default class UIHandler {
+    constructor(previousOperandTextElement, currentOperandTextElement) {
+        this.previousOperandTextElement = previousOperandTextElement;
+        this.currentOperandTextElement = currentOperandTextElement;
+        this.currentOperand = '';
+        this.previousOperand = '';
+        this.result = '';
+        this.operator = '';
+    }
+
+    setCurrentOperand(value) {
+        this.currentOperand = value;
+    }
+
+    // 他のメソッドもここに追加
+    // ...
+}
+```
+
+そして、他のクラスからこのメソッドを呼び出す例：
+
+```js
+// 他のクラス
+const uiHandler = new UIHandler(/* 引数 */);
+
+// 値の設定
+uiHandler.setCurrentOperand('新しい値');
+
+// 値の取得（例）
+const currentValue = uiHandler.currentOperand;
+```
+
+このようにすることで、UIHandler内のプロパティに対するアクセスがクラス内でカプセル化され、UIHandlerの実装を変更せずに他のクラスから値を設定・取得できるようになります。

@@ -1,8 +1,9 @@
 export default class OperationHandler {
-    constructor(currentOperand, operator) {
-        this.currentOperand = currentOperand;
+    constructor(operator) {
         this.operator = operator;
+        this.result = '';
     }
+    //* `previousOperand`と`currentOperand`はどこかに一元管理する必要があるかもしれない
 
     chooseOperation(operator) {
         if (this.currentOperand === '') {
@@ -28,7 +29,7 @@ export default class OperationHandler {
 
         switch (this.operator) {
             case '+':
-                this.result = this.addition(previous, current);
+                this.result = mathOperation.addition(previous, current);
                 break;
             case '-':
                 this.result = this.subtract(previous, current);
@@ -48,3 +49,12 @@ export default class OperationHandler {
         this.previousOperand = '';
     }
 }
+
+import MathOperation from "./MathOperation.js";
+import UIHandler from "./UIHandler.js";
+
+const mathOperation = new MathOperation();
+const uiHandler = new UIHandler();
+
+//* モジュール化して値を呼び出すテスト - 成功
+const currentValue = uiHandler.setCurrentOperand('OperationHandler.jsから\nUIHandler.jsのsetCurrentOperand()へ送る');

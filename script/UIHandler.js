@@ -1,10 +1,17 @@
 export default class UIHandler {
     constructor(previousOperandTextElement, currentOperandTextElement) {
+        //* 必要なプロパティはここに集約する
         this.previousOperandTextElement = previousOperandTextElement;
         this.currentOperandTextElement = currentOperandTextElement;
-        this.currentOperand = ''; //
+        this.currentOperand = '';
         this.previousOperand = '';
         this.result = '';
+        this.operator = '';
+    }
+
+    setCurrentOperand(value){
+        this.currentOperand = value;
+        console.log(`UIHandlerに送られたメッセージ: \n${value}`);
     }
 
     updateDisplay() {

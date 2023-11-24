@@ -18,7 +18,7 @@ export default class MathOperation { // コンストラクタを設定し直す
 
     divide(previous, current) {
         if (current === 0) {
-            errorMessages('divideByZero');
+            errorMessages('divideByZero'); //!
             throw new Error("0で除算はできません");
         }
 
