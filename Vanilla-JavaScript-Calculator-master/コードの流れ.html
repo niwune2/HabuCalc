@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>number-operation-number-equal</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension bierner.markdown-checkbox */
+.contains-task-list {
+    padding-left: 0;
+}
+
+.contains-task-list li {
+    margin-left: 24px;
+}
+
+.contains-task-list .task-list-item {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.contains-task-list .contains-task-list {
+    padding-left: 20px;
+} 
+/* From extension tsutsu3.markdown-named-codeblocks */
+.named-fence-block {
+  position: relative;
+  padding-top: 2em !important;
+}
+
+.named-fence-filename {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0 4px;
+  font-weight: bold;
+  color: #000000;
+  background: #c0c0c0;
+  opacity: 0.6;
+}
+
+</style>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-light">
+        <ul>
+<li><a href="#number-operation-number-equal">number-operation-number-equal</a>
+<ul>
+<li><a href="#a-number">A: number</a></li>
+<li><a href="#b-operation">B: operation</a></li>
+<li><a href="#c-number">C: number</a></li>
+<li><a href="#d-equal">D: equal</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="number-operation-number-equal">number-operation-number-equal</h2>
+<h3 id="a-number">A: number</h3>
+<ol>
+<li>
+<pre><code class="language-js"> button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+ calculator.<span class="hljs-title function_">appendNumber</span>(button.<span class="hljs-property">innerText</span>);
+ calculator.<span class="hljs-title function_">updateDisplay</span>();
+</code></pre>
+<ul>
+<li>数字ボタンを押した際の処理を受け付けるイベントリスナー</li>
+<li><code>appendNumber()</code>に数字を送る</li>
+<li><code>updateDisplay()</code>で画面を更新する</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">appendNumber</span>(<span class="hljs-params">number</span>) {
+ ...
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">toString</span>() + number.<span class="hljs-title function_">toString</span>();
+ }
+</code></pre>
+<ul>
+<li>送られてきた数字を文字列化し(<code>number.toString()</code>)、既存の数文字列に追加する</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+ ...
+</code></pre>
+<ul>
+<li>この時点の<code>this.currentOperand</code>の値を<code>this.getDisplayNumber</code>に送る</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+ <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]);<span class="hljs-comment">// 数文字列を整形するために一度数値化する</span>
+ <span class="hljs-keyword">const</span> decimalDigits = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">1</span>];
+ <span class="hljs-keyword">let</span> integerDisplay; <span class="hljs-comment">//`updateDisplay()`に渡る(文字列)</span>
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) {
+   integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>;
+ } <span class="hljs-keyword">else</span> {
+   integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });
+     <span class="hljs-comment">// &#x27;,&#x27;をつけて文字列化し変数に渡す</span>
+ }
+
+     <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+   <span class="hljs-comment">//この`if`内の`integerDisplay`は上で文字列化したもの</span>
+   <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+ } <span class="hljs-keyword">else</span> {
+   <span class="hljs-keyword">return</span> integerDisplay;
+ }
+ }
+</code></pre>
+<ul>
+<li><code>updateDisplay()</code>から送られてきた数文字列を<code>toStriing()</code>で文字列化して定数に代入する</li>
+<li>その定数を<code>split()</code>を使い小数点で整数部分と小数部分を分けて整数部分を定数に代入する
+<ul>
+<li>そして以下で<code>toLocalString</code>を用いて整形するために一度<code>parseFloat</code>で数値化する</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+ } <span class="hljs-keyword">else</span> {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+ }}
+</code></pre>
+<ul>
+<li><code>getDisplayNumber()</code>で整形された数文字列を<code>this.currentOperandTextElement.innerText</code>に代入し、画面に入力した数字を表示させる</li>
+<li><code>if(this.operation != null)</code>以下の条件分は、この時点でオペレーションが未選択なので、<code>else</code>以下が実行される</li>
+</ul>
+</li>
+</ol>
+<h3 id="b-operation">B: operation</h3>
+<ol>
+<li>
+<pre><code class="language-js"> operationButtons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+     button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+     calculator.<span class="hljs-title function_">chooseOperation</span>(button.<span class="hljs-property">innerText</span>);
+     calculator.<span class="hljs-title function_">updateDisplay</span>();
+ });});
+</code></pre>
+<ul>
+<li>オペレーションボタンを押した際に処理するイベントリスナー</li>
+<li>押したボタンは<code>chooseOperation(button.innerText)</code>に送られる</li>
+<li><code>updateDisplay()</code>で画面の更新を行う</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">chooseOperation</span>(<span class="hljs-params">operation</span>) {
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> === <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-keyword">return</span>;
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> !== <span class="hljs-string">&#x27;&#x27;</span>) {　<span class="hljs-variable language_">this</span>.<span class="hljs-title function_">compute</span>();　}
+
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> = operation;
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>;
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+ }
+</code></pre>
+<ul>
+<li><code>if (this.currentOperand === '') return;</code> で、<code>currentOperand</code>が未入力の場合は<code>return</code>でスルーされ、以降のコードは実行されない</li>
+<li><code>if (this.previousOperand !== '') {　this.compute(); }</code>　は、この時点で<code>previousOperand</code>に値が無いため実行されない</li>
+<li>入力された<code>operation</code>をプロパティに代入し、<code>compute()</code>や<code>updateDisplay()</code>, で使われる</li>
+<li>A: numberで入力された数字<code>this.currentOperand</code>を<code>this.previousOperand</code>に代入した上で空文字にし新しい数字の受付を可能にする</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+   <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+ } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+<ul>
+<li><code>this.currentOperandTextElement.innerText</code>以下は、<code>this.currentOperand</code>が空であるためディスプレイの表示がリセットされるようになる</li>
+<li><code>if(this.operation != null)</code>で<code>chooseOperation()</code>で値を代入された<code>this.previousOperand</code>を表示させる</li>
+</ul>
+</li>
+</ol>
+<h3 id="c-number">C: number</h3>
+<ol>
+<li>
+<pre><code class="language-js"> numberButtons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+ button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+ calculator.<span class="hljs-title function_">appendNumber</span>(button.<span class="hljs-property">innerText</span>);
+ calculator.<span class="hljs-title function_">updateDisplay</span>();
+ });});
+</code></pre>
+<ul>
+<li>新しい数字を受け付ける</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">appendNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">if</span> (number === <span class="hljs-string">&#x27;.&#x27;</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;.&#x27;</span>)) <span class="hljs-keyword">return</span>;
+
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">toString</span>() + number.<span class="hljs-title function_">toString</span>();
+ }
+</code></pre>
+<ul>
+<li>A: numberと同じような処理を行う</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+   <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+ } <span class="hljs-keyword">else</span> {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>;
+ }}
+</code></pre>
+<ul>
+<li><code>this.getDisplayNumber()</code>に<code>this.appendNumber()</code>で数字を追加された数文字列を送る</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+ <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">0</span>]);
+ <span class="hljs-keyword">const</span> decimalDigits = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>)[<span class="hljs-number">1</span>];
+ <span class="hljs-keyword">let</span> integerDisplay;
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; }
+ <span class="hljs-keyword">else</span>
+ { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> }); }
+
+ <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) { <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>; }
+ <span class="hljs-keyword">else</span>
+ { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+<ul>
+<li>送られた数文字列を文字列化し、整数部分を数値化、<code>if</code>で整形された文字列に変換する</li>
+<li>もし小数部分が含まれている場合は上の<code>if</code>で整形された文字列 + 小数部分の文字列を<code>return</code>する</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+   <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+ } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+<ul>
+<li>この時点でオペレーションは選択済みなので、<code>if(this.operation != null)</code>以下でサブディスプレイに<code>this.previousOperand</code>と<code>this.operation</code>を表示させる処理を行う</li>
+</ul>
+</li>
+</ol>
+<h3 id="d-equal">D: equal</h3>
+<ol>
+<li>
+<pre><code class="language-js"> equalsButton.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+ calculator.<span class="hljs-title function_">compute</span>();
+ calculator.<span class="hljs-title function_">updateDisplay</span>();});
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">compute</span>(<span class="hljs-params"></span>) {
+ <span class="hljs-keyword">let</span> computation;
+ <span class="hljs-keyword">const</span> prev = <span class="hljs-built_in">parseFloat</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span>);
+ <span class="hljs-keyword">const</span> current = <span class="hljs-built_in">parseFloat</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(prev) || <span class="hljs-built_in">isNaN</span>(current)) <span class="hljs-keyword">return</span>;
+
+ <span class="hljs-keyword">switch</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span>) {
+   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>: computation = prev + current; <span class="hljs-keyword">break</span>;
+   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;-&#x27;</span>: computation = prev - current; <span class="hljs-keyword">break</span>;
+   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;*&#x27;</span>: computation = prev * current; <span class="hljs-keyword">break</span>;
+   <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;÷&#x27;</span>: computation = prev / current; <span class="hljs-keyword">break</span>;
+   <span class="hljs-attr">default</span>: <span class="hljs-keyword">return</span>; }
+
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = computation;
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> = <span class="hljs-literal">undefined</span>;
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> = <span class="hljs-string">&#x27;&#x27;</span>; }
+</code></pre>
+<ul>
+<li><code>const prev</code>や<code>const current</code>は計算を実行するために<code>parseFloat</code>で数値化する</li>
+<li><code>switch</code>で<code>this.operation</code>の値に応じて計算を実行し、結果を<code>computation</code>に代入する</li>
+<li><code>this.currentOperand</code>に<code>computation</code>(数値)の値を代入する</li>
+<li>次の計算に備えるため、<code>this.operation</code>と<code>this.previousOperand</code>は初期化する</li>
+</ul>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+ <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+   <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+
+ <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+ } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+<ul>
+<li>この時点で数値を格納する<code>this.currentOperand</code>を表示できるようにするため<code>this.getDisplayNumber()</code>に送る</li>
+<li>戻り値が計算結果であり、<code>this.currentOperandTextElement.innerText</code>に渡して計算結果を表示する</li>
+<li><code>if</code>については、<code>this.operation</code>は初期化されて<code>undefined</code>になっているので<code>else</code>以下でサブディスプレイを空にする</li>
+</ul>
+</li>
+</ol>
+
+        <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+        
+    </body>
+    </html>

@@ -15,10 +15,11 @@ export default class UIHandler {
     }
 
     updateDisplay() {
+        // メインディスプレイ用の数字を表示するためのif
         this.currentOperandTextElement.value =
             this.getDisplayNumber(this.currentOperand);
 
-        if (this.operator != null) {
+        if (this.operator != null) { //サブディスプレイ用の数字を表示するためのif
             this.previousOperandTextElement.value =
                 `${this.getDisplayNumber(this.previousOperand)} ${this.operator}`;
         } else {
