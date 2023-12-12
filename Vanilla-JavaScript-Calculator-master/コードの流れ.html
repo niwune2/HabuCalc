@@ -85,6 +85,15 @@
 <li><a href="#d-equal">D: equal</a></li>
 </ul>
 </li>
+<li><a href="#number-operation-number-operation-number">number-operation-number-operation-number</a>
+<ul>
+<li><a href="#a-number-1">A: number</a></li>
+<li><a href="#b-operation-1">B: operation</a></li>
+<li><a href="#c-number-1">C: number</a></li>
+<li><a href="#d-operation">D: operation</a></li>
+<li><a href="#e-number">E: number</a></li>
+</ul>
+</li>
 </ul>
 <h2 id="number-operation-number-equal">number-operation-number-equal</h2>
 <h3 id="a-number">A: number</h3>
@@ -342,6 +351,373 @@
 <li>戻り値が計算結果であり、<code>this.currentOperandTextElement.innerText</code>に渡して計算結果を表示する</li>
 <li><code>if</code>については、<code>this.operation</code>は初期化されて<code>undefined</code>になっているので<code>else</code>以下でサブディスプレイを空にする</li>
 </ul>
+</li>
+</ol>
+<h2 id="number-operation-number-operation-number">number-operation-number-operation-number</h2>
+<h3 id="a-number-1">A: number</h3>
+<ol>
+<li>
+<pre><code class="language-js">numberButtons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+ button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+ calculator.<span class="hljs-title function_">appendNumber</span>(button.<span class="hljs-property">innerText</span>);
+ calculator.<span class="hljs-title function_">updateDisplay</span>();
+ });});
+</code></pre>
+<ol>
+<li>押された数字ボタンを処理するイベントリスナー</li>
+</ol>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">appendNumber</span>(<span class="hljs-params">number</span>) {
+  <span class="hljs-keyword">if</span> (number === <span class="hljs-string">&#x27;.&#x27;</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;.&#x27;</span>)) <span class="hljs-keyword">return</span>;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> =
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">toString</span>() + number.<span class="hljs-title function_">toString</span>();}
+</code></pre>
+<ol>
+<li>押された数字を<code>this.currentOperand</code>に代入するための<code>appendNumber()</code>メソッド</li>
+<li>小数点が押されており、かつ<code>this.currentOperand</code>に小数点が含まれている場合は<code>Early Return</code>される</li>
+<li>この時点では<code>this.currentOperand</code>には<strong>文字列</strong>が格納されている</li>
+</ol>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+   ... }
+</code></pre>
+<ol>
+<li>イベントリスナーから実行されることで<code>this.currentOperand</code>の値を<code>getDisplayNumber()</code>メソッドに送り、戻り値をメインディスプレイに表示する</li>
+</ol>
+</li>
+<li>
+<pre><code class="language-js">   <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+ <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+ <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+ <span class="hljs-keyword">let</span> integerDisplay;
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) {
+       integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>;
+   } <span class="hljs-keyword">else</span> {
+     integerDisplay =
+       integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+ <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+     <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+   } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+<ol>
+<li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array">配列のインデックスを指定する方法(MDN)</a></li>
+<li><code>this.currentOperand</code>や<code>this.previousOperand</code>の値を整形して返すメソッド</li>
+<li>数値が送られることがあるため、最初に定数で文字列に変換する</li>
+<li>変換した文字列は<code>split()</code>で小数点を基準に分割する</li>
+<li>分割した文字列の整数部分を指定するためにブラケット記法を用いてインデックスを指定する</li>
+<li>整数部分については<code>toLocalString</code>でコンマを含んだ数文字列にする必要があるため、一度<code>parseFloat</code>で数値に変換する</li>
+<li>小数部分についてはその変換を必要としないため、数文字列のままで扱う</li>
+<li>整形された数文字列を格納する変数(表示するためのもの)</li>
+<li><code>isNaN(integerDigits)</code>は、オペレーションボタンが押された際の挙動のためにある条件
+<ol>
+<li>オペレーションボタンが押された際の<code>integerDigit</code>には<code>parseFloat</code>を通して<code>NaN</code>が格納されている</li>
+<li>オペレーションボタンが押されたときは次の数字の入力を待機するためにメインディスプレイを初期化する必要がある</li>
+<li><code>isNaN(integerDigits)</code>が<code>true</code>になる条件文にすることで初期化をすることができる</li>
+<li>もしかしたら違うかもしれない(integerDigitにはオペレーション記号は格納されていないかも)</li>
+</ol>
+</li>
+<li><code>decimalDigits != null</code>は小数が含まれている場合のための条件文で含まれない場合は整数部分のみ返すようになっている</li>
+</ol>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+   ...
+   <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+   } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+<ol>
+<li>この時点では<code>this.operation</code>は<code>null</code>であるため<code>else</code>以下が実行される</li>
+</ol>
+</li>
+</ol>
+<h3 id="b-operation-1">B: operation</h3>
+<ol>
+<li>
+<pre><code class="language-js"> operationButtons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+   button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+     calculator.<span class="hljs-title function_">chooseOperation</span>(button.<span class="hljs-property">innerText</span>);
+     calculator.<span class="hljs-title function_">updateDisplay</span>();
+   });});
+</code></pre>
+<ol>
+<li>オペレーション記号を<code>chooseOperation()</code>に送る</li>
+<li>``</li>
+</ol>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">chooseOperation</span>(<span class="hljs-params">operation</span>) {
+   <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> === <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-keyword">return</span>;
+   <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> !== <span class="hljs-string">&#x27;&#x27;</span>) { <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">compute</span>(); }
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> = operation;
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>;
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = <span class="hljs-string">&#x27;&#x27;</span>;}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+   ... }
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+ <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+ <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+ <span class="hljs-keyword">let</span> integerDisplay;
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+ { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+ <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+   <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+ } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"><span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+  ...
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+    <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+  } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+   <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+   <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+   <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+   <span class="hljs-keyword">let</span> integerDisplay;
+   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+   { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+   <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+     <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+   } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+</li>
+</ol>
+<h3 id="c-number-1">C: number</h3>
+<ol>
+<li>
+<pre><code class="language-js"> numberButtons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+   button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+     calculator.<span class="hljs-title function_">appendNumber</span>(button.<span class="hljs-property">innerText</span>);
+     calculator.<span class="hljs-title function_">updateDisplay</span>();});});
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">appendNumber</span>(<span class="hljs-params">number</span>) {
+  <span class="hljs-keyword">if</span> (number === <span class="hljs-string">&#x27;.&#x27;</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;.&#x27;</span>)) <span class="hljs-keyword">return</span>;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> =
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">toString</span>() + number.<span class="hljs-title function_">toString</span>();}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+   ... }
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+ <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+ <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+ <span class="hljs-keyword">let</span> integerDisplay;
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+ { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+ <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+   <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+ } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"><span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+  ...
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+    <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+  } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+   <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+   <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+   <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+   <span class="hljs-keyword">let</span> integerDisplay;
+   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+   { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+   <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+     <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+   } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+</li>
+</ol>
+<h3 id="d-operation">D: operation</h3>
+<ol>
+<li>
+<pre><code class="language-js"> operationButtons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+   button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+     calculator.<span class="hljs-title function_">chooseOperation</span>(button.<span class="hljs-property">innerText</span>);
+     calculator.<span class="hljs-title function_">updateDisplay</span>();
+   });});
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">chooseOperation</span>(<span class="hljs-params">operation</span>) {
+   <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> === <span class="hljs-string">&#x27;&#x27;</span>) <span class="hljs-keyword">return</span>;
+   <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> !== <span class="hljs-string">&#x27;&#x27;</span>) { <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">compute</span>(); }
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> = operation;
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>;
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = <span class="hljs-string">&#x27;&#x27;</span>;}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">compute</span>(<span class="hljs-params"></span>) {
+   <span class="hljs-keyword">let</span> computation;
+   <span class="hljs-keyword">const</span> prev = <span class="hljs-built_in">parseFloat</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span>);
+   <span class="hljs-keyword">const</span> current = <span class="hljs-built_in">parseFloat</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+
+   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(prev) || <span class="hljs-built_in">isNaN</span>(current)) <span class="hljs-keyword">return</span>;
+   <span class="hljs-keyword">switch</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span>) {
+     <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;+&#x27;</span>: computation = prev + current; <span class="hljs-keyword">break</span>;
+     <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;-&#x27;</span>: computation = prev - current; <span class="hljs-keyword">break</span>;
+     <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;*&#x27;</span>: computation = prev * current; <span class="hljs-keyword">break</span>;
+     <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;÷&#x27;</span>: computation = prev / current; <span class="hljs-keyword">break</span>;
+     <span class="hljs-attr">default</span>: <span class="hljs-keyword">return</span>;}
+
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> = computation;
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> = <span class="hljs-literal">undefined</span>;
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperand</span> = <span class="hljs-string">&#x27;&#x27;</span>;}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+   ... }
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+ <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+ <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+ <span class="hljs-keyword">let</span> integerDisplay;
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+ { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+ <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+   <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+ } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"><span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+  ...
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+    <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+  } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+   <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+   <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+   <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+   <span class="hljs-keyword">let</span> integerDisplay;
+   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+   { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+   <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+     <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+   } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+</li>
+</ol>
+<h3 id="e-number">E: number</h3>
+<ol>
+<li>
+<pre><code class="language-js"> numberButtons.<span class="hljs-title function_">forEach</span>(<span class="hljs-function"><span class="hljs-params">button</span> =&gt;</span> {
+   button.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">() =&gt;</span> {
+     calculator.<span class="hljs-title function_">appendNumber</span>(button.<span class="hljs-property">innerText</span>);
+     calculator.<span class="hljs-title function_">updateDisplay</span>();});});
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">appendNumber</span>(<span class="hljs-params">number</span>) {
+  <span class="hljs-keyword">if</span> (number === <span class="hljs-string">&#x27;.&#x27;</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">includes</span>(<span class="hljs-string">&#x27;.&#x27;</span>)) <span class="hljs-keyword">return</span>;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span> =
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>.<span class="hljs-title function_">toString</span>() + number.<span class="hljs-title function_">toString</span>();}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+   <span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+     <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">currentOperand</span>);
+   ... }
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+ <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+ <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+ <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+ <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+ <span class="hljs-keyword">let</span> integerDisplay;
+ <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+ { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+ <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+   <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+ } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"><span class="hljs-title function_">updateDisplay</span>(<span class="hljs-params"></span>) {
+  ...
+  <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">operation</span> != <span class="hljs-literal">null</span>) {
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> =
+    <span class="hljs-string">`<span class="hljs-subst">${<span class="hljs-variable language_">this</span>.getDisplayNumber(<span class="hljs-variable language_">this</span>.previousOperand)}</span> <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.operation}</span>`</span>;
+  } <span class="hljs-keyword">else</span> { <span class="hljs-variable language_">this</span>.<span class="hljs-property">previousOperandTextElement</span>.<span class="hljs-property">innerText</span> = <span class="hljs-string">&#x27;&#x27;</span>; }}
+</code></pre>
+</li>
+<li>
+<pre><code class="language-js"> <span class="hljs-title function_">getDisplayNumber</span>(<span class="hljs-params">number</span>) {
+   <span class="hljs-keyword">const</span> stringNumber = number.<span class="hljs-title function_">toString</span>();
+   <span class="hljs-keyword">const</span> integer = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> integerDigits = <span class="hljs-built_in">parseFloat</span>(integer[<span class="hljs-number">0</span>]);
+   <span class="hljs-keyword">const</span> decimal = stringNumber.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;.&#x27;</span>);
+   <span class="hljs-keyword">const</span> decimalDigits = decimal[<span class="hljs-number">1</span>];
+   <span class="hljs-keyword">let</span> integerDisplay;
+   <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isNaN</span>(integerDigits)) { integerDisplay = <span class="hljs-string">&#x27;&#x27;</span>; } <span class="hljs-keyword">else</span>
+   { integerDisplay = integerDigits.<span class="hljs-title function_">toLocaleString</span>(<span class="hljs-string">&#x27;en&#x27;</span>, { <span class="hljs-attr">maximumFractionDigits</span>: <span class="hljs-number">0</span> });}
+   <span class="hljs-keyword">if</span> (decimalDigits != <span class="hljs-literal">null</span>) {
+     <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${integerDisplay}</span>.<span class="hljs-subst">${decimalDigits}</span>`</span>;
+   } <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> integerDisplay; }}
+</code></pre>
 </li>
 </ol>
 

@@ -17,18 +17,14 @@ class Calculator {
 
   appendNumber(number) {
     if (number === '.' && this.currentOperand.includes('.')) return;
-
     this.currentOperand = this.currentOperand.toString() + number.toString();
   }
 
   chooseOperation(operation) {
-    console.log(`(A) chooseOperation(): ${this.operation}`);
     if (this.currentOperand === '') return;
-
     if (this.previousOperand !== '') { this.compute(); }
 
     this.operation = operation;
-    console.log(`(B) chooseOperation(): ${this.operation}`);
     this.previousOperand = this.currentOperand;
     this.currentOperand = '';
   }
@@ -37,9 +33,8 @@ class Calculator {
     let computation;
     const prev = parseFloat(this.previousOperand);
     const current = parseFloat(this.currentOperand);
-    if (isNaN(prev) || isNaN(current)) return;
 
-    console.log(`(A) compute(): ${this.operation}`);
+    if (isNaN(prev) || isNaN(current)) return;
     switch (this.operation) {
       case '+': computation = prev + current; break;
       case '-': computation = prev - current; break;
@@ -51,18 +46,23 @@ class Calculator {
     this.currentOperand = computation;
     this.operation = undefined;
     this.previousOperand = '';
-    console.log(`(B) compute(): ${this.operation}`);
   }
 
   getDisplayNumber(number) { // 数値を文字列にする
     const stringNumber = number.toString();
       //compute()から送られる`this.currentOperand`は数値であるため、ここで文字列化する必要がある
-    const integerDigits = parseFloat(stringNumber.split('.')[0]);// 数文字列を整形するために一度数値化する
-    const decimalDigits = stringNumber.split('.')[1];
+    const integer = stringNumber.split('.');
+    const integerDigits = parseFloat(integer[0]);// 数文字列を整形するために一度数値化する
+    // console.log(`integer ${integer}`);
+    // console.log(`integerDigits: ${integerDigits}`);
+    const decimal = stringNumber.split('.');
+    const decimalDigits = decimal[1];
     let integerDisplay; //`updateDisplay()`に渡る(文字列)
 
     if (isNaN(integerDigits)) {
+      // オペレーションボタンが押されたときにtrueになる
       integerDisplay = '';
+      console.log(`if (isNaN(integerDigits)): ${integerDigits}`);
     } else {
       integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 });
       // ','をつけて文字列化し変数に渡す
