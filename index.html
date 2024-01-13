@@ -6,16 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" href="images/favicon.png">
     <link rel="stylesheet" href="style/style.css">
-
-    <script src="script/main.js" type="module"></script>
-    <script src="script/UIHandler.js" type="module"></script>
-    <script src="script/MathOperation.js" type="module"></script>
-    <script src="script/MathFunction.js" type="module"></script>
-    <script src="script/OperationHandler.js" type="module"></script>
-    <script src="script/SymbolHandler.js" type="module"></script>
-    <script src="script/ErrorHandler.js" type="module"></script>
-
-    <!-- <script src="script/old/script3.js" defer></script> -->
+    <script src="script(function).js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
@@ -33,7 +24,6 @@
                 </td>
             </tr>
             <tr>
-                <!-- 一段目 -->
                 <td><button data-parentheses="left">(</button></td>
                 <td><button data-parentheses="right">)</button></td>
                 <td><button data-memory="clear">mc</button></td>
@@ -42,11 +32,10 @@
                 <td><button data-memory="recall">mr</button></td>
                 <td><button data-clear="clear">C</button></td>
                 <td><button data-clearEntries>CE</button></td>
-                <td><button data-symbols>&#037;</button></td><!-- % -->
-                <td><button data-symbols>&#177;</button></td><!-- ± -->
+                <td><button data-symbols>%</button></td>
+                <td><button data-symbols>±</button></td>
             </tr>
             <tr>
-                <!-- <td><button data-inverseFunction>2<sup>nd</sup></button></td> -->
                 <td><button data-exponentiation2>y^x</button></td>
                 <td><button data-squared>x^2</button></td>
                 <td><button data-cubed>x^3</button></td>
@@ -56,7 +45,7 @@
                 <td><button data-numbers="7">7</button></td>
                 <td><button data-numbers="8">8</button></td>
                 <td><button data-numbers="9">9</button></td>
-                <td><button data-operation>&#215;</button></td><!-- × -->
+                <td><button data-operation>×</button></td>
             </tr>
             <tr>
                 <td><button data-pi>π</button></td>
@@ -68,7 +57,7 @@
                 <td><button data-numbers="4">4</button></td>
                 <td><button data-numbers="5">5</button></td>
                 <td><button data-numbers="6">6</button></td>
-                <td><button data-operation>&#247;</button></td><!-- ÷ -->
+                <td><button data-operation>÷</button></td>
             </tr>
             <tr>
                 <td><button data-sineDeg>sin(Deg)</button></td>
@@ -80,10 +69,9 @@
                 <td><button data-numbers="1">1</button></td>
                 <td><button data-numbers="2">2</button></td>
                 <td><button data-numbers="3">3</button></td>
-                <td><button data-operation>&#045;</button></td><!-- - -->
+                <td><button data-operation>-</button></td>
             </tr>
             <tr>
-                <!-- <td><button data-radian>Rad</button></td> -->
                 <td><button data-hyperbolicSine>sinh</button></td>
                 <td><button data-hyperbolicCosine>cosh</button></td>
                 <td><button data-hyperbolicTangent>tanh</button></td>
@@ -92,8 +80,8 @@
                 <td><button data-arcTan>tan<sup>-1</sup></button></td>
                 <td><button data-numbers="0">0</button></td>
                 <td><button data-numbers="00">00</button></td>
-                <td><button data-numbers=".">&#046;</button></td><!-- . -->
-                <td><button data-operation>&#043;</button></td><!-- + -->
+                <td><button data-numbers=".">.</button></td>
+                <td><button data-operation>+</button></td>
             </tr>
             <tr>
                 <td><button data-arcSinh>sinh<sup>-1</sup></button></td>
@@ -103,17 +91,13 @@
                 <td><button data-exponential>e^x</button></td>
                 <td><button data-enterExponent>EE</button></td>
                 <td><button data-random>Rand</button></td>
-                <td colspan="10"><button id="equal" data-equal>&#061;</button></td><!-- = -->
+                <td colspan="10"><button id="equal" data-equal>=</button></td>
             </tr>
             <tr>
                 <td><button data-naturalLogarithm>ln</button></td>
                 <td><button data-commonLogarithm>log<sub>10</sub></button></td>
                 <td><button data-logarithm3>log<sub>y</sub></button></td>
                 <td><button data-logarithm4>log<sub>2</sub></button></td>
-            </tr>
-            <tr>
-
-
             </tr>
         </table>
     </div>
