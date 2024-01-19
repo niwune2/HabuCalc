@@ -12,8 +12,28 @@ body {
     padding: 0;
 }
 
-a:visited{
-    color: rgba(210,210,210,1)
+.markdownMemo a,
+.links a,
+.markdownMemo p,
+.links p {
+    color: rgba(210, 210, 210, 0.8);
+    margin-left: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9rem;
+}
+
+.markdownMemo p,
+.links p {
+    margin: 5px;
+    background-color: rgba(70, 70, 70);
+}
+
+.markdownMemo,
+.links {
+    border: 1px solid rgba(200, 200, 200, 0.5);
+    margin: 3px;
+    margin-top: 5px;
+    padding: 2px;
 }
 
 ul,
@@ -193,7 +213,7 @@ key {
 
 .errorPara {
     color: rgb(255, 255, 255);
-    text-shadow:0 0 1px white;
+    text-shadow: 0 0 1px white;
     font-size: 0.86rem;
     background-color: transparent;
     transition: background-color 1s ease;
@@ -201,6 +221,6 @@ key {
 
 .description {
     color: rgb(211, 211, 211);
-    width:  700px;
+    width: 700px;
     font-size: 90%;
 }

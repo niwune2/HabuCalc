@@ -73,6 +73,102 @@
     pointer-events: none;
 }
 </style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
         
         </head>
         <body class="vscode-body vscode-light">
@@ -126,6 +222,7 @@
 <li><a href="#20231123---20231124">2023/11/23 - 2023/11/24</a></li>
 <li><a href="#20231209">2023/12/09</a></li>
 <li><a href="#20240113">2024/01/13</a></li>
+<li><a href="#20240118">2024/01/18</a></li>
 </ul>
 </li>
 </ul>
@@ -146,30 +243,30 @@
 </ol>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3350201"><label class="task-list-item-label" for="task-item-3350201"> 小数点を取り扱えるようにする</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1385694"><label class="task-list-item-label" for="task-item-1385694"> 小数点を取り扱えるようにする</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-8951176"><label class="task-list-item-label" for="task-item-8951176"> 小数点'.'を押した時、画面に自動的に'0.'を表示する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-5028768"><label class="task-list-item-label" for="task-item-5028768"> 2個以上の小数点を入力できないようにする</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-9899655"><label class="task-list-item-label" for="task-item-9899655"> 小数点以下の桁数の制限</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4718905"><label class="task-list-item-label" for="task-item-4718905"> エラーハンドリングの実装</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-4138730"><label class="task-list-item-label" for="task-item-4138730"> 小数点'.'を押した時、画面に自動的に'0.'を表示する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-3715528"><label class="task-list-item-label" for="task-item-3715528"> 2個以上の小数点を入力できないようにする</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3284464"><label class="task-list-item-label" for="task-item-3284464"> 小数点以下の桁数の制限</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-5988682"><label class="task-list-item-label" for="task-item-5988682"> エラーハンドリングの実装</label></li>
 </ul>
 </li>
 </ul>
 <h3 id="20230916">2023/09/16</h3>
 <p>小数点ボタン'.'を押した際に'0.'と表示されるようにした。</p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-5451259"><label class="task-list-item-label" for="task-item-5451259"> 小数点を押下後にオペレータを押したときの挙動を設定する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-4599091"><label class="task-list-item-label" for="task-item-4599091"> 小数点を押下後にオペレータを押したときの挙動を設定する</label></li>
 </ul>
 <h3 id="20230918">2023/09/18</h3>
 <p>計算のための<code>class</code>を記述した。</p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-1492200"><label class="task-list-item-label" for="task-item-1492200"> 表示値をオペランドとして呼び出せるようにする</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-9225044"><label class="task-list-item-label" for="task-item-9225044"> オペレータボタンを押した時、正しくメソッドを呼び出せるようにする</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-8601637"><label class="task-list-item-label" for="task-item-8601637"> 表示値をオペランドとして呼び出せるようにする</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-7941858"><label class="task-list-item-label" for="task-item-7941858"> オペレータボタンを押した時、正しくメソッドを呼び出せるようにする</label></li>
 </ul>
 <h3 id="20230924">2023/09/24</h3>
 <p>オペランドAとオペランドBをそれぞれ変数に格納できるようにした</p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-8619223"><label class="task-list-item-label" for="task-item-8619223"> 各オペランドをメソッドの引数に代入して計算を実行する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-3349820"><label class="task-list-item-label" for="task-item-3349820"> 各オペランドをメソッドの引数に代入して計算を実行する</label></li>
 </ul>
 <h3 id="20230926">2023/09/26</h3>
 <p><strong>進捗</strong></p>
@@ -179,23 +276,23 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-3161281"> <code>%</code>と<code>±</code><label class="task-list-item-label" for="task-item-3161281"> `%`と`±`の挙動を改善する(押下して即表示させる)</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-4940740"> <code>Clear</code>と<code>ClearEntries</code><label class="task-list-item-label" for="task-item-4940740"> `Clear`と`ClearEntries`の機能を実装する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-797113"> <code>%</code>と<code>±</code><label class="task-list-item-label" for="task-item-797113"> `%`と`±`の挙動を改善する(押下して即表示させる)</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-1406237"> <code>Clear</code>と<code>ClearEntries</code><label class="task-list-item-label" for="task-item-1406237"> `Clear`と`ClearEntries`の機能を実装する</label></li>
 </ul>
 <h3 id="20230927">2023/09/27</h3>
 <p>transfomerの扱いを検討中</p>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-4889377"><label class="task-list-item-label" for="task-item-4889377"> 続けて計算できないバグを修正する</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-890579"><label class="task-list-item-label" for="task-item-890579"> 続けて計算できないバグを修正する</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-842403"><label class="task-list-item-label" for="task-item-842403"> イコールを押した後に計算を続けるパターン</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-7203247"><label class="task-list-item-label" for="task-item-7203247"> イコールを押さずに計算を続けるパターン</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-2086614"><label class="task-list-item-label" for="task-item-2086614"> イコールを押した後に計算を続けるパターン</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-1388211"><label class="task-list-item-label" for="task-item-1388211"> イコールを押さずに計算を続けるパターン</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-7568694"><label class="task-list-item-label" for="task-item-7568694"> 新たな条件部: 両オペランド入力済みかつオペレータが押された時</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-2332527"><label class="task-list-item-label" for="task-item-2332527"> 新たな条件部: 両オペランド入力済みかつオペレータが押された時</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-2800935"><label class="task-list-item-label" for="task-item-2800935"> オペレータが押された時点で一時的な計算結果を表示する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-7591010"><label class="task-list-item-label" for="task-item-7591010"> 一時的な計算結果はオペランドAとする</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-6173442"><label class="task-list-item-label" for="task-item-6173442"> オペランドBの入力を受け付ける</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-2139464"><label class="task-list-item-label" for="task-item-2139464"> オペレータが押された時点で一時的な計算結果を表示する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-1028354"><label class="task-list-item-label" for="task-item-1028354"> 一時的な計算結果はオペランドAとする</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-4591137"><label class="task-list-item-label" for="task-item-4591137"> オペランドBの入力を受け付ける</label></li>
 </ul>
 </li>
 </ul>
@@ -227,17 +324,17 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-192803"><label class="task-list-item-label" for="task-item-192803"> 計算の続行に関しての挙動を修正する(2023/09/27のTODO)</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3161394"><label class="task-list-item-label" for="task-item-3161394"> キーボード入力に対応する</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-9580131"><label class="task-list-item-label" for="task-item-9580131"> 計算の続行に関しての挙動を修正する(2023/09/27のTODO)</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-5278686"><label class="task-list-item-label" for="task-item-5278686"> キーボード入力に対応する</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-1122963"><label class="task-list-item-label" for="task-item-1122963"> 数字</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-2868889"><label class="task-list-item-label" for="task-item-2868889"> オペレータ</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-173908"><label class="task-list-item-label" for="task-item-173908"> 数字</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-6921621"><label class="task-list-item-label" for="task-item-6921621"> オペレータ</label></li>
 </ul>
 </li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3008059"><label class="task-list-item-label" for="task-item-3008059"> スマホ操作に対応する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-10040"><label class="task-list-item-label" for="task-item-10040"> 選択中のオペレータのスタイルを切替可能にする</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-5650857"><label class="task-list-item-label" for="task-item-5650857"> スマホ操作に対応する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1944093"><label class="task-list-item-label" for="task-item-1944093"> 選択中のオペレータのスタイルを切替可能にする</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-7267302"><label class="task-list-item-label" for="task-item-7267302"> 選択中のオペレータは反転させる等</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-477213"><label class="task-list-item-label" for="task-item-477213"> 選択中のオペレータは反転させる等</label></li>
 </ul>
 </li>
 </ul>
@@ -248,7 +345,7 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4505790"><label class="task-list-item-label" for="task-item-4505790"> オペレータボタンもキー入力に対応させる</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-397477"><label class="task-list-item-label" for="task-item-397477"> オペレータボタンもキー入力に対応させる</label></li>
 </ul>
 <h3 id="20231003">2023/10/03</h3>
 <ul>
@@ -260,9 +357,9 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-3495320"><label class="task-list-item-label" for="task-item-3495320"> オペレータ -> イコールを押したときの挙動を修正する</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-2826482"><label class="task-list-item-label" for="task-item-2826482"> オペレータ -> イコールを押したときの挙動を修正する</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-3986214"><label class="task-list-item-label" for="task-item-3986214"> 表示された'0'で計算してしまう</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-8180403"><label class="task-list-item-label" for="task-item-8180403"> 表示された'0'で計算してしまう</label></li>
 </ul>
 </li>
 </ul>
@@ -285,7 +382,7 @@
 </ul>
 <h3 id="20231027">2023/10/27</h3>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-9665838"><label class="task-list-item-label" for="task-item-9665838"> limited-verのコードを応用してnormal-ver(script3.js)を書き換える</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-9284884"><label class="task-list-item-label" for="task-item-9284884"> limited-verのコードを応用してnormal-ver(script3.js)を書き換える</label></li>
 </ul>
 <h3 id="20231028">2023/10/28</h3>
 <ul>
@@ -312,19 +409,19 @@
 </ul>
 </li>
 <li class="task-list-item enabled">
-<p><input class="task-list-item-checkbox"type="checkbox" id="task-item-2930917"><label class="task-list-item-label" for="task-item-2930917"> 初期の表示を0にする</label></p>
+<p><input class="task-list-item-checkbox"type="checkbox" id="task-item-9418251"><label class="task-list-item-label" for="task-item-9418251"> 初期の表示を0にする</label></p>
 </li>
 <li class="task-list-item enabled">
-<p><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-4733149"><label class="task-list-item-label" for="task-item-4733149"> キーボード入力に対応させる</label></p>
+<p><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-1840046"><label class="task-list-item-label" for="task-item-1840046"> キーボード入力に対応させる</label></p>
 <ul>
 <li>検証しやすくするためにこちらを優先したい</li>
 </ul>
 </li>
 <li class="task-list-item enabled">
-<p><input class="task-list-item-checkbox"type="checkbox" id="task-item-9933039"><label class="task-list-item-label" for="task-item-9933039"> スマホ操作に対応させる</label></p>
+<p><input class="task-list-item-checkbox"type="checkbox" id="task-item-3415892"><label class="task-list-item-label" for="task-item-3415892"> スマホ操作に対応させる</label></p>
 </li>
 <li class="task-list-item enabled">
-<p><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-9863305"><label class="task-list-item-label" for="task-item-9863305"> 新しいシンボルを追加する(スクリプトは後回し)</label></p>
+<p><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-1247568"><label class="task-list-item-label" for="task-item-1247568"> 新しいシンボルを追加する(スクリプトは後回し)</label></p>
 </li>
 </ul>
 <h4 id="mode1">Mode1</h4>
@@ -594,7 +691,7 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1280117"><label class="task-list-item-label" for="task-item-1280117"> キーボード入力時のログ出力を調整する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-8405647"><label class="task-list-item-label" for="task-item-8405647"> キーボード入力時のログ出力を調整する</label></li>
 </ul>
 <h3 id="20231102">2023/11/02</h3>
 <ul>
@@ -611,9 +708,9 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4681497"><label class="task-list-item-label" for="task-item-4681497"> 単語入力に関するエラーハンドリングを実装する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-340431"><label class="task-list-item-label" for="task-item-340431"> 単語で入力した数値をオペランドにできるようにする</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-2647754"><label class="task-list-item-label" for="task-item-2647754"> 数字の単語のほか、オペレータやシンボルにも対応する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-8366659"><label class="task-list-item-label" for="task-item-8366659"> 単語入力に関するエラーハンドリングを実装する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-2422263"><label class="task-list-item-label" for="task-item-2422263"> 単語で入力した数値をオペランドにできるようにする</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-754264"><label class="task-list-item-label" for="task-item-754264"> 数字の単語のほか、オペレータやシンボルにも対応する</label></li>
 </ul>
 <h3 id="20231107">2023/11/07</h3>
 <ul>
@@ -623,7 +720,7 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-9943080"><label class="task-list-item-label" for="task-item-9943080"> オペレータとシンボルも入力に対応させる</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-8620756"><label class="task-list-item-label" for="task-item-8620756"> オペレータとシンボルも入力に対応させる</label></li>
 </ul>
 <h3 id="20231110">2023/11/10</h3>
 <ul>
@@ -644,10 +741,10 @@
 </ul>
 </li>
 <li class="task-list-item enabled">
-<p><input class="task-list-item-checkbox"type="checkbox" id="task-item-4320747"><label class="task-list-item-label" for="task-item-4320747"> ボタンを拡張する(2nd)に対応する</label></p>
+<p><input class="task-list-item-checkbox"type="checkbox" id="task-item-4145307"><label class="task-list-item-label" for="task-item-4145307"> ボタンを拡張する(2nd)に対応する</label></p>
 </li>
 <li class="task-list-item enabled">
-<p><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-8605188"><label class="task-list-item-label" for="task-item-8605188"> パラメータで計算の方法(ラジアンと度数法)を変更可能にする</label></p>
+<p><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-6554769"><label class="task-list-item-label" for="task-item-6554769"> パラメータで計算の方法(ラジアンと度数法)を変更可能にする</label></p>
 </li>
 </ul>
 <h3 id="20231112">2023/11/12</h3>
@@ -659,14 +756,14 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-6776307"><label class="task-list-item-label" for="task-item-6776307"> 三角関数のコードにエラーハンドリングを追加する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1439364"><label class="task-list-item-label" for="task-item-1439364"> 入力のみの機能を整理する</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-8989213"><label class="task-list-item-label" for="task-item-8989213"> 三角関数のコードにエラーハンドリングを追加する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-9078411"><label class="task-list-item-label" for="task-item-9078411"> 入力のみの機能を整理する</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3840626"> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi></mrow><annotation encoding="application/x-tex">e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">e</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">π</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>a</mi><mi>n</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Rand</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">an</span><span class="mord mathnormal">d</span></span></span></span><label class="task-list-item-label" for="task-item-3840626"> $e$, $π$, $Rand$,</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4150901"> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>e</mi></mrow><annotation encoding="application/x-tex">e</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">e</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>π</mi></mrow><annotation encoding="application/x-tex">π</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>R</mi><mi>a</mi><mi>n</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">Rand</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">an</span><span class="mord mathnormal">d</span></span></span></span><label class="task-list-item-label" for="task-item-4150901"> $e$, $π$, $Rand$,</label></li>
 </ul>
 </li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-6932258"><label class="task-list-item-label" for="task-item-6932258"> ボタン配置を整理する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-3167515"><label class="task-list-item-label" for="task-item-3167515"> エラーメッセージをログに表示する関数を作成する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3740961"><label class="task-list-item-label" for="task-item-3740961"> ボタン配置を整理する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox" id="task-item-3088254"><label class="task-list-item-label" for="task-item-3088254"> エラーメッセージをログに表示する関数を作成する</label></li>
 </ul>
 <h3 id="20231113">2023/11/13</h3>
 <ul>
@@ -676,19 +773,19 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-153262"> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">()</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mclose">)</span></span></span></span><label class="task-list-item-label" for="task-item-153262"> $()$ を使った計算を実装する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-5368499"> <code>mc</code>, <code>m+</code>, <code>m-</code>, <code>mr</code><label class="task-list-item-label" for="task-item-5368499"> `mc`, `m+`, `m-`, `mr` の機能を実装する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3706222"><label class="task-list-item-label" for="task-item-3706222"> ログ表示を改良する(macOSの計算機を参考にする)</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3273759"> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">()</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mclose">)</span></span></span></span><label class="task-list-item-label" for="task-item-3273759"> $()$ を使った計算を実装する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-8162899"> <code>mc</code>, <code>m+</code>, <code>m-</code>, <code>mr</code><label class="task-list-item-label" for="task-item-8162899"> `mc`, `m+`, `m-`, `mr` の機能を実装する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-9046937"><label class="task-list-item-label" for="task-item-9046937"> ログ表示を改良する(macOSの計算機を参考にする)</label></li>
 </ul>
 <h3 id="20231114">2023/11/14</h3>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-5247038"><label class="task-list-item-label" for="task-item-5247038"> キー入力に不具合あり</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-7322248"><label class="task-list-item-label" for="task-item-7322248"> キー入力に不具合あり</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-446994"><label class="task-list-item-label" for="task-item-446994"> ハイフンの入力</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-195017"> <key>Enter<label class="task-list-item-label" for="task-item-195017"> <key>Enter</key></label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-649386"><label class="task-list-item-label" for="task-item-649386"> ハイフンの入力</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4546043"> <key>Enter<label class="task-list-item-label" for="task-item-4546043"> <key>Enter</key></label></li>
 </ul>
 </li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-5792695"><label class="task-list-item-label" for="task-item-5792695"> キー入力用のオペレータ配列を作る</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1179402"><label class="task-list-item-label" for="task-item-1179402"> キー入力用のオペレータ配列を作る</label></li>
 </ul>
 <h3 id="20231116">2023/11/16</h3>
 <ul>
@@ -702,21 +799,21 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3729587"> <code>class</code><label class="task-list-item-label" for="task-item-3729587"> `class`を機能毎に分割する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1749546"> 各<code>class</code>の<code>constructor</code><label class="task-list-item-label" for="task-item-1749546"> 各`class`の`constructor`を設定し直す</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-7229871"> イベントリスナーなどが参照する<code>class</code><label class="task-list-item-label" for="task-item-7229871"> イベントリスナーなどが参照する`class`を変更する</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-2614646"> <code>ErrorHandler</code><label class="task-list-item-label" for="task-item-2614646"> `ErrorHandler`を設定する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-7610644"> <code>class</code><label class="task-list-item-label" for="task-item-7610644"> `class`を機能毎に分割する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-6209534"> 各<code>class</code>の<code>constructor</code><label class="task-list-item-label" for="task-item-6209534"> 各`class`の`constructor`を設定し直す</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-664657"> イベントリスナーなどが参照する<code>class</code><label class="task-list-item-label" for="task-item-664657"> イベントリスナーなどが参照する`class`を変更する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4126891"> <code>ErrorHandler</code><label class="task-list-item-label" for="task-item-4126891"> `ErrorHandler`を設定する</label></li>
 </ul>
 <h3 id="20231121">2023/11/21</h3>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1990766"> <code>class</code><label class="task-list-item-label" for="task-item-1990766"> `class`で変更すべき点</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1101884"> <code>class</code><label class="task-list-item-label" for="task-item-1101884"> `class`で変更すべき点</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-9753162"> <label class="task-list-item-label" for="task-item-9753162"> `this.currentOperand`</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4911070"> <label class="task-list-item-label" for="task-item-4911070"> `this.previousOperand`</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-2709846"> <label class="task-list-item-label" for="task-item-2709846"> `this.operator`</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-4167797"> <label class="task-list-item-label" for="task-item-4167797"> `this.option`</label></li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-8944693"><label class="task-list-item-label" for="task-item-8944693"> その他異なるクラスにまたがるプロパティを変更する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-9010399"> <label class="task-list-item-label" for="task-item-9010399"> `this.currentOperand`</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-8017430"> <label class="task-list-item-label" for="task-item-8017430"> `this.previousOperand`</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-2388042"> <label class="task-list-item-label" for="task-item-2388042"> `this.operator`</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-7245110"> <label class="task-list-item-label" for="task-item-7245110"> `this.option`</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-8980719"><label class="task-list-item-label" for="task-item-8980719"> その他異なるクラスにまたがるプロパティを変更する</label></li>
 </ul>
 </li>
 </ul>
@@ -775,9 +872,9 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1659335"><label class="task-list-item-label" for="task-item-1659335"> ファイル間を連携させる</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-5275852"><label class="task-list-item-label" for="task-item-5275852"> ファイル間を連携させる</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-123990"><label class="task-list-item-label" for="task-item-123990"> モジュール化を試す</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-2591560"><label class="task-list-item-label" for="task-item-2591560"> モジュール化を試す</label></li>
 </ul>
 </li>
 </ul>
@@ -791,12 +888,12 @@
 </ul>
 <p><strong>TODO</strong></p>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-9006546"><label class="task-list-item-label" for="task-item-9006546"> ログの表示を修正する</label>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3100385"><label class="task-list-item-label" for="task-item-3100385"> ログの表示を修正する</label>
 <ul class="contains-task-list">
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1240321"><label class="task-list-item-label" for="task-item-1240321"> 0を先に入力し続いて数字を入力すると先頭に0がついたままになるバグ</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-1783369"><label class="task-list-item-label" for="task-item-1783369"> 0を先に入力し続いて数字を入力すると先頭に0がついたままになるバグ</label></li>
 </ul>
 </li>
-<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-6518391"><label class="task-list-item-label" for="task-item-6518391"> 計算に関するメソッドを整理する</label></li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox" id="task-item-3080359"><label class="task-list-item-label" for="task-item-3080359"> 計算に関するメソッドを整理する</label></li>
 </ul>
 <h3 id="20231209">2023/12/09</h3>
 <p>コードが煩雑になりすぎて理解ができなくなってしまったので書き直しを検討中...</p>
@@ -806,6 +903,10 @@
 <h3 id="20240113">2024/01/13</h3>
 <p>復習のために<code>class</code>ではなく<code>function</code>を用いて再度計算機を作成することに決定</p>
 <p>今後、Youtube等の講座やチュートリアルを受講して計算機作成の基礎を学ぶ予定</p>
+<h3 id="20240118">2024/01/18</h3>
+<ul>
+<li>Youtubeの学習で書いたコードを新しいファイルに整理</li>
+</ul>
 <p>🐍 &lt;ｼｬ-!</p>
 
             <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>

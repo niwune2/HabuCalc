@@ -11,8 +11,21 @@ body {
     background: #181818;
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.links {
+    margin-top: 5px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.links a{
+    color: rgba(200, 200,200);
 }
 
 .container {
