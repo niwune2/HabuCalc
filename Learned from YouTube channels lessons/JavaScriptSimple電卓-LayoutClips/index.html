@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Calculator(LayoutClips)</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="output" class="display"></div>
+        <div class="btn_box">
+            <button class="ac_btn" onclick="reset()">AC</button>
+            <button onclick="set(this)">/</button>
+            <button onclick="set(this)">9</button>
+            <button onclick="set(this)">8</button>
+            <button onclick="set(this)">7</button>
+            <button onclick="set(this)">*</button>
+            <button onclick="set(this)">6</button>
+            <button onclick="set(this)">5</button>
+            <button onclick="set(this)">4</button>
+            <button onclick="set(this)">-</button>
+            <button onclick="set(this)">3</button>
+            <button onclick="set(this)">2</button>
+            <button onclick="set(this)">1</button>
+            <button class="plus_btn" onclick="set(this)">+</button>
+            <button onclick="set(this)">.</button>
+            <button onclick="set(this)">0</button>
+            <button onclick="calc(this)">=</button>
+        </div>
+    </div>
+</body>
+
+</html>
